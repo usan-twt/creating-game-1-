@@ -24,56 +24,72 @@ The app calls the Anthropic API **directly from the browser** using `anthropic-d
 
 ## Architecture
 
-This is a React + Vite single-page narrative game where the player acts as a first-year medical resident having consultations with AI-powered patients.
+React + Vite single-page narrative game. The player is a first-year medical resident having AI-powered consultations.
 
-### Game Flow (App.jsx)
+### Phase State Machine (App.jsx)
 
-`App` manages a top-level `phase` state machine:
-- `hub` → `EpisodeHub`: episode selection screen
-- `intro` → `IntroScreen`: episode briefing
-- `game` → one of three game screens (see below)
-- `result` → `ResultScreen`: narrative outcome display
+`App` uses `useReducer` with an explicit transition map:
 
-Episode completion updates a global `storyFlags` object that persists across episodes and influences later episodes' prompts and content.
+```
+hub → intro → game → result → dayEnd → interlude → hub
+                                  ↓         ↓
+                                 hub       hub  (SKIP if no interlude / EP10)
+```
+
+Valid transitions are defined in `TRANSITIONS` object. Invalid transitions are silently ignored.
+
+### Two Separate State Systems
+
+| State | Purpose | Scope |
+|---|---|---|
+| `storyFlags` | Narrative branching (e.g. `EP1_jinsu_opened`) | Cross-episode, persistent |
+| `residentState` | Game mechanics (`{ fatigue: 0-5 }`) | Cross-episode, persistent |
+
+These are intentionally separated: storyFlags drives story, residentState drives cost/consequence mechanics.
+
+### Fatigue System (Papers Please-inspired)
+
+- **EP1-EP3**: Tutorial period. No fatigue cost.
+- **EP4+**: Opening deep flags costs fatigue +1. EP7 always +1.
+- **Effects at fatigue >= 3**: `injectFatigue()` in episodes.js adds context to AI prompts (patient notices doctor is tired). `GameScreen` adds +1 to `minTurns` (subtle gameplay delay).
+- **No explicit UI** for fatigue. Player feels it through gameplay.
+
+Deep flag map (which flags cause fatigue):
+- EP4: `deeper_connection`, EP5: `real_opened`, EP6: `gave_comfort`/`answered_directly`, EP8: `grief_opened`, EP9: `real_opened`
 
 ### Three Game Screen Types
 
 | Mechanic flag | Component | Used by |
 |---|---|---|
-| `mechanics.dual` | `DualGameScreen` | EP7 (two simultaneous patients, turn budget shared) |
-| `mechanics.noPatient` | `EP10Screen` | EP10 (no patient; choice between colleague/professor/alone) |
-| _(default)_ | `GameScreen` | EP1–EP6, EP8, EP9 |
+| `mechanics.dual` | `DualGameScreen` | EP7 (two simultaneous patients, shared turn budget) |
+| `mechanics.noPatient` | `EP10Screen` | EP10 (colleague/professor/alone choice) |
+| _(default)_ | `GameScreen` | EP1-EP6, EP8, EP9 |
 
-### Core Game Hook: `useGameLogic` (`src/hooks/useGameLogic.js`)
+### Core Game Hook: `useGameLogic` (src/hooks/useGameLogic.js)
 
-All gameplay communication funnels through this hook. It:
-- Sends doctor input + `[rapport_level: N]` context to the Anthropic API
-- Expects a JSON response with: `{ emotion, text, rapport_change, flag_trigger, phone_check?, breathing_calm?, hint?, speaker? }`
-- Maintains `rapportLevel` (0–5) and `sessionFlags` (flags set when `flag_trigger` fires)
-- Appends raw parsed `.text` (not the full JSON) into the API message history
+Sends doctor input + `[rapport_level: N]` to Anthropic API. Expects JSON: `{ emotion, text, rapport_change, flag_trigger, ... }`. Maintains rapportLevel (0-5) and sessionFlags.
 
-### Episode Data (`src/data/episodes.js`, `src/data/prompts.js`)
+### Episode Data (src/data/)
 
-Each episode object in `EPISODE_LIST` has:
-- **Static fields**: patient appearance, vitals, initial emotion, CC (chief complaint)
-- **`getSystemPrompt(storyFlags)`**: returns the LLM system prompt, optionally personalized by prior episode outcomes
-- **`getNotebookPre(storyFlags)`** or **`notebookPre`**: pre-filled doctor's notebook content
-- **`getResultLines(storyFlags, localFlags)`**: generates the narrative result text
-- **`completedFlag`** and **`localFlags`**: flag names written back to `storyFlags` on episode completion
-- **`mechanics`**: `{}` | `{ dual }` | `{ noPatient }` | `{ translator }` | `{ breathing }` | `{ article }`
+- **episodes.js**: `EPISODE_LIST` array. Each episode has `day` (1-10), `getSystemPrompt(storyFlags, residentState)`, result lines, mechanics config. The `injectFatigue()` helper wraps prompts for EP4+.
+- **prompts.js**: System prompts defining patient personas, rapport rules, flag conditions (all in Korean). AI must return pure JSON per episode schema.
+- **interludes.js**: Scripted staff encounters after EP3/EP5/EP7/EP9. Not AI-powered — deterministic scenes with 1-2 choices that can affect fatigue or storyFlags.
+- **emotions.js**: Emotion metadata (labels + colors).
 
-System prompts in `prompts.js` define patient personas, rapport change rules, and flag trigger conditions entirely in Korean. The AI must return pure JSON matching a per-episode schema.
+### New Components
 
-### Branching Narrative via storyFlags
+- **DayEndScreen**: End-of-day summary. Shows patient(s) completed, time indicator. Factual, no judgment (Papers Please style).
+- **InterludeScreen**: Scripted medical staff encounters. Speaker + dialogue lines + choice buttons. Effects applied on choice.
 
-`storyFlags` is the primary cross-episode state. Key patterns:
-- EP4 checks `EP1_jinsu_opened` to personalize both the notebook and the patient's AI persona
-- EP8 checks `EP2_reversal1/2` to personalize its prompt
-- EP10's result checks how many "depth" flags were earned across all prior episodes to determine the final ending
+### Cross-Episode Connections
+
+- EP1 → EP4: `EP1_jinsu_opened` personalizes EP4's prompt and notebook
+- EP2 → EP8: `EP2_reversal1/2` personalizes EP8's prompt and initial rapport
+- EP10 ending: `depth` counts opened flags across EP1/2/3/5/8 for 3-tier ending
 
 ### Special Mechanics
 
-- **translator** (EP2): `translatorDirect` toggle switches between daughter-mediated and direct-to-mother conversation modes; the flag `reversal1` enables the direct-mode button
-- **breathing** (EP5): `breathingCalm` state is sent as context to the LLM
-- **article** (EP9): `articleVisible` reveals a clue document in the notebook panel when `article_hint` flag fires
-- **dual** (EP7): Two independent `useGameLogic` instances; `focused` state switches which patient receives input; result is based on turn distribution between patients A and B
+- **translator** (EP2): toggle between daughter-mediated and direct-to-mother modes
+- **breathing** (EP5): `breathingCalm` context sent to AI
+- **article** (EP9): clue document revealed in notebook when `article_hint` fires
+- **dual** (EP7): two `useGameLogic` instances, `focused` switches active patient

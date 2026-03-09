@@ -43,7 +43,7 @@ export default function EpisodeHub({ storyFlags, onPlay }) {
                   <div style={{fontSize:9,color:done?"#78c878":"rgba(255,255,255,0.18)",letterSpacing:"0.1em",flexShrink:0,marginLeft:8}}>{done?"완료":"대기"}</div>
                 </div>
                 {ep.cc&&<div style={{fontSize:11,color:"#d06050",fontStyle:"italic",marginBottom:4}}>"{ep.cc}"</div>}
-                <div style={{fontSize:10,color:"rgba(255,255,255,0.25)",letterSpacing:"0.04em"}}>{ep.subtitle}</div>
+                <div style={{fontSize:10,color:"rgba(255,255,255,0.25)",letterSpacing:"0.04em"}}><span style={{color:"rgba(255,255,255,0.15)",marginRight:6}}>Day {ep.day}</span>{ep.subtitle}</div>
               </div>
             </div>
           );

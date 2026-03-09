@@ -5,8 +5,8 @@ import RapportBar from "./RapportBar";
 import ClinicScene from "./ClinicScene";
 import NotebookPanel from "./NotebookPanel";
 
-export default function GameScreen({ ep, storyFlags, onEnd }) {
-  const systemPrompt = ep.getSystemPrompt(storyFlags);
+export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
+  const systemPrompt = ep.getSystemPrompt(storyFlags, residentState);
   const logic = useGameLogic(systemPrompt);
   const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send } = logic;
 
@@ -49,7 +49,8 @@ export default function GameScreen({ ep, storyFlags, onEnd }) {
   },[loading, translatorDirect, breathingCalm, send]);
 
   const emotionMeta = EMOTION_META[emotion]||EMOTION_META.neutral;
-  const canEnd      = exchangeCount >= ep.minTurns;
+  const fatigueDelay = (residentState?.fatigue >= 3 && ep.day >= 4) ? 1 : 0;
+  const canEnd      = exchangeCount >= ep.minTurns + fatigueDelay;
   const preNotes    = typeof ep.getNotebookPre==="function" ? ep.getNotebookPre(storyFlags) : ep.notebookPre;
   const isAbnormal  = (k,v) => (k==="BP"&&parseInt(v)>130)||(k==="HR"&&parseInt(v)>90)||(k==="SpO2"&&parseInt(v)<94);
 
@@ -177,7 +178,7 @@ export default function GameScreen({ ep, storyFlags, onEnd }) {
           </div>
           <div style={{display:"flex",flexDirection:"column",gap:5}}>
             <button onClick={()=>handleSend(input)} disabled={loading||!input.trim()} style={{background:(loading||!input.trim())?"rgba(255,255,255,0.06)":"rgba(64,82,52,0.9)",border:"none",color:(loading||!input.trim())?"rgba(255,255,255,0.2)":"#ccdac4",padding:"11px 17px",borderRadius:8,cursor:(loading||!input.trim())?"not-allowed":"pointer",fontSize:12,fontFamily:"inherit"}}>전송</button>
-            {canEnd&&<button onClick={()=>onEnd(sessionFlags)} style={{background:"rgba(160,130,60,0.18)",border:"1px solid rgba(170,140,60,0.38)",color:"rgba(190,160,75,0.88)",padding:"11px 17px",borderRadius:8,cursor:"pointer",fontSize:12,fontFamily:"inherit"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(160,130,60,0.32)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(160,130,60,0.18)";}}>마치기</button>}
+            {canEnd&&<button onClick={()=>onEnd({...sessionFlags, exchangeCount})} style={{background:"rgba(160,130,60,0.18)",border:"1px solid rgba(170,140,60,0.38)",color:"rgba(190,160,75,0.88)",padding:"11px 17px",borderRadius:8,cursor:"pointer",fontSize:12,fontFamily:"inherit"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(160,130,60,0.32)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(160,130,60,0.18)";}}>마치기</button>}
           </div>
         </div>
       </div>

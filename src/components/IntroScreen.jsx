@@ -9,6 +9,7 @@ export default function IntroScreen({ ep, onStart }) {
         <div style={{fontSize:9,letterSpacing:"0.5em",color:"#4a3a2a",marginBottom:20}}>INTERN</div>
         <div style={{width:36,height:1,background:"#4a3a28",margin:"0 auto 24px"}}/>
         <div style={{fontSize:30,color:"#e0d4c0",marginBottom:8,letterSpacing:"0.06em"}}>{ep.titleNum}</div>
+        <div style={{fontSize:10,color:"#3a2a1a",letterSpacing:"0.3em",marginBottom:8}}>DAY {ep.day}</div>
         <div style={{fontSize:14,color:"#a09070",marginBottom:36,fontStyle:"italic"}}>{ep.subtitle}</div>
         <div style={{fontSize:12,color:"#5a4a38",lineHeight:2.3,marginBottom:44}}>{ep.teaser}</div>
         <button onClick={onStart}
