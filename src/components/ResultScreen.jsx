@@ -17,7 +17,7 @@ export default function ResultScreen({ ep, storyFlags, sessionFlags, onContinue 
             style={{background:"none",border:"1px solid #3a2a18",color:"#6a5a40",padding:"10px 30px",cursor:"pointer",fontFamily:"Georgia,serif",fontSize:11,letterSpacing:"0.14em",transition:"all 0.2s"}}
             onMouseEnter={e=>{e.currentTarget.style.borderColor="#7a6a50";e.currentTarget.style.color="#a09070";}}
             onMouseLeave={e=>{e.currentTarget.style.borderColor="#3a2a18";e.currentTarget.style.color="#6a5a40";}}>
-            {ep.id==="EP10"?"끝" : "다음 환자"}
+            {ep.id==="EP10"?"끝" : "계속"}
           </button>
         </div>
       </div>

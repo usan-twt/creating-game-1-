@@ -4,9 +4,16 @@ import {
   getEP8Prompt, EP9_PROMPT, EP10_COLLEAGUE_PROMPT, EP10_PROFESSOR_PROMPT,
 } from "./prompts";
 
+function injectFatigue(prompt, rs) {
+  if (!rs || rs.fatigue < 3) return prompt;
+  if (rs.fatigue >= 4)
+    return prompt + `\n[의사 외관] 의사가 많이 지쳐 보입니다. 자연스러운 맥락에서 환자가 "선생님, 좀 쉬셔야 하는 거 아니에요?" 같은 말을 한 번 할 수 있습니다. 과하게 언급하지 마세요.`;
+  return prompt + `\n[의사 외관] 의사가 조금 피곤해 보입니다. 자연스러운 맥락에서 한 번 정도 가볍게 언급할 수 있지만 필수는 아닙니다.`;
+}
+
 export const EPISODE_LIST = [
   {
-    id:"EP1", titleNum:"EP.01", name:"박진수", age:54, sex:"남",
+    id:"EP1", day:1, titleNum:"EP.01", name:"박진수", age:54, sex:"남",
     cc:"가슴이 좀 아파서요.",
     subtitle:"월요일 오전 8시",
     teaser:"54세 남성. 흉통. 혼자 왔다.",
@@ -21,7 +28,7 @@ export const EPISODE_LIST = [
     completedFlag:"EP1_completed", localFlags:["jinsu_opened"], mechanics:{},
   },
   {
-    id:"EP2", titleNum:"EP.02", name:"왕메이링", age:63, sex:"여",
+    id:"EP2", day:2, titleNum:"EP.02", name:"왕메이링", age:63, sex:"여",
     cc:"배가 좀 아파서요.",
     subtitle:"화요일 오전 11시",
     teaser:"63세 여성. 복통. 딸이 동석했다.",
@@ -39,7 +46,7 @@ export const EPISODE_LIST = [
     mechanics:{ translator:true },
   },
   {
-    id:"EP3", titleNum:"EP.03", name:"김지영", age:34, sex:"여",
+    id:"EP3", day:3, titleNum:"EP.03", name:"김지영", age:34, sex:"여",
     cc:"두통이 계속되고 좀 피곤해서요.",
     subtitle:"수요일 오후 2시",
     teaser:"34세 여성. 두통·피로. 좋은 환자처럼 보인다.",
@@ -54,7 +61,7 @@ export const EPISODE_LIST = [
     completedFlag:"EP3_completed", localFlags:["real_opened"], mechanics:{},
   },
   {
-    id:"EP4", titleNum:"EP.04", name:"박진수", age:54, sex:"남",
+    id:"EP4", day:4, titleNum:"EP.04", name:"박진수", age:54, sex:"남",
     cc:"검사 결과 확인하러 왔어요.",
     subtitle:"3주 후 월요일",
     teaser:"박진수가 돌아왔다.",
@@ -64,7 +71,7 @@ export const EPISODE_LIST = [
     getNotebookPre:(sf)=>sf.EP1_jinsu_opened
       ?`박진수 / 54세 남성 / 재진\n──────────────────\n검사 결과 확인\n\n→ 지난번에 "집에 가기 싫어서요"\n→ BP 경계선 — 생활습관 교정\n→ 지금은 어떻게 지내시는지...`
       :`박진수 / 54세 남성 / 재진\n──────────────────\n검사 결과 확인\n\n→ BP 경계선 — 생활습관 교정\n→ 흡연 반 갑 / 고혈압 전단계`,
-    getSystemPrompt:(sf)=>getEP4Prompt(sf),
+    getSystemPrompt:(sf,rs)=>injectFatigue(getEP4Prompt(sf),rs),
     getResultLines:(sf,lf)=>{
       if(sf.EP1_jinsu_opened&&lf.deeper_connection)return{lines:["박진수 씨가 다시 왔습니다."," ","이번에는 처음부터 달랐습니다."," ","아마 그도 알고 있었을 것입니다,","당신이 그 말을 기억한다는 것을."," ","\u201c나아지고 있어요. 조금씩.\u201d"],footer:""};
       if(sf.EP1_jinsu_opened)return{lines:["박진수 씨가 다시 왔습니다."," ","검사 결과는 정상이었습니다."," ","지난번의 말은","오늘은 나오지 않았습니다."],footer:""};
@@ -73,7 +80,7 @@ export const EPISODE_LIST = [
     completedFlag:"EP4_completed", localFlags:["deeper_connection"], mechanics:{},
   },
   {
-    id:"EP5", titleNum:"EP.05", name:"이준혁", age:23, sex:"남",
+    id:"EP5", day:5, titleNum:"EP.05", name:"이준혁", age:23, sex:"남",
     cc:"갑자기 숨이 안 쉬어졌어요.",
     subtitle:"목요일 오후 3시",
     teaser:"23세 남성. 과호흡. 응급실에서 왔다.",
@@ -81,14 +88,14 @@ export const EPISODE_LIST = [
     vitals:{ BP:"128/82", HR:"118", SpO2:"97%" },
     initialEmotion:"distressed", initialPhoneCheck:false, minTurns:5,
     notebookPre:`이준혁 / 23세 남성 / 응급 경유\n──────────────────\n주소: 과호흡 발작\n응급실 경유 — 대부분 진정\n\n→  유발 요인\n→  손발 저림?\n→  이전에도?\n\n※ HR 118 — 아직 빠름\n※ 혼자 왔음`,
-    getSystemPrompt:()=>EP5_PROMPT,
+    getSystemPrompt:(sf,rs)=>injectFatigue(EP5_PROMPT,rs),
     getResultLines:(_,lf)=>lf.real_opened
       ?{lines:["이준혁 씨는","숨을 고르고 있었습니다."," ","당신이 물었을 때,","그는 말했습니다."," ","\u201c집에서 나왔거요.\u201d"," ","당신이 해줄 수 있는","의학적인 것은 없었습니다."," ","하지만 당신은 들었습니다."],footer:"의사가 할 수 있는 것과 할 수 없는 것."}
       :{lines:["과호흡은 나아졌습니다."," ","호흡 기법을 안내했습니다.","이준혁 씨는","\"감사합니다\"라고 말했습니다."," ","왜 그랬는지는","묻지 않았습니다."],footer:"의사가 할 수 있는 것과 할 수 없는 것."},
     completedFlag:"EP5_completed", localFlags:["real_opened"], mechanics:{ breathing:true },
   },
   {
-    id:"EP6", titleNum:"EP.06", name:"최병철", age:71, sex:"남",
+    id:"EP6", day:6, titleNum:"EP.06", name:"최병철", age:71, sex:"남",
     cc:"그냥 얼굴 보여드리러 왔어요.",
     subtitle:"금요일 오전 10시",
     teaser:"71세 남성. 말기 COPD. 진짜 물음을 가지고 왔다.",
@@ -96,7 +103,7 @@ export const EPISODE_LIST = [
     vitals:{ BP:"126/78", HR:"82", SpO2:"91%" },
     initialEmotion:"resigned", initialPhoneCheck:false, minTurns:4,
     notebookPre:`최병철 / 71세 남성 / 외래\n──────────────────\nCOPD GOLD 4기 — 말기\nFEV1 28% / SpO2 91%\n\n→  증상 변화 확인\n→  호흡 보조기 사용 여부\n→  통증·일상생활\n\n※ 가족 관계 파악할 것\n※ 오늘 뭔가 물어보려는 것 같음`,
-    getSystemPrompt:()=>EP6_PROMPT,
+    getSystemPrompt:(sf,rs)=>injectFatigue(EP6_PROMPT,rs),
     getResultLines:(_,lf)=>{
       if(lf.gave_comfort)return{lines:["최병철 씨는 물었습니다."," ","\u201c얼마나 살 수 있어요?\u201d"," ","당신은 숫자를 말하지 않았습니다."," ","대신 말했습니다,","남은 시간을 어떻게 쓸 것인지."," ","그는 잠시 생각했습니다.","그리고 고개를 끄덕였습니다."],footer:""};
       if(lf.answered_directly)return{lines:["최병철 씨는 물었습니다."," ","\u201c얼마나 살 수 있어요?\u201d"," ","당신은 직접 답했습니다."," ","그는 오랫동안 아무 말 하지 않았습니다.","창밖을 바라봤습니다."," ","\"감사합니다\"라고 했습니다."],footer:""};
@@ -106,7 +113,7 @@ export const EPISODE_LIST = [
     completedFlag:"EP6_completed", localFlags:["asked_the_question","answered_directly","gave_comfort","deflected"], mechanics:{},
   },
   {
-    id:"EP7", titleNum:"EP.07", name:"두 환자", age:0, sex:"",
+    id:"EP7", day:7, titleNum:"EP.07", name:"두 환자", age:0, sex:"",
     cc:"",
     subtitle:"화요일 오후 5시 / 온콜 시작 전",
     teaser:"두 명이 기다리고 있다. 시간은 하나뿐이다.",
@@ -126,7 +133,7 @@ export const EPISODE_LIST = [
     patientB:{ name:"강도현", age:45, sex:"남", skin:"#c09070", shirt:"#3a5030", hairColor:"#1a1010", hairType:"m_mid", vitals:{ BP:"142/88", HR:"96", SpO2:"98%"}, initialEmotion:"distressed", cc:"MRI 빨리 찍어줘요. 허리가 못 버티겠어요." },
   },
   {
-    id:"EP8", titleNum:"EP.08", name:"이수진", age:35, sex:"여",
+    id:"EP8", day:8, titleNum:"EP.08", name:"이수진", age:35, sex:"여",
     cc:"잠을 좀 못 자고 있어서요.",
     subtitle:"어느 수요일",
     teaser:"이수진이 다시 왔다. 이번에는 혼자.",
@@ -138,7 +145,7 @@ export const EPISODE_LIST = [
       :sf.EP2_reversal1
       ?`이수진 / 35세 여성\n──────────────────\n※ EP2에서 어머니에게\n   직접 대화하게 해줬던 환자 딸\n\n→ 어머니 돌아가셨을 것 같음\n→ 잠 못 잠`
       :`이수진 / 35세 여성\n──────────────────\n주소: 불면, 피로\n\n→ 언제부터\n→ 스트레스 요인\n→ 가족·직장 상황`,
-    getSystemPrompt:(sf)=>getEP8Prompt(sf),
+    getSystemPrompt:(sf,rs)=>injectFatigue(getEP8Prompt(sf),rs),
     getResultLines:(sf,lf)=>{
       const knew = sf.EP2_reversal2;
       if(knew&&lf.grief_opened)return{lines:["이수진 씨는 들어오면서","잠깐 멈췄습니다."," ","\u201c...선생님이시죠.\u201d"," ","그녀는 어머니 이야기를 했습니다.","담담하게."," ","마지막에","작게 울었습니다."],footer:""};
@@ -148,7 +155,7 @@ export const EPISODE_LIST = [
     completedFlag:"EP8_completed", localFlags:["grief_opened"], mechanics:{},
   },
   {
-    id:"EP9", titleNum:"EP.09", name:"정민우", age:37, sex:"남",
+    id:"EP9", day:9, titleNum:"EP.09", name:"정민우", age:37, sex:"남",
     cc:"두통이랑 좀 피곤한데, 요즘 잠을 못 자서요.",
     subtitle:"목요일 오전 9시",
     teaser:"37세 남성. 비특이적 증상. 3개월째.",
@@ -156,7 +163,7 @@ export const EPISODE_LIST = [
     vitals:{ BP:"132/84", HR:"90", SpO2:"99%" },
     initialEmotion:"exhausted", initialPhoneCheck:false, minTurns:5,
     notebookPre:`정민우 / 37세 남성 / 첫 외래\n──────────────────\n주소: 두통 + 불면 + 피로\n3개월 지속\n\n→  수면 패턴\n→  스트레스 요인\n→  3개월 전 생활 변화?\n\n※ 직업: △△제약 연구원\n※ 바이탈 정상 범위`,
-    getSystemPrompt:()=>EP9_PROMPT,
+    getSystemPrompt:(sf,rs)=>injectFatigue(EP9_PROMPT,rs),
     articleText:`[단서 파일]\n──────────────\n△△제약, 임상시험 데이터\n조작 의혹 — 내부 제보\n\n3개월 전 온라인 의학뉴스.\n3상 데이터 일부 수정 정황.\n식약처 조사 예정.\n──────────────\n* 환자 직장과 같은 회사`,
     getResultLines:(_,lf)=>{
       if(lf.real_opened)return{lines:["정민우 씨는","두통과 불면으로 왔습니다."," ","그리고 말했습니다."," ","\u201c제가 뭔가를 봤어요.\u201d"," ","당신은 처방할 수 없었습니다.","하지만 들었습니다."," ","그가 결정을 내릴 때","이 대화가 영향을 줄지도 모릅니다."],footer:""};
@@ -166,7 +173,7 @@ export const EPISODE_LIST = [
     completedFlag:"EP9_completed", localFlags:["article_hint","real_opened"], mechanics:{ article:true },
   },
   {
-    id:"EP10", titleNum:"EP.10", name:"오늘의 마지막", age:0, sex:"",
+    id:"EP10", day:10, titleNum:"EP.10", name:"오늘의 마지막", age:0, sex:"",
     cc:"",
     subtitle:"금요일 저녁 / 1년차 마지막 주",
     teaser:"오늘은 환자가 없다.",

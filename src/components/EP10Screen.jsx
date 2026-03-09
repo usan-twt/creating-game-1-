@@ -4,7 +4,7 @@ import NotebookPanel from "./NotebookPanel";
 
 const API_KEY = import.meta.env.VITE_ANTHROPIC_API_KEY;
 
-export default function EP10Screen({ ep, storyFlags, onEnd }) {
+export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
   const [choice,      setChoice]      = useState(null);
   const [messages,    setMessages]    = useState([]);
   const [input,       setInput]       = useState("");
