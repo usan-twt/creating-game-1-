@@ -1,72 +1,72 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { EPISODE_LIST } from "../data/episodes";
 
-/* ── Thematic epigraphs by progress ── */
-const EPIGRAPHS = [
-  // Day 1 — first patient ever
-  {
-    line: "환자는 아픈 곳을 말하러 온다.\n하지만 가끔, 말하지 못한 것이 더 아프다.",
-    sub: "첫 번째 외래가 시작됩니다.",
-  },
-  // Day 2
-  {
-    line: "듣는다는 건 시간이 드는 일이다.\n그리고 시간은, 이곳에서 가장 부족한 것이다.",
-    sub: null,
-  },
-  // Day 3
-  {
-    line: "어떤 말은 한 번 꺼내면 주워 담을 수 없다.\n그래서 사람들은 두통이라고 말한다.",
-    sub: null,
-  },
-  // Day 4
-  {
-    line: "다시 만난다는 건\n지난번에 못 다 한 이야기가 있다는 뜻이다.",
-    sub: null,
-  },
-  // Day 5
-  {
-    line: "숨이 멎을 것 같다고 말하는 사람에게\n괜찮다고 말하는 것은 쉽다.\n진짜 괜찮냐고 묻는 것은 어렵다.",
-    sub: null,
-  },
-  // Day 6
-  {
-    line: "솔직하게 말해달라는 환자 앞에서\n의사도 처음으로 말문이 막힌다.",
-    sub: null,
-  },
-  // Day 7
-  {
-    line: "두 사람이 동시에 아플 때,\n당신은 누구의 말을 먼저 들을 것인가.",
-    sub: null,
-  },
-  // Day 8
-  {
-    line: "슬픔은 병이 아니다.\n하지만 슬픈 사람도 병원에 온다.",
-    sub: null,
-  },
-  // Day 9
-  {
-    line: "어떤 환자는 비밀을 가지고 들어온다.\n의사가 할 수 있는 건 — 그 무게를 잠시 나눠 드는 것이다.",
-    sub: null,
-  },
-  // Day 10
-  {
-    line: "1년이 지났다.\n당신은 얼마나 들었는가.",
-    sub: null,
-  },
+/* ── EKG pulse line (Rhythm Doctor-inspired) ── */
+function EkgLine({ animate }) {
+  const w = 280, h = 48, mid = h / 2;
+  // Flatline with one heartbeat pulse in the middle
+  const pulse = `M0,${mid} L${w*0.35},${mid} L${w*0.40},${mid-14} L${w*0.44},${mid+18} L${w*0.48},${mid-22} L${w*0.52},${mid+8} L${w*0.56},${mid} L${w},${mid}`;
+
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{ overflow: "visible" }}>
+      {/* Base flatline (always visible, dim) */}
+      <line x1={0} y1={mid} x2={w} y2={mid} stroke="rgba(255,255,255,0.04)" strokeWidth={1} />
+      {/* Pulse trace */}
+      <path
+        d={pulse}
+        fill="none"
+        stroke="rgba(180,140,100,0.3)"
+        strokeWidth={1.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="700"
+        strokeDashoffset={animate ? "0" : "700"}
+        style={{ transition: "stroke-dashoffset 2.5s ease-out" }}
+      />
+      {/* Glowing dot that traces the line */}
+      {animate && (
+        <circle r={2.5} fill="rgba(200,160,100,0.6)">
+          <animateMotion dur="2.5s" fill="freeze" path={pulse} />
+        </circle>
+      )}
+    </svg>
+  );
+}
+
+/* ── Scene-setting lines (minimal, environmental) ── */
+const SCENE_LINES = [
+  "월요일 아침. 외래 진료실 불이 켜진다.",
+  "화요일. 대기실에 이미 사람이 앉아 있다.",
+  "수요일. 복도에 커피 향이 난다.",
+  "목요일. 낯익은 이름이 차트에 올라와 있다.",
+  "금요일 오전. 응급실에서 올라온 환자가 있다.",
+  "월요일. 진료실 창 너머로 비가 내린다.",
+  "화요일. 오늘은 환자가 두 명이다.",
+  "수요일 오후. 조용한 진료실.",
+  "목요일. 마지막 환자가 남아 있다.",
+  "금요일. 1년차의 마지막 외래.",
 ];
 
 export default function EpisodeHub({ storyFlags, onPlay }) {
-  const [vis, setVis] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setVis(true), 80); return () => clearTimeout(t); }, []);
+  const [phase, setPhase] = useState(0); // 0: dark, 1: ekg, 2: text, 3: ready
+  const timerRef = useRef(null);
 
-  // Find next uncompleted episode
+  useEffect(() => {
+    const timings = [300, 2800, 4200];
+    let t1, t2, t3;
+    t1 = setTimeout(() => setPhase(1), timings[0]);
+    t2 = setTimeout(() => setPhase(2), timings[1]);
+    t3 = setTimeout(() => setPhase(3), timings[2]);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+
   const nextEp = EPISODE_LIST.find(ep => !storyFlags[ep.completedFlag]);
   const allDone = !nextEp;
   const progress = EPISODE_LIST.filter(ep => storyFlags[ep.completedFlag]).length;
-  const epigraph = EPIGRAPHS[allDone ? 9 : progress];
+  const sceneLine = SCENE_LINES[allDone ? 9 : progress];
 
   const handleClick = () => {
-    if (nextEp) onPlay(nextEp.id);
+    if (nextEp && phase >= 2) onPlay(nextEp.id);
   };
 
   return (
@@ -76,128 +76,132 @@ export default function EpisodeHub({ storyFlags, onPlay }) {
         minHeight: "100vh",
         background: "#0e0c0a",
         fontFamily: "Georgia, serif",
-        opacity: vis ? 1 : 0,
-        transition: "opacity 1.4s ease",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        cursor: allDone ? "default" : "pointer",
+        cursor: allDone ? "default" : phase >= 2 ? "pointer" : "default",
         userSelect: "none",
         padding: "0 32px",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      {/* Title block */}
+      {/* Ambient light — subtle warm gradient at top (morning light) */}
       <div style={{
-        opacity: vis ? 1 : 0,
-        transition: "opacity 1.8s ease 0.2s",
-        textAlign: "center",
-        marginBottom: 56,
-      }}>
+        position: "absolute",
+        top: 0,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "120%",
+        height: "40%",
+        background: "radial-gradient(ellipse at 50% 0%, rgba(60,45,25,0.15) 0%, transparent 70%)",
+        pointerEvents: "none",
+        opacity: phase >= 1 ? 1 : 0,
+        transition: "opacity 3s ease",
+      }} />
+
+      {/* Main content */}
+      <div style={{ position: "relative", textAlign: "center" }}>
+
+        {/* EKG line — the first thing that appears */}
         <div style={{
-          fontSize: 10,
-          letterSpacing: "0.7em",
-          color: "#3a2e24",
-          marginBottom: 18,
+          marginBottom: 48,
+          opacity: phase >= 1 ? 1 : 0,
+          transition: "opacity 0.8s ease",
         }}>
-          INTERN
+          <EkgLine animate={phase >= 1} />
         </div>
-        <div style={{
-          width: 32,
-          height: 1,
-          background: "#3a2e24",
-          margin: "0 auto",
-        }} />
-      </div>
 
-      {/* Epigraph — the heart of the screen */}
-      <div style={{
-        opacity: vis ? 1 : 0,
-        transition: "opacity 2s ease 0.8s",
-        textAlign: "center",
-        maxWidth: 360,
-        marginBottom: 56,
-      }}>
+        {/* Title — fades in after EKG traces */}
         <div style={{
-          fontSize: 13,
-          lineHeight: "2.2",
-          color: "rgba(255,255,255,0.45)",
-          letterSpacing: "0.04em",
-          whiteSpace: "pre-line",
+          opacity: phase >= 2 ? 1 : 0,
+          transition: "opacity 1.2s ease",
+          marginBottom: 40,
         }}>
-          {epigraph.line}
-        </div>
-      </div>
-
-      {/* Bottom section */}
-      <div style={{
-        opacity: vis ? 1 : 0,
-        transition: "opacity 1.8s ease 1.6s",
-        textAlign: "center",
-      }}>
-        {!allDone ? (
-          <>
-            {/* Day info */}
-            <div style={{
-              fontSize: 9,
-              letterSpacing: "0.4em",
-              color: "rgba(255,255,255,0.12)",
-              marginBottom: 6,
-            }}>
-              DAY {nextEp.day}
-            </div>
-            <div style={{
-              fontSize: 11,
-              color: "rgba(255,255,255,0.25)",
-              marginBottom: 28,
-            }}>
-              {epigraph.sub || nextEp.subtitle}
-            </div>
-
-            {/* Progress dots */}
-            <div style={{
-              display: "flex",
-              gap: 6,
-              justifyContent: "center",
-              marginBottom: 36,
-            }}>
-              {EPISODE_LIST.map((ep) => (
-                <div
-                  key={ep.id}
-                  style={{
-                    width: 5,
-                    height: 5,
-                    borderRadius: "50%",
-                    background: storyFlags[ep.completedFlag]
-                      ? "rgba(120,200,120,0.45)"
-                      : ep.id === nextEp.id
-                        ? "rgba(255,255,255,0.45)"
-                        : "rgba(255,255,255,0.08)",
-                    transition: "background 0.3s",
-                  }}
-                />
-              ))}
-            </div>
-
-            <div style={{
-              fontSize: 9,
-              color: "rgba(255,255,255,0.15)",
-              letterSpacing: "0.15em",
-              animation: "pulse 3s ease-in-out infinite",
-            }}>
-              화면을 클릭하세요
-            </div>
-          </>
-        ) : (
+          <div style={{
+            fontSize: 10,
+            letterSpacing: "0.7em",
+            color: "rgba(180,140,100,0.5)",
+            marginBottom: 6,
+          }}>
+            INTERN
+          </div>
           <div style={{
             fontSize: 11,
-            color: "rgba(255,255,255,0.3)",
-            lineHeight: "2",
-            letterSpacing: "0.06em",
+            color: "rgba(255,255,255,0.18)",
+            letterSpacing: "0.12em",
           }}>
-            1년차가 끝났습니다.
+            레지던트 1년차
           </div>
-        )}
+        </div>
+
+        {/* Scene line — grounds you in a specific moment */}
+        <div style={{
+          opacity: phase >= 2 ? 1 : 0,
+          transition: "opacity 1.5s ease 0.4s",
+          marginBottom: 48,
+        }}>
+          <div style={{
+            fontSize: 12,
+            color: "rgba(255,255,255,0.35)",
+            letterSpacing: "0.03em",
+            lineHeight: "1.8",
+          }}>
+            {sceneLine}
+          </div>
+        </div>
+
+        {/* Bottom: day + progress + prompt */}
+        <div style={{
+          opacity: phase >= 3 ? 1 : 0,
+          transition: "opacity 1.2s ease",
+        }}>
+          {!allDone ? (
+            <>
+              {/* Progress dots */}
+              <div style={{
+                display: "flex",
+                gap: 6,
+                justifyContent: "center",
+                marginBottom: 32,
+              }}>
+                {EPISODE_LIST.map((ep) => (
+                  <div
+                    key={ep.id}
+                    style={{
+                      width: 5,
+                      height: 5,
+                      borderRadius: "50%",
+                      background: storyFlags[ep.completedFlag]
+                        ? "rgba(180,140,100,0.45)"
+                        : ep.id === nextEp.id
+                          ? "rgba(255,255,255,0.4)"
+                          : "rgba(255,255,255,0.07)",
+                    }}
+                  />
+                ))}
+              </div>
+
+              <div style={{
+                fontSize: 9,
+                color: "rgba(255,255,255,0.13)",
+                letterSpacing: "0.15em",
+                animation: "pulse 3s ease-in-out infinite",
+              }}>
+                아무 곳이나 클릭
+              </div>
+            </>
+          ) : (
+            <div style={{
+              fontSize: 10,
+              color: "rgba(255,255,255,0.2)",
+              letterSpacing: "0.1em",
+            }}>
+              외래가 끝났습니다.
+            </div>
+          )}
+        </div>
       </div>
 
       <style>{`
