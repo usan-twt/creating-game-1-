@@ -1,0 +1,8 @@
+[
+  {"emotion":"distressed","text":"MRI 빨리 찍어줘요. 이거 그냥 진통제로 버틸 게 아닌 것 같아요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"distressed","text":"이틀 전에 무거운 거 들다가요. 근데 이 통증이 8점이에요, 8점. 못 버티겠어요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"anxious","text":"방사통이요? 그건 없어요. 근데 지금 일을 못 해요. 당장 현장에 나가야 한다고요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"(약간 가라앉으며) ...그래요? 빨리 보내줄 수 있어요?","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"알겠어요. 그럼 일단 처방대로 해보고, 안 나아지면 다시 오죠.","rapport_change":1,"flag_trigger":"satisfied"},
+  {"emotion":"neutral","text":"수고하세요.","rapport_change":0,"flag_trigger":"none"}
+]

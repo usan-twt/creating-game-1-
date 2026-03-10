@@ -1,0 +1,6 @@
+[
+  {"emotion":"neutral","text":"결과 확인하러 왔어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"이상 없으면 된 거 아닌가요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"담배는... 좀 줄여보죠 뭐. 혈압이 경계선이라고요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"알겠어요. 또 오라고 하면 오고요. 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+]

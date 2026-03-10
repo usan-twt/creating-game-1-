@@ -1,0 +1,8 @@
+[
+  {"emotion":"neutral","text":"결과 보러 왔어요. 이상 없다고 하던데.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"(진료실 돌아보며) 여기 선생님이었군요. ...기억하시겠어요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"conflicted","text":"(혈압 이야기에 짧게) 생활습관... 뭐, 알죠. 담배 좀 줄여야 되는 거. (잠깐 망설임) 그때 그 말은... 그냥 나온 거예요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"(작게) 집엔 갔어요. ...서먹하긴 한데. 뭐.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+  {"emotion":"sad","text":"나아지고 있어요. 조금씩. (고개를 끄덕이며) 뭐, 한꺼번에 되는 게 어디 있겠어요.","rapport_change":1,"flag_trigger":"deeper_connection","phone_check":false},
+  {"emotion":"neutral","text":"다음에 또 오면 되죠. ...수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+]

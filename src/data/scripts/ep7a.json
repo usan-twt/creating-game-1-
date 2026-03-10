@@ -1,0 +1,8 @@
+[
+  {"emotion":"anxious","text":"(손을 떨며) 어... 저 좀 이상한 것 같아요. 열이... 3일 전부터요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"anxious","text":"소변이요? 좀 진한 것 같기도 하고... 허리가 좀 아파요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"confused","text":"오늘이 몇 일이에요? (잠깐 생각하다가) ...잘 모르겠어요. 미라야, 미라 어딨어.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"sad","text":"(진정하며) 미라가... 손녀예요. 어제 온다 했는데. 무서워서요, 솔직히.","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"exhausted","text":"(작게) 감사해요, 선생님. 설명해 주니까 좀 안심이 돼요.","rapport_change":1,"flag_trigger":"infection_suspected"},
+  {"emotion":"neutral","text":"미라한테 연락해줄 수 있어요? 손녀 번호 알아요.","rapport_change":0,"flag_trigger":"none"}
+]

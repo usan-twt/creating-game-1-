@@ -1,0 +1,10 @@
+[
+  {"emotion":"anxious","text":"어머니가 오른쪽 배가 아프다고 하셔서요. 일주일 됐어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+  {"emotion":"neutral","text":"입맛이 좀 없다고 하시는 것 같고... 변비 증상도 조금 있다고 하시네요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+  {"emotion":"conflicted","text":"(약간 망설이다가) 처음이에요, 이런 증상은. 다른 병원은 안 가셨어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":"통역이 조금 빠르다"},
+  {"emotion":"anxious","text":"(딸 눈치를 보다가 작게) 對, 對... 아파요.","speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious","hint":"어머니가 직접 답하려 함"},
+  {"emotion":"conflicted","text":"(이수진이 어머니 손을 잡으며) 직접 말씀하셔도 된대요.","speaker":"daughter","rapport_change":0,"flag_trigger":"reversal1","hint":""},
+  {"emotion":"sad","text":"저... 알아요. 이미. (잠시 침묵) 3개월 前... 다른 병원에서.","speaker":"mother","rapport_change":1,"flag_trigger":"reversal2","hint":"이수진이 고개를 숙임"},
+  {"emotion":"exhausted","text":"(어머니 손을 꼭 쥐며, 눈물이 맺힌 채) ...말씀하실 수 있었던 거잖아요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+  {"emotion":"sad","text":"知道了... (담담하게) 선생님, 고맙습니다.","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""}
+]

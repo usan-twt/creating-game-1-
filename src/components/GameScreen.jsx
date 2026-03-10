@@ -6,8 +6,10 @@ import ClinicScene from "./ClinicScene";
 import NotebookPanel from "./NotebookPanel";
 
 export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
-  const systemPrompt = ep.getSystemPrompt(storyFlags, residentState);
-  const logic = useGameLogic(systemPrompt);
+  const systemPrompt   = ep.getSystemPrompt(storyFlags, residentState);
+  const scriptData     = ep.getScriptData?.(storyFlags) ?? null;
+  const initialRapport = ep.getInitialRapport?.(storyFlags) ?? 0;
+  const logic = useGameLogic(systemPrompt, scriptData, initialRapport);
   const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send } = logic;
 
   const [phoneCheck,       setPhoneCheck]       = useState(ep.initialPhoneCheck||false);

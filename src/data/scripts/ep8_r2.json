@@ -1,0 +1,8 @@
+[
+  {"emotion":"exhausted","text":"(들어오다 멈추며) ...선생님이시죠. 저... 기억하세요?","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"exhausted","text":"잠을 좀 못 자고 있어요. 두통도 있고. (짧게) 일은 다니고 있어요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"conflicted","text":"(잠시 침묵) 어머니가 돌아가셨어요. 6주 전에. (담담하게)","rapport_change":1,"flag_trigger":"grief_opened"},
+  {"emotion":"exhausted","text":"간병이 6개월이었어요. 근데 막상 돌아가시고 나니... 모르겠어요. 슬픈 것도 아니고, 그냥 텅 빈 것 같아요.","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"sad","text":"(눈물이 맺히다가 억누르며) 그날 제가 처음 울었잖아요. 어머니 앞에서. ...이상하죠, 지금 더 못 우는 게.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"감사해요. 잘 기억해주셔서. (짧게 목소리가 흔들리다 진정하며)","rapport_change":0,"flag_trigger":"none"}
+]

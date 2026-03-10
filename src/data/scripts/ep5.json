@@ -1,0 +1,10 @@
+[
+  {"emotion":"distressed","text":"...괜찮아요. 좀 나아졌어요. 그냥 숨이 갑자기 안 쉬어진 거예요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+  {"emotion":"anxious","text":"손발 저림이요? 좀 있었어요. 지금은 많이 괜찮아요. 이전에는 없었고요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+  {"emotion":"neutral","text":"(짧게) 면접 직전에요. ...스트레스인가요.","rapport_change":0,"flag_trigger":"none","breathing_calm":true},
+  {"emotion":"conflicted","text":"(침묵) ...아무것도요.","rapport_change":1,"flag_trigger":"none","breathing_calm":true},
+  {"emotion":"conflicted","text":"(시선을 피하며) 혼자 해결할 수 있어요. 가족한테 연락은 안 해도 돼요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+  {"emotion":"sad","text":"사실은... 집에서 나왔거요. 3일 전에. (작게) 부모님한테 말했더니...","rapport_change":1,"flag_trigger":"real_opened","breathing_calm":false},
+  {"emotion":"exhausted","text":"...선생님한테 말한다고 뭔가 달라지는 건 아닌데. 그냥. (작은 목소리로) 말하고 싶었어요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+  {"emotion":"neutral","text":"네. 알겠어요. ...감사해요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false}
+]

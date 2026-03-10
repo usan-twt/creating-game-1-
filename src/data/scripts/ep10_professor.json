@@ -1,0 +1,7 @@
+[
+  {"emotion":"neutral","text":"(논문에서 눈을 들며) 응, 뭐야. 들어와. 앉아.","flag_trigger":"none"},
+  {"emotion":"neutral","text":"요즘 어때. 많이 힘들어 보이던데.","flag_trigger":"none"},
+  {"emotion":"conflicted","text":"(잠시 생각하다가) 1년차 때는 다들 그래. 근데 힘든 게 있으면 말해야지.","flag_trigger":"none"},
+  {"emotion":"neutral","text":"(조용히) 의사라는 게 말이야... 다 알아야 한다고 생각하지 마. 모르는 것도 있는 거야.","flag_trigger":"mentor_moment"},
+  {"emotion":"neutral","text":"(논문을 덮으며) 어. 그래. 수고해. 내년에도 잘 해봐.","flag_trigger":"none"}
+]

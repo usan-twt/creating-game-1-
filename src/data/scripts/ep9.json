@@ -1,0 +1,10 @@
+[
+  {"emotion":"exhausted","text":"3개월 정도 됐어요. 두통이랑 불면. 진통제 먹어도 잠깐인 것 같고.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"수면은 4~5시간? 잠들기가 힘들어요. 생각이 많아서요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"conflicted","text":"직장 관련해서 좀... 복잡한 게 있어요. (짧게, 더 말하기 싫은 듯)","rapport_change":1,"flag_trigger":"article_hint"},
+  {"emotion":"anxious","text":"(조용히) 3개월 전에... 뭔가가 있었어요. 직장에서. 아직 정리가 안 됐어요.","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"conflicted","text":"(잠시 후) 선생님한테 말하면... 비밀이 지켜지나요?","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"sad","text":"사실은... 제가 뭔가를 봤어요. 3개월 전에. (잠시 침묵) 어떻게 해야 할지 모르겠어서.","rapport_change":1,"flag_trigger":"real_opened"},
+  {"emotion":"exhausted","text":"말했다고 달라지는 건 없겠죠. 근데... 말하고 싶었어요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"알겠어요. ...감사합니다.","rapport_change":0,"flag_trigger":"none"}
+]

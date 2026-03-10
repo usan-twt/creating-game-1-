@@ -1,0 +1,7 @@
+[
+  {"emotion":"exhausted","text":"어, 왔어? 나 지금 진짜 녹초야. 앉아. (눈을 비비며)","flag_trigger":"none"},
+  {"emotion":"neutral","text":"어제 코드 있었거든. 회복은 됐는데... 뭔가 찜찜해. 잘 했는지 모르겠어.","flag_trigger":"none"},
+  {"emotion":"conflicted","text":"(조용히) 야, 우리 이 일 왜 하는 거야. 진짜로. 가끔 모르겠어.","flag_trigger":"none"},
+  {"emotion":"exhausted","text":"(웃으며) 뭐, 그렇다고 그만두진 않겠지. 그냥... 가끔 이런 날이 있잖아.","flag_trigger":"went_deep"},
+  {"emotion":"neutral","text":"너는? 오늘 어땠어. 말해봐.","flag_trigger":"none"}
+]

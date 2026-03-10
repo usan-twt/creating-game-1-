@@ -1,0 +1,10 @@
+[
+  {"emotion":"resigned","text":"뭐... 크게 달라진 건 없어요. 숨이 좀 더 차고.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"resigned","text":"(기침을 한 번 하고) 100m는 이제 좀 힘들어요. 쉬엄쉬엄 가면 되니까.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"exhausted","text":"아들은... 바빠요. 나름대로. (짧게) 뭐, 그게 인생이죠.","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"conflicted","text":"(잠시 창밖을 보다가) 선생님, 솔직하게 말해줄 수 있어요?","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"resigned","text":"...얼마나 살 수 있어요? 솔직하게. (눈을 마주침)","rapport_change":0,"flag_trigger":"asked_the_question"},
+  {"emotion":"sad","text":"(잠시 침묵 후) ...그렇군요. (시선을 내리며) 아들한테 연락 한 번 해야겠네요.","rapport_change":1,"flag_trigger":"gave_comfort"},
+  {"emotion":"resigned","text":"(조용히) 뭐, 그게 다겠죠. 잘 쓰면 되는 거고.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"고맙소. (천천히 일어나며) 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"}
+]

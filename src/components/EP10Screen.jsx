@@ -1,8 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { EP10_COLLEAGUE_PROMPT, EP10_PROFESSOR_PROMPT } from "../data/episodes";
 import NotebookPanel from "./NotebookPanel";
-
-const API_KEY = import.meta.env.VITE_ANTHROPIC_API_KEY;
 
 export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
   const [choice,      setChoice]      = useState(null);
@@ -14,20 +11,22 @@ export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
   const [notebookOpen,setNotebookOpen]= useState(false);
   const [userNotes,   setUserNotes]   = useState("");
   const [vis,         setVis]         = useState(false);
-  const apiMsgRef  = useRef([]);
-  const inputRef   = useRef(null);
-  const logRef     = useRef(null);
+  const turnIndexRef = useRef(0);
+  const inputRef     = useRef(null);
+  const logRef       = useRef(null);
 
   useEffect(()=>{const t=setTimeout(()=>setVis(true),80);return()=>clearTimeout(t);},[]);
   useEffect(()=>{if(logRef.current)logRef.current.scrollTop=logRef.current.scrollHeight;},[messages,loading]);
 
-  const systemPrompt = choice==="colleague" ? EP10_COLLEAGUE_PROMPT : choice==="professor" ? EP10_PROFESSOR_PROMPT : "";
   const choiceName = choice==="colleague"?"박세진 (동기)":choice==="professor"?"김철수 교수님":"(혼자)";
 
   const handleChoose = (c) => {
     setChoice(c);
+    turnIndexRef.current = 0;
     if(c==="alone") return;
-    const opening = c==="colleague" ? "어, 왔어? 나 지금 진짜 녹초야. 앉아." : "(논문에서 눈을 들며) 응, 뭐야. 들어와.";
+    const script = ep.scripts?.[c] || [];
+    const opening = script[0]?.text || (c==="colleague" ? "어, 왔어? 나 지금 진짜 녹초야. 앉아." : "(논문에서 눈을 들며) 응, 뭐야. 들어와.");
+    turnIndexRef.current = 1;
     setTimeout(()=>{ setMessages([{role:"other",text:opening}]); },400);
   };
 
@@ -35,23 +34,18 @@ export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
     if(!text.trim()||loading) return;
     setInput(""); setLoading(true); setTurnCount(p=>p+1);
     setMessages(p=>[...p,{role:"self",text}]);
-    const newMsgs=[...apiMsgRef.current,{role:"user",content:`[turn: ${turnCount+1}]\n나: ${text}`}];
-    try{
-      const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":API_KEY,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:350,system:systemPrompt,messages:newMsgs})});
-      if(!res.ok) throw new Error();
-      const data=await res.json();
-      const raw=data.content?.[0]?.text??"";
-      let parsed={emotion:"neutral",text:"...",flag_trigger:"none"};
-      try{const m=raw.match(/\{[\s\S]*\}/);parsed=JSON.parse(m?m[0]:raw);}catch{}
-      if(parsed.flag_trigger&&parsed.flag_trigger!=="none") setSessionFlags(p=>({...p,[parsed.flag_trigger]:true}));
-      apiMsgRef.current=[...newMsgs,{role:"assistant",content:parsed.text}];
-      setMessages(p=>[...p,{role:"other",text:parsed.text}]);
-    }catch{
-      setMessages(p=>[...p,{role:"system",text:"연결에 문제가 생겼어요."}]);
-    }finally{
-      setLoading(false);
-      setTimeout(()=>inputRef.current?.focus(),50);
-    }
+
+    await new Promise(r=>setTimeout(r,500));
+
+    const script = ep.scripts?.[choice] || [];
+    const idx = turnIndexRef.current;
+    const parsed = script[idx] || { text:"...", flag_trigger:"none" };
+    if(idx < script.length - 1) turnIndexRef.current = idx + 1;
+
+    if(parsed.flag_trigger&&parsed.flag_trigger!=="none") setSessionFlags(p=>({...p,[parsed.flag_trigger]:true}));
+    setMessages(p=>[...p,{role:"other",text:parsed.text}]);
+    setLoading(false);
+    setTimeout(()=>inputRef.current?.focus(),50);
   };
 
   const canEnd = turnCount>=ep.minTurns || choice==="alone";
@@ -159,7 +153,7 @@ export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
       </div>
 
       <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={ep.notebookPre} userNotes={userNotes} onUserNotesChange={setUserNotes}/>
-      <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}`}</style>
+      <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}`}</style>
     </div>
   );
 }

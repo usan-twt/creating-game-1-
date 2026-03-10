@@ -1,0 +1,10 @@
+[
+  {"emotion":"anxious","text":"어제부터요. 누르는 것 같은 느낌이에요. 대수롭지 않은 것 같은데 그냥 왔어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"팔 쪽으로는 안 퍼져요. 4점? 5점? 그냥 좀 답답한 거예요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"밥 먹고 나면 좀 더 한 것 같기도 하고. 담배는 반 갑 정도요. 혈압은 높단 소리 못 들었어요.","rapport_change":0,"flag_trigger":"none","phone_check":true},
+  {"emotion":"neutral","text":"(핸드폰 내려놓으며) ...검사나 해주시면 되는 거 아닌가요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"conflicted","text":"...그냥 혼자 왔어요. (시선을 잠깐 피하며)","rapport_change":1,"flag_trigger":"none","phone_check":false},
+  {"emotion":"sad","text":"그냥... 집에 가기 싫어서요. 솔직히. (잠시 침묵) 아, 검사나 해주세요.","rapport_change":1,"flag_trigger":"jinsu_opened","phone_check":false},
+  {"emotion":"neutral","text":"됐어요. 신경 쓰지 마세요. 결과만 주시면 됩니다.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+  {"emotion":"neutral","text":"...네. 알겠습니다. (일어서려다 잠깐 멈춤) 감사합니다.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+]

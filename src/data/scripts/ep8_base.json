@@ -1,0 +1,8 @@
+[
+  {"emotion":"exhausted","text":"잠을 좀 못 자고 있어요. 두통도 있고요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"3주 정도 됐어요. 스트레스요? 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"conflicted","text":"(잠시 침묵) 어머니가 돌아가셨어요. 얼마 전에. (담담하게)","rapport_change":1,"flag_trigger":"grief_opened"},
+  {"emotion":"exhausted","text":"간병을 했어요. 6개월. 지금은 그냥... 아무것도 하기 싫어요.","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"(고개를 끄덕이며) 네. 알겠어요. 처방 받아갈게요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"감사합니다.","rapport_change":0,"flag_trigger":"none"}
+]

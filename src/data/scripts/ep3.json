@@ -1,0 +1,10 @@
+[
+  {"emotion":"neutral","text":"두통은 이마 쪽이요. 묵직한 느낌. 빈도는 일주일에 서너 번 정도 됩니다.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"수면은 6시간 정도요. 나쁘지 않아요. 스트레스는... 직장인이니까 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"6개월 전부터요. 처음엔 가볍게 넘겼는데 최근에 좀 더 자주 오는 것 같아서요.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"exhausted","text":"(잠시 침묵) ...아, 네. 그냥 뭔가 달라진 것들이 좀 있기는 해요. 사소한 건데요.","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"conflicted","text":"(시선을 내리며) 그게... 선생님 시간 낭비가 될 것 같아서요.","rapport_change":1,"flag_trigger":"none"},
+  {"emotion":"sad","text":"아... 사실은요. (잠깐 멈춤) 6개월 전에 유산을 했어요. 아무한테도 말을 못 했어요.","rapport_change":1,"flag_trigger":"real_opened"},
+  {"emotion":"exhausted","text":"(눈물은 없지만 목소리가 조금 낮아지며) 뭐가 문젠지 모르겠어서 온 것도 있고... 네.","rapport_change":0,"flag_trigger":"none"},
+  {"emotion":"neutral","text":"...감사해요. 오길 잘 한 것 같아요.","rapport_change":0,"flag_trigger":"none"}
+]
