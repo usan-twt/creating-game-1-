@@ -20,11 +20,11 @@ Copy `.env.example` to `.env` and add a real Anthropic API key:
 VITE_ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-The app calls the Anthropic API **directly from the browser** using `anthropic-dangerous-direct-browser-access: true`. Model used: `claude-sonnet-4-20250514`, max_tokens 400, JSON-only responses.
+The app is designed for direct browser-to-Anthropic API calls (`anthropic-dangerous-direct-browser-access: true`). However, the current implementation uses **pre-scripted JSON responses** (see `src/data/scripts/`), not live API calls.
 
 ## Architecture
 
-React + Vite single-page narrative game. The player is a first-year medical resident having AI-powered consultations.
+React + Vite single-page narrative game (all UI in Korean). The player is a first-year medical resident having consultations across 10 episodes.
 
 ### Phase State Machine (App.jsx)
 
@@ -47,6 +47,12 @@ Valid transitions are defined in `TRANSITIONS` object. Invalid transitions are s
 
 These are intentionally separated: storyFlags drives story, residentState drives cost/consequence mechanics.
 
+### Scripted Responses vs. AI Responses
+
+`useGameLogic` (src/hooks/useGameLogic.js) currently reads from **pre-scripted JSON arrays** (`src/data/scripts/*.json`). Each script entry has the shape: `{ emotion, text, rapport_change, flag_trigger, phone_check?, speaker?, hint? }`. The hook walks through entries sequentially via `turnIndexRef`.
+
+System prompts in `src/data/prompts.js` define patient personas and expected JSON response schemas — these were designed for live Anthropic API usage but are currently only passed through (unused by the scripted path). If re-enabling AI: the hook would need to send conversation history + `[rapport_level: N]` to the API and parse the returned JSON.
+
 ### Fatigue System (Papers Please-inspired)
 
 - **EP1-EP3**: Tutorial period. No fatigue cost.
@@ -61,35 +67,35 @@ Deep flag map (which flags cause fatigue):
 
 | Mechanic flag | Component | Used by |
 |---|---|---|
-| `mechanics.dual` | `DualGameScreen` | EP7 (two simultaneous patients, shared turn budget) |
+| `mechanics.dual` | `DualGameScreen` | EP7 (two simultaneous patients, shared 12-turn budget) |
 | `mechanics.noPatient` | `EP10Screen` | EP10 (colleague/professor/alone choice) |
 | _(default)_ | `GameScreen` | EP1-EP6, EP8, EP9 |
 
-### Core Game Hook: `useGameLogic` (src/hooks/useGameLogic.js)
-
-Sends doctor input + `[rapport_level: N]` to Anthropic API. Expects JSON: `{ emotion, text, rapport_change, flag_trigger, ... }`. Maintains rapportLevel (0-5) and sessionFlags.
-
 ### Episode Data (src/data/)
 
-- **episodes.js**: `EPISODE_LIST` array. Each episode has `day` (1-10), `getSystemPrompt(storyFlags, residentState)`, result lines, mechanics config. The `injectFatigue()` helper wraps prompts for EP4+.
-- **prompts.js**: System prompts defining patient personas, rapport rules, flag conditions (all in Korean). AI must return pure JSON per episode schema.
+- **episodes.js**: `EPISODE_LIST` array. Each episode has `day`, `getSystemPrompt(storyFlags, residentState)`, `getScriptData(storyFlags)`, result lines, mechanics config. The `injectFatigue()` helper wraps prompts for EP4+.
+- **scripts/*.json**: Pre-scripted patient response arrays. Some episodes have branching scripts selected by storyFlags (e.g. `ep4_opened.json` vs `ep4_base.json`, `ep8_r2.json` vs `ep8_base.json`).
+- **prompts.js**: System prompts defining patient personas, rapport rules, flag conditions (all in Korean). Designed for AI JSON responses.
 - **interludes.js**: Scripted staff encounters after EP3/EP5/EP7/EP9. Not AI-powered — deterministic scenes with 1-2 choices that can affect fatigue or storyFlags.
 - **emotions.js**: Emotion metadata (labels + colors).
 
-### New Components
+### Key Components
 
 - **DayEndScreen**: End-of-day summary. Shows patient(s) completed, time indicator. Factual, no judgment (Papers Please style).
 - **InterludeScreen**: Scripted medical staff encounters. Speaker + dialogue lines + choice buttons. Effects applied on choice.
+- **NotebookPanel**: Slide-out panel with pre-written notes, user notepad, and optional article clue (EP9).
+- **ClinicScene**: SVG-based patient visualization, responds to emotion/talking state.
 
 ### Cross-Episode Connections
 
-- EP1 → EP4: `EP1_jinsu_opened` personalizes EP4's prompt and notebook
-- EP2 → EP8: `EP2_reversal1/2` personalizes EP8's prompt and initial rapport
+- EP1 → EP4: `EP1_jinsu_opened` selects different script (`ep4_opened.json` vs `ep4_base.json`) and personalizes notebook
+- EP2 → EP8: `EP2_reversal1/2` selects different script (`ep8_r2.json` vs `ep8_base.json`), sets initial rapport, personalizes notebook
 - EP10 ending: `depth` counts opened flags across EP1/2/3/5/8 for 3-tier ending
 
 ### Special Mechanics
 
-- **translator** (EP2): toggle between daughter-mediated and direct-to-mother modes
+- **translator** (EP2): toggle between daughter-mediated and direct-to-mother modes via `translatorDirect` state
 - **breathing** (EP5): `breathingCalm` context sent to AI
 - **article** (EP9): clue document revealed in notebook when `article_hint` fires
-- **dual** (EP7): two `useGameLogic` instances, `focused` switches active patient
+- **dual** (EP7): two `useGameLogic` instances with separate scripts (`ep7a.json`, `ep7b.json`), `focused` switches active patient, 12-turn shared budget
+- **noPatient** (EP10): three-way choice (colleague/professor/alone), each with its own script or static reflection
