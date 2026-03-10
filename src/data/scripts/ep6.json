@@ -1,10 +1,58 @@
 [
-  {"emotion":"resigned","text":"뭐... 크게 달라진 건 없어요. 숨이 좀 더 차고.","rapport_change":0,"flag_trigger":"none"},
-  {"emotion":"resigned","text":"(기침을 한 번 하고) 100m는 이제 좀 힘들어요. 쉬엄쉬엄 가면 되니까.","rapport_change":0,"flag_trigger":"none"},
-  {"emotion":"exhausted","text":"아들은... 바빠요. 나름대로. (짧게) 뭐, 그게 인생이죠.","rapport_change":1,"flag_trigger":"none"},
-  {"emotion":"conflicted","text":"(잠시 창밖을 보다가) 선생님, 솔직하게 말해줄 수 있어요?","rapport_change":1,"flag_trigger":"none"},
-  {"emotion":"resigned","text":"...얼마나 살 수 있어요? 솔직하게. (눈을 마주침)","rapport_change":0,"flag_trigger":"asked_the_question"},
-  {"emotion":"sad","text":"(잠시 침묵 후) ...그렇군요. (시선을 내리며) 아들한테 연락 한 번 해야겠네요.","rapport_change":1,"flag_trigger":"gave_comfort"},
-  {"emotion":"resigned","text":"(조용히) 뭐, 그게 다겠죠. 잘 쓰면 되는 거고.","rapport_change":0,"flag_trigger":"none"},
-  {"emotion":"neutral","text":"고맙소. (천천히 일어나며) 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"}
+  {
+    "symptom":   {"emotion":"resigned","text":"뭐... 크게 달라진 건 없어요. 숨이 좀 더 차고.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"resigned","text":"(힘없이 웃으며) 신경 써줘서 고맙소. 뭐, 나이가 나이인데.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"resigned","text":"요즘이요? 그냥 그렇지 뭐. 하루하루 사는 거지.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"resigned","text":"숨이 좀 더 차요. 수치가 어떤가요?","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"resigned","text":"...네? 아, 뭐 크게 달라진 건 없어요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"resigned","text":"(기침을 한 번 하고) 100m는 이제 좀 힘들어요. 쉬엄쉬엄 가면 되니까.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"resigned","text":"괜찮아요, 선생님. 늙으면 다 이래. (기침) 100m가 좀 힘들 뿐이지.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"resigned","text":"산책도 못 해요 이젠. 집에만 있으니까... 뭐.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"resigned","text":"보행 100m에서 호흡곤란. 악화된 거 맞죠?","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"resigned","text":"...(기침) 네.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"가족이요? 아들이 하나 있는데, 바빠요. 나름대로.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(작게) 혼자 사니까 익숙해요. 아들은... 바쁘니까.","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"아들은... 바빠요. 나름대로. (짧게) 뭐, 그게 인생이죠.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"보호자요? 아들이 있는데 연락은 잘 안 해요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...아들요? 네, 있긴 해요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"다른 증상은... 글쎄, 특별한 건 없어요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(잠시 창밖을 보다가) 선생님, 솔직하게 말해줄 수 있어요?","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(조용히) 선생님은 젊으니까 모르겠지만... 혼자라는 게 말이야. (멈춤) 솔직하게 말해줘요.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"예후가 어떤가요? 솔직하게요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네. (창밖을 봄)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"resigned","text":"상태가 더 나빠질 수 있다는 거죠. 알겠어요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"resigned","text":"...얼마나 살 수 있어요? 솔직하게. (눈을 마주침)","rapport_change":0,"flag_trigger":"asked_the_question"},
+    "personal":  {"emotion":"resigned","text":"(조용히) 얼마나 남았어요? 알아야 정리를 하든 말든 하지.","rapport_change":0,"flag_trigger":"asked_the_question"},
+    "direct":    {"emotion":"resigned","text":"구체적으로요. 몇 개월이에요?","rapport_change":0,"flag_trigger":"asked_the_question"},
+    "unrelated": {"emotion":"resigned","text":"...그래요. (담담하게)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"알겠어요. 약은 계속 먹으면 되는 거죠.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad","text":"(잠시 침묵 후) ...그렇군요. (시선을 내리며) 아들한테 연락 한 번 해야겠네요.","rapport_change":1,"flag_trigger":"gave_comfort"},
+    "personal":  {"emotion":"sad","text":"(조용히) 아들한테... 한번 전화해봐야겠어요. 목소리라도.","rapport_change":1,"flag_trigger":"gave_comfort"},
+    "direct":    {"emotion":"resigned","text":"알겠어요. 남은 치료 계획 알려주세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"resigned","text":"...(고개를 끄덕임)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"resigned","text":"약 처방 받아갈게요. 다음에 또 오죠.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"resigned","text":"(조용히) 뭐, 그게 다겠죠. 잘 쓰면 되는 거고.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"resigned","text":"(작게) 선생님한테 말하니까 좀 나아. 혼자 생각하면 답답하거든.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 처방전 주세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"resigned","text":"...네.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"감사합니다. 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"고맙소. (천천히 일어나며) 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(문 앞에서 돌아보며) 선생님도 건강해요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"(천천히 나감)","rapport_change":0,"flag_trigger":"none"}
+  }
 ]

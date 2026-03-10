@@ -47,11 +47,39 @@ Valid transitions are defined in `TRANSITIONS` object. Invalid transitions are s
 
 These are intentionally separated: storyFlags drives story, residentState drives cost/consequence mechanics.
 
-### Scripted Responses vs. AI Responses
+### Intent Classification + Branching Scripts
 
-`useGameLogic` (src/hooks/useGameLogic.js) currently reads from **pre-scripted JSON arrays** (`src/data/scripts/*.json`). Each script entry has the shape: `{ emotion, text, rapport_change, flag_trigger, phone_check?, speaker?, hint? }`. The hook walks through entries sequentially via `turnIndexRef`.
+`useGameLogic` (src/hooks/useGameLogic.js) classifies each doctor input via `classifyIntent()` (src/utils/classifyIntent.js) and selects the matching response from the current turn's branching script.
 
-System prompts in `src/data/prompts.js` define patient personas and expected JSON response schemas — these were designed for live Anthropic API usage but are currently only passed through (unused by the scripted path). If re-enabling AI: the hook would need to send conversation history + `[rapport_level: N]` to the API and parse the returned JSON.
+**Intent categories** (keyword regex matching on Korean medical vocabulary):
+| Intent | Example inputs | Patient reaction |
+|---|---|---|
+| `symptom` | "어디가 아프세요", "언제부터" | Symptom description (clinical) |
+| `empathy` | "힘드시겠다", "괜찮으세요" | Rapport boost, emotional opening |
+| `personal` | "집에서는 어떠세요", "요즘 어떠세요" | Personal story hints |
+| `direct` | "검사합시다", "약 드릴게요" | Short, clinical acknowledgment |
+| `unrelated` | (no keyword match) | Confused/awkward response |
+
+**Script JSON format** — each turn is an object with 5 intent keys:
+```json
+[
+  {
+    "symptom":  {"emotion":"anxious","text":"어제부터요...","rapport_change":0,"flag_trigger":"none"},
+    "empathy":  {"emotion":"conflicted","text":"...괜찮아요.","rapport_change":1,"flag_trigger":"none"},
+    "personal": {"emotion":"anxious","text":"...혼자 왔어요.","rapport_change":1,"flag_trigger":"none"},
+    "direct":   {"emotion":"neutral","text":"네, 검사요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated":{"emotion":"neutral","text":"...네?","rapport_change":0,"flag_trigger":"none"}
+  }
+]
+```
+
+**Design principles:**
+- Deep flags (`jinsu_opened`, `real_opened`, etc.) only trigger on `empathy`/`personal` intents
+- `direct`/`unrelated` paths never unlock deep story content
+- Tie-break priority: empathy > personal > symptom > direct
+- Backward compatible: if a turn entry lacks `symptom` key, falls back to legacy sequential format
+
+System prompts in `src/data/prompts.js` define patient personas and expected JSON response schemas — these were designed for live Anthropic API usage but are currently only passed through (unused by the scripted path).
 
 ### Fatigue System (Papers Please-inspired)
 
@@ -74,7 +102,7 @@ Deep flag map (which flags cause fatigue):
 ### Episode Data (src/data/)
 
 - **episodes.js**: `EPISODE_LIST` array. Each episode has `day`, `getSystemPrompt(storyFlags, residentState)`, `getScriptData(storyFlags)`, result lines, mechanics config. The `injectFatigue()` helper wraps prompts for EP4+.
-- **scripts/*.json**: Pre-scripted patient response arrays. Some episodes have branching scripts selected by storyFlags (e.g. `ep4_opened.json` vs `ep4_base.json`, `ep8_r2.json` vs `ep8_base.json`).
+- **scripts/*.json**: Intent-branching scripts. Each turn has 5 intent responses (`symptom`, `empathy`, `personal`, `direct`, `unrelated`). Some episodes have variant scripts selected by storyFlags (e.g. `ep4_opened.json` vs `ep4_base.json`, `ep8_r2.json` vs `ep8_base.json`).
 - **prompts.js**: System prompts defining patient personas, rapport rules, flag conditions (all in Korean). Designed for AI JSON responses.
 - **interludes.js**: Scripted staff encounters after EP3/EP5/EP7/EP9. Not AI-powered — deterministic scenes with 1-2 choices that can affect fatigue or storyFlags.
 - **emotions.js**: Emotion metadata (labels + colors).

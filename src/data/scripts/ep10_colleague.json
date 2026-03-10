@@ -1,7 +1,37 @@
 [
-  {"emotion":"exhausted","text":"어, 왔어? 나 지금 진짜 녹초야. 앉아. (눈을 비비며)","flag_trigger":"none"},
-  {"emotion":"neutral","text":"어제 코드 있었거든. 회복은 됐는데... 뭔가 찜찜해. 잘 했는지 모르겠어.","flag_trigger":"none"},
-  {"emotion":"conflicted","text":"(조용히) 야, 우리 이 일 왜 하는 거야. 진짜로. 가끔 모르겠어.","flag_trigger":"none"},
-  {"emotion":"exhausted","text":"(웃으며) 뭐, 그렇다고 그만두진 않겠지. 그냥... 가끔 이런 날이 있잖아.","flag_trigger":"went_deep"},
-  {"emotion":"neutral","text":"너는? 오늘 어땠어. 말해봐.","flag_trigger":"none"}
+  {
+    "symptom":   {"emotion":"exhausted","text":"어, 왔어? 나 지금 진짜 녹초야. 앉아. (눈을 비비며)","flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(힘없이 웃으며) 야, 와줬어? 나 진짜 힘들다. 앉아.","flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"어, 왔어. (커피를 건네며) 너도 힘들지? 앉아.","flag_trigger":"none"},
+    "direct":    {"emotion":"exhausted","text":"아, 왔어. 나 오늘 야근이야. 잠깐 쉬는 중.","flag_trigger":"none"},
+    "unrelated": {"emotion":"exhausted","text":"...어? (눈을 비비며) 아, 왔어. 앉아.","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"어제 코드 있었거든. 회복은 됐는데... 뭔가 찜찜해. 잘 했는지 모르겠어.","flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"어제 코드 있었는데... (잠깐 멈추며) 살리긴 했어. 근데 뭔가 찜찜해.","flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"어제 코드 뛰었는데. 집에 가서도 계속 생각나더라. 이러면 안 되는데.","flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"어제 코드블루. 환자 회복됐어. 프로토콜대로 했는데 찜찜해.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"(멍하게) ...어제 좀 그랬어.","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"conflicted","text":"(조용히) 야, 우리 이 일 왜 하는 거야. 진짜로. 가끔 모르겠어.","flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(고마운 듯) ...야, 그런 말 해주니까 좀 낫다. 근데 진짜로, 우리 왜 하는 거야 이거.","flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(조용히) 야, 우리 이 일 왜 하는 거야. 집에 가면 아무것도 하기 싫어.","flag_trigger":"none"},
+    "direct":    {"emotion":"conflicted","text":"번아웃인가. 요즘 이런 생각이 자꾸 들어.","flag_trigger":"none"},
+    "unrelated": {"emotion":"conflicted","text":"...뭐, 그냥. (멍하게)","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"뭐, 그만두진 않겠지. 그냥 가끔 이런 날이 있잖아.","flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(웃으며) 뭐, 그렇다고 그만두진 않겠지. 그냥... 가끔 이런 날이 있잖아.","flag_trigger":"went_deep"},
+    "personal":  {"emotion":"exhausted","text":"(한숨) 그래도 너 있으니까 낫다. 혼자였으면 진짜 힘들었을 듯.","flag_trigger":"went_deep"},
+    "direct":    {"emotion":"neutral","text":"그래, 뭐. 쉴 수 있을 때 쉬어야지.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...그래. (커피를 마심)","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"너는? 오늘 어땠어. 말해봐.","flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(편하게) 야, 너는? 오늘 어땠어. 들어줄게.","flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"너도 힘들텐데. 오늘 어땠어?","flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"그래, 이만 들어가자. 내일도 있으니까.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...뭐, 그래. (일어서며) 가자.","flag_trigger":"none"}
+  }
 ]

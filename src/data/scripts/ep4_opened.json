@@ -1,8 +1,44 @@
 [
-  {"emotion":"neutral","text":"결과 보러 왔어요. 이상 없다고 하던데.","rapport_change":0,"flag_trigger":"none","phone_check":false},
-  {"emotion":"neutral","text":"(진료실 돌아보며) 여기 선생님이었군요. ...기억하시겠어요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
-  {"emotion":"conflicted","text":"(혈압 이야기에 짧게) 생활습관... 뭐, 알죠. 담배 좀 줄여야 되는 거. (잠깐 망설임) 그때 그 말은... 그냥 나온 거예요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
-  {"emotion":"neutral","text":"(작게) 집엔 갔어요. ...서먹하긴 한데. 뭐.","rapport_change":1,"flag_trigger":"none","phone_check":false},
-  {"emotion":"sad","text":"나아지고 있어요. 조금씩. (고개를 끄덕이며) 뭐, 한꺼번에 되는 게 어디 있겠어요.","rapport_change":1,"flag_trigger":"deeper_connection","phone_check":false},
-  {"emotion":"neutral","text":"다음에 또 오면 되죠. ...수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  {
+    "symptom":   {"emotion":"neutral","text":"결과 보러 왔어요. 이상 없다고 하던데.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"neutral","text":"(들어오며 잠깐 멈춤) ...왔어요. 결과 보러요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"neutral","text":"(진료실 둘러보며) 여기였군요. 왔어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"결과 확인하러요. 이상 없다면서요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...아, 네. 결과요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"(진료실 돌아보며) 여기 선생님이었군요. ...기억하시겠어요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"conflicted","text":"(작게) 기억하세요? 저... 그때 이상한 말 했잖아요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"conflicted","text":"선생님한테 말한 거... 아직도 좀 그래요. 왜 말했는지.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"혈압이랑 결과만 확인하면 되죠?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"(어색하게) ...네. 뭐.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"conflicted","text":"(혈압 이야기에 짧게) 생활습관... 뭐, 알죠. 담배 좀 줄여야 되는 거. (잠깐 망설임) 그때 그 말은... 그냥 나온 거예요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"conflicted","text":"(시선을 돌리며) ...신경 써주시는 거 고마운데. 괜찮아요, 진짜.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"conflicted","text":"(작게) 집엔... 가긴 갔어요. 좀 서먹하긴 한데.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"담배 줄이고 혈압 관리. 알겠어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...네. 생활습관이요. 알겠어요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"(작게) 집엔 갔어요. ...서먹하긴 한데. 뭐.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"conflicted","text":"(잠깐 침묵 후) ...좀 나아지고 있어요. 조금씩.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"conflicted","text":"(한숨) 부모님이랑은... 아직 어색해요. 근데 밥은 같이 먹었어요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"생활 관리 잘 하고 있어요. 다음은 언제 오면 되나요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...네. (시선 회피)","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"몸은 괜찮아요. 가슴 답답한 건 없어졌어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"sad","text":"나아지고 있어요. 조금씩. (고개를 끄덕이며) 뭐, 한꺼번에 되는 게 어디 있겠어요.","rapport_change":1,"flag_trigger":"deeper_connection","phone_check":false},
+    "personal":  {"emotion":"sad","text":"(조용히) 집에 가는 게... 덜 싫어졌어요. 조금.","rapport_change":1,"flag_trigger":"deeper_connection","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"증상은 없어요. 정기 검진만 하면 되죠?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...뭐, 그렇죠.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"다음에 또 오면 되죠. ...수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"neutral","text":"(문 앞에서) ...감사해요. 진짜로. 다음에 또 올게요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"neutral","text":"(작게 웃으며) 다음에 또 오죠. 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"알겠어요. 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...네. 가볼게요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  }
 ]

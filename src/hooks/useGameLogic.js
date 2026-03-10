@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import classifyIntent from "../utils/classifyIntent";
 
 export default function useGameLogic(systemPrompt, scriptData = null, initialRapport = 0) {
   const [emotion,       setEmotion]       = useState("neutral");
@@ -21,7 +22,17 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
 
     const script = scriptData || [];
     const idx = turnIndexRef.current;
-    const parsed = script[idx] || { emotion: "neutral", text: "...", rapport_change: 0, flag_trigger: "none" };
+    const turnData = script[idx];
+
+    let parsed;
+    if (turnData && turnData.symptom) {
+      // Intent-branching format: pick response by classified intent
+      const intent = classifyIntent(text);
+      parsed = turnData[intent] || turnData.symptom;
+    } else {
+      // Legacy sequential format
+      parsed = turnData || { emotion: "neutral", text: "...", rapport_change: 0, flag_trigger: "none" };
+    }
     if (idx < script.length - 1) turnIndexRef.current = idx + 1;
 
     const rapport = rapportRef.current;
