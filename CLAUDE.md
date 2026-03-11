@@ -85,7 +85,7 @@ System prompts in `src/data/prompts.js` define patient personas and expected JSO
 
 - **EP1-EP3**: Tutorial period. No fatigue cost.
 - **EP4+**: Opening deep flags costs fatigue +1. EP7 always +1.
-- **Effects at fatigue >= 3**: `injectFatigue()` in episodes.js adds context to AI prompts (patient notices doctor is tired). `GameScreen` adds +1 to `minTurns` (subtle gameplay delay).
+- **Effects at fatigue >= 3**: `injectFatigue()` in episodes.js adds context to AI prompts (patient notices doctor is tired). `GameScreen` adds +1 to `minTurns` — the "end session" button requires `exchangeCount >= minTurns + fatigueDelay` (where `fatigueDelay` is 1 if `residentState.fatigue >= 3` and `ep.day >= 4`).
 - **No explicit UI** for fatigue. Player feels it through gameplay.
 
 Deep flag map (which flags cause fatigue):
@@ -105,7 +105,32 @@ Deep flag map (which flags cause fatigue):
 - **scripts/*.json**: Intent-branching scripts. Each turn has 5 intent responses (`symptom`, `empathy`, `personal`, `direct`, `unrelated`). Some episodes have variant scripts selected by storyFlags (e.g. `ep4_opened.json` vs `ep4_base.json`, `ep8_r2.json` vs `ep8_base.json`).
 - **prompts.js**: System prompts defining patient personas, rapport rules, flag conditions (all in Korean). Designed for AI JSON responses.
 - **interludes.js**: Scripted staff encounters after EP3/EP5/EP7/EP9. Not AI-powered — deterministic scenes with 1-2 choices that can affect fatigue or storyFlags.
-- **emotions.js**: Emotion metadata (labels + colors).
+- **emotions.js**: Emotion metadata (labels + colors). Valid emotion values: `neutral`, `anxious`, `exhausted`, `conflicted`, `sad`, `distressed`, `resigned`, `resolute`.
+
+**Episode object schema** (relevant fields for adding/modifying content):
+```js
+{
+  id: "EP1",                      // Used as completedFlag prefix
+  day: 1,
+  minTurns: 5,                    // Doctor must exchange this many times before ending
+  initialEmotion: "anxious",
+  initialPhoneCheck: true,        // Patient is on phone at start
+  vitals: { BP, HR, SpO2 },
+  cc: "주소 텍스트",               // Chief complaint shown as opening patient line
+  completedFlag: "EP1_completed", // Written to storyFlags on completion
+  localFlags: ["jinsu_opened"],   // Short names — written to storyFlags as `EP1_jinsu_opened`
+  mechanics: {},                  // Optional: { dual, noPatient, translator, breathing }
+  notebookPre: "...",             // Static pre-written notes string
+  getNotebookPre: (sf) => "...", // Dynamic version (use when notes depend on prior episode)
+  getSystemPrompt: (sf, rs) => PROMPT,
+  getScriptData: (sf) => scriptJson,
+  getResultLines: (sf, lf) => ({ lines: [...], footer: "..." }),
+}
+```
+
+**storyFlags naming convention**: Local flags from `localFlags: ["flag_name"]` in episode `EP{n}` are stored globally as `EP{n}_flag_name`. Always check the `localFlags` array and `completedFlag` in the episode definition when reading or writing flags.
+
+**Script exhaustion + nurse behavior**: When the last script turn has been consumed, subsequent sends return a nurse-voiced message instead of a patient response. On `unrelated` intent at any turn, a nurse intervention fires immediately (no script advance). Both are returned with `{ speaker: "nurse" }` in the parsed response.
 
 ### Key Components
 
