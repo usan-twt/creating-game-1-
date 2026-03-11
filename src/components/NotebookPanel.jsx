@@ -21,7 +21,7 @@ function HintSection({ hints, usedIntents, unlocked }) {
                 <span style={{fontFamily:"Georgia,serif",fontSize:11,color:used?"#5a7a50":"#6a5a2a",fontWeight:600}}>
                   {isExpanded?"▾":"▸"} {h.category}
                 </span>
-                {!used&&<span style={{fontSize:9,color:"rgba(180,150,60,0.7)",fontStyle:"italic"}}>💡</span>}
+                {!used&&<span style={{fontSize:9,color:"rgba(180,150,60,0.7)"}}>💡</span>}
                 {used&&<span style={{fontSize:9,color:"rgba(120,160,100,0.6)"}}>✓</span>}
               </button>
               {isExpanded&&(
@@ -53,7 +53,55 @@ function HintSection({ hints, usedIntents, unlocked }) {
   );
 }
 
-export default function NotebookPanel({ isOpen, onClose, epNum, preNotes, userNotes, onUserNotesChange, articleText, articleVisible, hints, usedIntents, hintsUnlocked }) {
+function GlossarySection({ glossary }) {
+  const [open, setOpen] = useState(false);
+  const [expandedKey, setExpandedKey] = useState(null);
+
+  if (!glossary || !glossary.length) return null;
+
+  return (
+    <div style={{marginTop:4,marginBottom:18}}>
+      <button onClick={()=>setOpen(o=>!o)}
+        style={{width:"100%",background:"none",border:"none",cursor:"pointer",padding:"0 0 8px",display:"flex",justifyContent:"space-between",alignItems:"center",textAlign:"left"}}>
+        <div style={{display:"flex",alignItems:"center",gap:6}}>
+          <span style={{fontFamily:"Georgia,serif",fontSize:9,letterSpacing:"0.25em",color:"#5a6a8a"}}>{open?"▾":"▸"} 의학 사전</span>
+          <span style={{background:"rgba(90,106,138,0.15)",border:"1px solid rgba(90,106,138,0.25)",borderRadius:9,padding:"1px 7px",fontSize:9,color:"#5a6a8a",fontFamily:"Georgia,serif"}}>{glossary.length}</span>
+        </div>
+        <span style={{fontSize:9,color:"rgba(90,106,138,0.5)",fontStyle:"italic",fontFamily:"Georgia,serif"}}>지금까지 해독된 용어</span>
+      </button>
+      {open&&(
+        <div style={{display:"flex",flexDirection:"column",gap:5}}>
+          {glossary.map((g)=>{
+            const isExpanded = expandedKey===g.key;
+            return (
+              <div key={g.key} style={{background:"rgba(70,90,120,0.06)",border:"1px solid rgba(70,90,120,0.15)",borderRadius:7,overflow:"hidden"}}>
+                <button onClick={()=>setExpandedKey(isExpanded?null:g.key)}
+                  style={{width:"100%",background:"none",border:"none",cursor:"pointer",padding:"8px 10px",textAlign:"left"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                    <div>
+                      <div style={{fontFamily:"Georgia,serif",fontSize:10,color:"#3a4a6a",fontWeight:700,letterSpacing:"0.02em"}}>{g.symbol}</div>
+                      <div style={{fontFamily:"Georgia,serif",fontSize:9,color:"#6a7a9a",marginTop:2}}>{g.reading}</div>
+                    </div>
+                    <div style={{fontSize:8,color:"rgba(90,106,138,0.45)",whiteSpace:"nowrap",marginLeft:6,marginTop:1,fontStyle:"italic"}}>{g.source}</div>
+                  </div>
+                </button>
+                {isExpanded&&(
+                  <div style={{padding:"0 10px 10px"}}>
+                    <div style={{borderTop:"1px solid rgba(70,90,120,0.1)",paddingTop:8}}>
+                      <pre style={{fontFamily:"Georgia,serif",fontSize:10,lineHeight:1.9,color:"#2a3a5a",whiteSpace:"pre-wrap",margin:0}}>{g.meaning}</pre>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function NotebookPanel({ isOpen, onClose, epNum, preNotes, userNotes, onUserNotesChange, articleText, articleVisible, hints, usedIntents, hintsUnlocked, glossary }) {
   return (
     <>
       {isOpen&&<div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.4)",zIndex:49}}/>}
@@ -76,6 +124,8 @@ export default function NotebookPanel({ isOpen, onClose, epNum, preNotes, userNo
             )}
             <HintSection hints={hints} usedIntents={usedIntents} unlocked={hintsUnlocked}/>
             <div style={{borderTop:"1px dashed #b8a450",marginBottom:14}}/>
+            <GlossarySection glossary={glossary}/>
+            {glossary&&glossary.length>0&&<div style={{borderTop:"1px dashed #b8a450",marginBottom:14}}/>}
             <div style={{fontFamily:"Georgia,serif",fontSize:9,letterSpacing:"0.25em",color:"#7a6a3a",marginBottom:8}}>내 메모</div>
             <textarea value={userNotes} onChange={e=>onUserNotesChange(e.target.value)} placeholder="관찰한 것을 적어두세요..." style={{width:"100%",minHeight:120,background:"transparent",border:"none",outline:"none",fontFamily:"Georgia,serif",fontSize:11,lineHeight:"2.2",color:"#2a1a08",resize:"none",boxSizing:"border-box"}}/>
           </div>

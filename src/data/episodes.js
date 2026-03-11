@@ -47,6 +47,11 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"개인 상황", guide:"왜 혼자 왔는지, 생활이 어떤지 물어보면 다른 이야기가 나올 수 있습니다.", questions:["집에서는 어떠세요?","요즘 좀 어떠세요?"] },
     ],
     hintUnlockTurn:3,
+    glossaryEntries:[
+      { key:"hr_mild", symbol:"HR 90–100대", source:"박진수 · EP1", reading:"가볍게 빠른 맥박", meaning:"안정 시 정상은 60–90bpm.\n통증이나 긴장 상태에서 나타난다." },
+      { key:"bp_borderline", symbol:"BP 130–139/80–89", source:"박진수 · EP1", reading:"고혈압 전단계", meaning:"당장 약을 쓸 단계는 아니다.\n그러나 생활습관이 바뀌지 않으면 고혈압으로 진행된다." },
+      { key:"alone_visit", symbol:"보호자 없음", source:"박진수 · EP1", reading:"혼자 온 환자", meaning:"혼자 왔다는 것이 때로는 단서가 된다.\n주변 상황이 어떤지 물어볼 이유가 생긴다." },
+    ],
     completedFlag:"EP1_completed", localFlags:["jinsu_opened"], mechanics:{},
   },
   {
@@ -71,6 +76,10 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"생활 상황", guide:"통역 너머의 이야기 — 어머니의 실제 상황이 궁금하다면 물어보세요.", questions:["집에서는 어떠세요?","한국에 오신 지 얼마나 되셨어요?"] },
     ],
     hintUnlockTurn:3,
+    glossaryEntries:[
+      { key:"translator_present", symbol:"통역 동석", source:"왕메이링 · EP2", reading:"제3자가 있는 진료", meaning:"환자가 직접 말하지 않는다.\n통역자가 무엇을 바꾸는지, 무엇을 빼는지 살펴볼 필요가 있다." },
+      { key:"rif_pain", symbol:"우하복부 통증", source:"왕메이링 · EP2", reading:"오른쪽 아랫배 통증", meaning:"맹장(충수)이 있는 위치.\n갑작스럽고 지속적이면 응급일 수 있다." },
+    ],
     completedFlag:"EP2_completed", localFlags:["daughter_suspicious","reversal1","reversal2"],
     mechanics:{ translator:true },
   },
@@ -94,6 +103,10 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"일상 이야기", guide:"\"좋은 환자\" 너머의 사람이 궁금하다면 물어보세요.", questions:["요즘 어떻게 지내세요?","집에서는 좀 쉬시나요?"] },
     ],
     hintUnlockTurn:3,
+    glossaryEntries:[
+      { key:"vitals_normal_caveat", symbol:"바이탈 정상", source:"김지영 · EP3", reading:"수치가 정상 = 이상 없음이 아니다", meaning:"혈압·맥박·산소포화도가 정상이어도\n환자는 아플 수 있다. 숫자 너머를 봐야 한다." },
+      { key:"good_patient", symbol:"협조적인 환자", source:"김지영 · EP3", reading:"'좋은 환자'의 이면", meaning:"대답이 너무 깔끔하면 오히려 의심해볼 것.\n말해도 된다고 느껴야 사람은 진짜 이야기를 꺼낸다." },
+    ],
     completedFlag:"EP3_completed", localFlags:["real_opened"], mechanics:{},
   },
   {
@@ -120,6 +133,10 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"근황 묻기", guide:"검사 결과 너머에 그 사람의 생활이 있습니다.", questions:["요즘 어떻게 지내세요?","집에서는 좀 편하세요?"] },
     ],
     hintUnlockTurn:2,
+    glossaryEntries:[
+      { key:"revisit", symbol:"재진 (f/u)", source:"박진수 · EP4", reading:"다시 온 환자", meaning:"처음과 달리, 이미 관계가 있다.\n지난번에 무슨 말을 했는지 기억하는 것 자체가 치료가 된다." },
+      { key:"lifestyle_mod", symbol:"생활습관 교정", source:"박진수 · EP4", reading:"약 대신 생활을 바꾸는 것", meaning:"금연, 운동, 식이 조절.\n의사가 처방할 수 있지만, 실제로 하는 건 환자다." },
+    ],
     completedFlag:"EP4_completed", localFlags:["deeper_connection"], mechanics:{},
   },
   {
@@ -142,6 +159,10 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"무슨 일이 있었는지", guide:"혼자 응급실에 왔습니다. 왜 그랬는지 물어보면 다른 이야기가 나올 수 있습니다.", questions:["요즘 많이 힘드신 건 아닌지...","집에서 무슨 일이 있으셨어요?"] },
     ],
     hintUnlockTurn:3,
+    glossaryEntries:[
+      { key:"hr_high", symbol:"HR 110–120대", source:"이준혁 · EP5", reading:"많이 빠른 맥박", meaning:"발작 직후, 극도의 불안, 또는 심한 통증.\nEP1의 HR 94보다 훨씬 높다 — 그만큼 상태가 심했다는 뜻." },
+      { key:"hyperventilation", symbol:"과호흡 발작", source:"이준혁 · EP5", reading:"숨이 너무 빨라지는 것", meaning:"의학적 위기처럼 느껴지지만, 원인은 심리적일 수 있다.\n산소가 부족한 게 아니라 이산화탄소가 너무 빠져나간다." },
+    ],
     completedFlag:"EP5_completed", localFlags:["real_opened"], mechanics:{ breathing:true },
   },
   {
@@ -167,6 +188,11 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"가족과 시간", guide:"남은 시간에 대해 — 그가 먼저 꺼낼 수 있도록 여유를 두세요.", questions:["가족분들은 어떠세요?","요즘 하루가 어떠세요?"] },
     ],
     hintUnlockTurn:2,
+    glossaryEntries:[
+      { key:"spo2_low", symbol:"SpO2 91%", source:"최병철 · EP6", reading:"혈중 산소포화도 저하", meaning:"94% 미만은 주의 필요.\n폐에서 산소를 혈액에 충분히 싣지 못하고 있다는 뜻이다." },
+      { key:"copd_end", symbol:"COPD GOLD 4기", source:"최병철 · EP6", reading:"만성 폐쇄성 폐질환 말기", meaning:"숨길이 영구적으로 좁아진 상태. 완치는 없다.\n남은 시간을 어떻게 살 것인가가 진짜 질문이 된다." },
+      { key:"end_of_life_q", symbol:"얼마나 살 수 있어요?", source:"최병철 · EP6", reading:"환자가 직접 묻는 예후 질문", meaning:"이 질문을 꺼내기까지 오래 걸렸을 것이다.\n피하는 것, 직접 답하는 것, 함께 생각하는 것 — 셋 다 선택지다." },
+    ],
     completedFlag:"EP6_completed", localFlags:["asked_the_question","answered_directly","gave_comfort","deflected"], mechanics:{},
   },
   {
@@ -185,6 +211,10 @@ export const EPISODE_LIST = [
       if(bT >= aT*1.5) return{lines:["두 사람이 기다리고 있었습니다."," ","강도현 씨는 빠르게 처리됐습니다."," ","이혜란 씨에게는","충분한 시간이 없었습니다."," ","그녀가 뭔가를 더 말하려 했는지","확인하지 못했습니다."],footer:""};
       return{lines:["두 사람이 기다리고 있었습니다."," ","당신은 최대한 나눠서","시간을 썼습니다."," ","완벽하지 않았습니다.","하지만 그게 그날이었습니다."],footer:""};
     },
+    glossaryEntries:[
+      { key:"triage_implicit", symbol:"동시 대기 환자", source:"EP7", reading:"시간 배분이 치료의 일부", meaning:"누군가에게 더 시간을 쓰면 다른 누군가는 덜 받는다.\n완벽한 배분은 없다 — 그게 임상의 현실이다." },
+      { key:"hr_fever", symbol:"HR 102 + 고열", source:"이혜란 · EP7", reading:"감염 또는 패혈증 가능성", meaning:"고열과 빠른 맥박이 함께 오면 감염을 의심한다.\n고령일수록 빠른 평가가 필요하다." },
+    ],
     completedFlag:"EP7_completed", localFlags:["turnsA","turnsB","rapportA","rapportB"], mechanics:{ dual:true },
     patientA:{ name:"이혜란", age:78, sex:"여", skin:"#c8a888", shirt:"#8a6070", hairColor:"#e0e0e0", hairType:"f_old", vitals:{ BP:"136/82", HR:"102", SpO2:"94%"}, initialEmotion:"anxious", cc:"저... 좀 열이 나요.",
       hints:[
@@ -225,6 +255,10 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"무슨 일이 있었는지", guide:"왜 다시 왔는지, 어떤 일이 있었는지 물어볼 수 있습니다.", questions:["요즘 어떻게 지내세요?","가족분들은 좀 어떠세요?"] },
     ],
     hintUnlockTurn:2,
+    glossaryEntries:[
+      { key:"insomnia_grief", symbol:"불면 + 보호자 사망", source:"이수진 · EP8", reading:"슬픔이 신체 증상으로 나타나는 것", meaning:"불면, 피로, 식욕부진은 우울이나 애도의 신체 표현일 수 있다.\n약 처방 전에 무슨 일이 있었는지 물어볼 필요가 있다." },
+      { key:"returning_patient", symbol:"다시 찾아온 보호자", source:"이수진 · EP8", reading:"진료실에 혼자 오는 사람", meaning:"보호자로 왔다가, 이번엔 환자로 왔다.\n이전에 어떤 관계였는지 기억하는 것이 출발점이 된다." },
+    ],
     completedFlag:"EP8_completed", localFlags:["grief_opened"], mechanics:{},
   },
   {
@@ -250,6 +284,10 @@ export const EPISODE_LIST = [
       { intent:"personal", category:"직장 상황", guide:"직업이 제약회사 연구원입니다. 직장에서 무슨 일이 있었는지 물어보세요.", questions:["회사에서는 요즘 어떠세요?","업무 스트레스가 있으신가요?"] },
     ],
     hintUnlockTurn:3,
+    glossaryEntries:[
+      { key:"nonspecific_sx", symbol:"비특이적 증상", source:"정민우 · EP9", reading:"딱 한 가지 원인을 가리키지 않는 증상", meaning:"두통·피로·불면은 수십 가지 원인이 있다.\n신체 원인이 없다면 심리·사회적 배경을 확인해야 한다." },
+      { key:"3mo_trigger", symbol:"3개월 전부터", source:"정민우 · EP9", reading:"증상 시작의 계기", meaning:"'언제부터'를 물으면 '왜'가 따라온다.\n3개월 전에 무슨 일이 있었는지가 진짜 단서일 수 있다." },
+    ],
     completedFlag:"EP9_completed", localFlags:["article_hint","real_opened"], mechanics:{ article:true },
   },
   {

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { EMOTION_META } from "../data/emotions";
+import { EPISODE_LIST } from "../data/episodes";
 import useGameLogic from "../hooks/useGameLogic";
 import RapportBar from "./RapportBar";
 import ClinicScene from "./ClinicScene";
@@ -55,6 +56,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const canEnd      = exchangeCount >= ep.minTurns + fatigueDelay;
   const turnsLeft   = scriptData ? scriptData.length - logic.turnIndex : Infinity;
   const preNotes    = typeof ep.getNotebookPre==="function" ? ep.getNotebookPre(storyFlags) : ep.notebookPre;
+  const glossary    = EPISODE_LIST.filter(e=>e.completedFlag&&storyFlags[e.completedFlag]).flatMap(e=>e.glossaryEntries||[]);
   const isAbnormal  = (k,v) => (k==="BP"&&parseInt(v)>130)||(k==="HR"&&parseInt(v)>90)||(k==="SpO2"&&parseInt(v)<94);
 
   const visibleMsgs = (()=>{
@@ -196,7 +198,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
         </div>
       </div>
 
-      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={preNotes} userNotes={userNotes} onUserNotesChange={setUserNotes} articleText={ep.articleText} articleVisible={articleVisible} hints={ep.hints} usedIntents={usedIntents} hintsUnlocked={exchangeCount>=(ep.hintUnlockTurn||3)}/>
+      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={preNotes} userNotes={userNotes} onUserNotesChange={setUserNotes} articleText={ep.articleText} articleVisible={articleVisible} hints={ep.hints} usedIntents={usedIntents} hintsUnlocked={exchangeCount>=(ep.hintUnlockTurn||3)} glossary={glossary}/>
       <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}@keyframes phoneWiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}@keyframes cardIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}@keyframes breatheRing{0%,100%{transform:scaleX(1);opacity:0.2}50%{transform:scaleX(1.12);opacity:0.35}}`}</style>
     </div>
   );

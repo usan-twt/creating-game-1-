@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { EMOTION_META } from "../data/emotions";
-import { EP7A_PROMPT, EP7B_PROMPT } from "../data/episodes";
+import { EP7A_PROMPT, EP7B_PROMPT, EPISODE_LIST } from "../data/episodes";
 import ep7aScript from "../data/scripts/ep7a.json";
 import ep7bScript from "../data/scripts/ep7b.json";
 import useGameLogic from "../hooks/useGameLogic";
@@ -46,6 +46,7 @@ export default function DualGameScreen({ ep, storyFlags, residentState, onEnd })
   },[activeLogic, focused, totalTurns]);
 
   const isAbnormal = (k,v)=>(k==="BP"&&parseInt(v)>130)||(k==="HR"&&parseInt(v)>90)||(k==="SpO2"&&parseInt(v)<94);
+  const glossary = EPISODE_LIST.filter(e=>e.completedFlag&&storyFlags[e.completedFlag]).flatMap(e=>e.glossaryEntries||[]);
   const allDone = totalTurns >= MAX_TURNS;
 
   const visibleMsgs = (()=>{
@@ -150,7 +151,7 @@ export default function DualGameScreen({ ep, storyFlags, residentState, onEnd })
         )}
       </div>
 
-      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={ep.notebookPre} userNotes={userNotes} onUserNotesChange={setUserNotes} hints={activePat.hints} usedIntents={activeLogic.usedIntents} hintsUnlocked={totalTurns>=3}/>
+      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={ep.notebookPre} userNotes={userNotes} onUserNotesChange={setUserNotes} hints={activePat.hints} usedIntents={activeLogic.usedIntents} hintsUnlocked={totalTurns>=3} glossary={glossary}/>
       <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}@keyframes cardIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}`}</style>
     </div>
   );
