@@ -1,0 +1,123 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/screens/GameScreen.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/components/ClinicScene.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/components/RapportBar.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/components/NotebookPanel.tscn" id="4"]
+
+[node name="GameScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.055, 0.047, 0.039, 1)
+
+[node name="ClinicScene" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.7
+script = ExtResource("2")
+
+[node name="PatientCard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_right = 0.25
+anchor_bottom = 0.45
+offset_left = 16.0
+offset_top = 16.0
+
+[node name="VBox" type="VBoxContainer" parent="PatientCard"]
+[node name="NameLabel" type="Label" parent="PatientCard/VBox"]
+[node name="AgeLabel" type="Label" parent="PatientCard/VBox"]
+[node name="CCLabel" type="Label" parent="PatientCard/VBox"]
+[node name="RapportBar" type="Control" parent="PatientCard/VBox"]
+script = ExtResource("3")
+[node name="PhoneCheckLabel" type="Label" parent="PatientCard/VBox"]
+text = "📱 핸드폰 확인 중"
+visible = false
+
+[node name="StatusCard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.75
+anchor_right = 1.0
+anchor_bottom = 0.35
+offset_right = -16.0
+offset_top = 16.0
+
+[node name="VBox" type="VBoxContainer" parent="StatusCard"]
+[node name="VitalsContainer" type="VBoxContainer" parent="StatusCard/VBox"]
+[node name="EmotionLabel" type="Label" parent="StatusCard/VBox"]
+
+[node name="DialogArea" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.1
+anchor_top = 0.65
+anchor_right = 0.9
+anchor_bottom = 0.82
+
+[node name="DialogContainer" type="VBoxContainer" parent="DialogArea"]
+size_flags_vertical = 3
+
+[node name="LogPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.75
+visible = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LogPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="LogList" type="VBoxContainer" parent="LogPanel/ScrollContainer"]
+size_flags_horizontal = 3
+
+[node name="InputArea" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchor_top = 0.84
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+offset_bottom = -8.0
+
+[node name="LeftButtons" type="VBoxContainer" parent="InputArea"]
+[node name="NotebookButton" type="Button" parent="InputArea/LeftButtons"]
+text = "📓"
+[node name="LogButton" type="Button" parent="InputArea/LeftButtons"]
+text = "📋"
+
+[node name="CenterBox" type="VBoxContainer" parent="InputArea"]
+size_flags_horizontal = 3
+[node name="TranslatorButton" type="Button" parent="InputArea/CenterBox"]
+text = "💬 어머니께 직접"
+visible = false
+[node name="InputField" type="TextEdit" parent="InputArea/CenterBox"]
+size_flags_vertical = 3
+placeholder_text = "무슨 말을 할까요...   ↵ Enter"
+custom_minimum_size = Vector2(0, 60)
+
+[node name="RightButtons" type="VBoxContainer" parent="InputArea"]
+[node name="SendButton" type="Button" parent="InputArea/RightButtons"]
+text = "전송"
+[node name="EndButton" type="Button" parent="InputArea/RightButtons"]
+text = "마치기"
+visible = false
+
+[node name="NotebookPanel" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.6
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("4")

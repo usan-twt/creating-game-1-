@@ -1,0 +1,44 @@
+[
+  {
+    "symptom":   {"emotion":"exhausted","text":"(들어오다 멈추며) ...선생님이시죠. 저... 잠을 못 자서요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(들어오다 멈추며) ...선생님이시죠. 저... 기억하세요?","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"(들어오며) 선생님... 그때 어머니랑 왔었는데요. 기억하세요?","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"exhausted","text":"불면이랑 두통으로 왔어요. 이전에 여기 왔었어요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"exhausted","text":"...네. (멍하게 서 있다가) 아, 진료 보러요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"exhausted","text":"잠을 좀 못 자고 있어요. 두통도 있고. (짧게) 일은 다니고 있어요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(기억해줘서 고마운 듯) ...네. 잠을 못 자요. 두통도 있고.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"일은 다니고 있어요. 근데 잠을 못 자요. 혼자 있으면 생각이 많아서.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"exhausted","text":"불면 3주, 두통 동반. 직장은 다니고 있어요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"exhausted","text":"...잠을요. 못 자요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"원인이요? 좀 복잡해요. (멈추다가) 어머니가 돌아가셨어요.","rapport_change":0,"flag_trigger":"grief_opened"},
+    "empathy":   {"emotion":"conflicted","text":"(잠시 침묵) 어머니가 돌아가셨어요. 6주 전에. (담담하게)","rapport_change":1,"flag_trigger":"grief_opened"},
+    "personal":  {"emotion":"conflicted","text":"(조용히) 어머니가... 6주 전에. 그때 선생님 앞에서 제가 울었잖아요.","rapport_change":1,"flag_trigger":"grief_opened"},
+    "direct":    {"emotion":"neutral","text":"어머니 사별이요. 6주 전. 간병 6개월 후에.","rapport_change":0,"flag_trigger":"grief_opened"},
+    "unrelated": {"emotion":"neutral","text":"...(침묵이 길어짐)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"exhausted","text":"간병이 6개월이었어요. 지금은 그냥... 텅 빈 것 같아요.","rapport_change":1,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"간병이 6개월이었어요. 근데 막상 돌아가시고 나니... 모르겠어요. 슬픈 것도 아니고, 그냥 텅 빈 것 같아요.","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"혼자 간병했어요. 6개월. 돌아가시고 나니까 뭘 해야 할지... 집이 너무 조용해요.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"exhausted","text":"복합 사별 반응인가요? 슬프다기보다 무감각해요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"exhausted","text":"...(먼 곳을 봄)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"약 처방 받으면 좀 나을까요?","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad","text":"(눈물이 맺히다가 억누르며) 그날 제가 처음 울었잖아요. 어머니 앞에서. ...이상하죠, 지금 더 못 우는 게.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"sad","text":"(작게) 그때 울었던 게... 마지막이었어요. 지금은 울고 싶은데 안 나와요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"상담 연계가 필요할까요? 아니면 약만으로도...","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"sad","text":"...(잠깐 눈물이 맺히다 닦음)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"알겠어요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"감사해요. 잘 기억해주셔서. (짧게 목소리가 흔들리다 진정하며)","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(작게 웃으며) 선생님한테 또 왔네요. ...감사해요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 처방전 받아갈게요. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네. (나감)","rapport_change":0,"flag_trigger":"none"}
+  }
+]

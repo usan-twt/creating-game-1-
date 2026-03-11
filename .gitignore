@@ -1,0 +1,11 @@
+# Godot 4 generated files
+.godot/
+
+# Export presets (contains sensitive info if keys are set)
+export_presets.cfg
+
+# Import cache
+*.import
+
+# macOS
+.DS_Store

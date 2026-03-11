@@ -1,0 +1,58 @@
+[
+  {
+    "symptom":   {"emotion":"distressed","text":"...괜찮아요. 좀 나아졌어요. 그냥 숨이 갑자기 안 쉬어진 거예요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "empathy":   {"emotion":"distressed","text":"(떨리는 목소리로) ...감사해요. 좀 무서웠어요. 지금은 좀 나아요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "personal":  {"emotion":"distressed","text":"(경계하며) 혼자예요. 아는 사람 없어요. 괜찮아요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "direct":    {"emotion":"distressed","text":"숨이 안 쉬어지고 손발 저림이요. 과호흡인가요?","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "unrelated": {"emotion":"distressed","text":"...네? (숨을 고르며) 그냥 숨이 안 쉬어져서요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false}
+  },
+  {
+    "symptom":   {"emotion":"anxious","text":"손발 저림이요? 좀 있었어요. 지금은 많이 괜찮아요. 이전에는 없었고요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "empathy":   {"emotion":"anxious","text":"(조금 안정되며) 처음이에요 이런 거. 놀라셨죠... 저도 놀랐어요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "personal":  {"emotion":"anxious","text":"이전에는 없었어요. 최근에 좀... 일이 있어서요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "direct":    {"emotion":"anxious","text":"저림은 좀 있었어요. 심전도는 필요해요?","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "unrelated": {"emotion":"anxious","text":"(불안한 표정) ...네, 좀 저렸어요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"(짧게) 면접 직전에요. ...스트레스인가요.","rapport_change":0,"flag_trigger":"none","breathing_calm":true},
+    "empathy":   {"emotion":"neutral","text":"(숨이 좀 안정되며) ...고마워요. 좀 나아졌어요. 면접 때문에 긴장했나 봐요.","rapport_change":0,"flag_trigger":"none","breathing_calm":true},
+    "personal":  {"emotion":"conflicted","text":"면접이요. 취업 준비 중인데... (말끝을 흐림)","rapport_change":0,"flag_trigger":"none","breathing_calm":true},
+    "direct":    {"emotion":"neutral","text":"스트레스 유발 요인이요? 면접이에요. 스트레스 맞죠?","rapport_change":0,"flag_trigger":"none","breathing_calm":true},
+    "unrelated": {"emotion":"neutral","text":"...면접이요. (더 말하기 싫은 듯)","rapport_change":0,"flag_trigger":"none","breathing_calm":true}
+  },
+  {
+    "symptom":   {"emotion":"conflicted","text":"다른 증상은... 없어요. 그냥 긴장한 거예요.","rapport_change":0,"flag_trigger":"none","breathing_calm":true},
+    "empathy":   {"emotion":"conflicted","text":"(침묵) ...아무것도요. (작게) 그냥... 좀 힘들어요.","rapport_change":1,"flag_trigger":"none","breathing_calm":true},
+    "personal":  {"emotion":"conflicted","text":"(시선을 피하며) 요즘 지낼 데가... (멈춤) 아니에요.","rapport_change":1,"flag_trigger":"none","breathing_calm":true},
+    "direct":    {"emotion":"neutral","text":"기저질환 없어요. 약 복용도 없고요.","rapport_change":0,"flag_trigger":"none","breathing_calm":true},
+    "unrelated": {"emotion":"neutral","text":"...별로 할 말이 없어요.","rapport_change":0,"flag_trigger":"none","breathing_calm":true}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"가족이요? 연락 안 해도 돼요. 괜찮아요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "empathy":   {"emotion":"conflicted","text":"(시선을 피하며) 혼자 해결할 수 있어요. 가족한테 연락은 안 해도 돼요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "personal":  {"emotion":"conflicted","text":"(목소리가 작아지며) 가족은... 지금은 좀. 연락하기 어려워요.","rapport_change":1,"flag_trigger":"none","breathing_calm":false},
+    "direct":    {"emotion":"neutral","text":"보호자 연락처요? 괜찮아요, 필요 없어요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "unrelated": {"emotion":"neutral","text":"...네? 가족이요? (당황)","rapport_change":0,"flag_trigger":"none","breathing_calm":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"...그냥 스트레스예요. 처방만 해주세요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "empathy":   {"emotion":"sad","text":"사실은... 집에서 나왔거요. 3일 전에. (작게) 부모님한테 말했더니...","rapport_change":1,"flag_trigger":"real_opened","breathing_calm":false},
+    "personal":  {"emotion":"sad","text":"(떨리는 목소리로) 3일 전에 집에서 나왔어요. 부모님이... (말을 잇지 못함)","rapport_change":1,"flag_trigger":"real_opened","breathing_calm":false},
+    "direct":    {"emotion":"neutral","text":"처방이요? 항불안제 같은 거 주시면 되나요?","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "unrelated": {"emotion":"neutral","text":"...(침묵)","rapport_change":0,"flag_trigger":"none","breathing_calm":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"...네. 약 받아갈게요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "empathy":   {"emotion":"exhausted","text":"...선생님한테 말한다고 뭔가 달라지는 건 아닌데. 그냥. (작은 목소리로) 말하고 싶었어요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "personal":  {"emotion":"exhausted","text":"(조용히) 갈 데가 없어서... 찜질방에서 자고 있어요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "direct":    {"emotion":"neutral","text":"알겠어요. 처방전 주세요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "unrelated": {"emotion":"neutral","text":"...(고개를 숙임)","rapport_change":0,"flag_trigger":"none","breathing_calm":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"네. 감사합니다.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "empathy":   {"emotion":"neutral","text":"네. 알겠어요. ...감사해요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "personal":  {"emotion":"neutral","text":"(작게) 고마워요. ...이런 거 처음이에요.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "direct":    {"emotion":"neutral","text":"네. 다음 진료 때 오면 되죠.","rapport_change":0,"flag_trigger":"none","breathing_calm":false},
+    "unrelated": {"emotion":"neutral","text":"...네. (나감)","rapport_change":0,"flag_trigger":"none","breathing_calm":false}
+  }
+]

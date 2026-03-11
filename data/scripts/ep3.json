@@ -1,0 +1,58 @@
+[
+  {
+    "symptom":   {"emotion":"neutral","text":"두통은 이마 쪽이요. 묵직한 느낌. 빈도는 일주일에 서너 번 정도 됩니다.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"...네, 괜찮아요. 두통이 좀 있어서요. (미소 지으려 함)","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"요즘요? 뭐... 바쁘죠. (짧게) 두통이 좀 있어서요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"이마 쪽 두통, 주 3-4회, 6개월 전부터요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네? 아, 두통이요. 이마 쪽이에요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"수면은 6시간 정도요. 나쁘지 않아요. 스트레스는... 직장인이니까 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(조금 풀린 표정) 수면은 나쁘지 않은데... 스트레스는 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"혼자 살아요. 수면은 6시간. ...충분하죠?","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"6시간, 카페인 하루 두 잔, 운동은 안 해요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"(잠깐 멈칫) 네, 뭐 그렇죠.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"6개월 전부터요. 처음엔 가볍게 넘겼는데 최근에 좀 더 자주 오는 것 같아서요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(고마운 듯) 6개월 전부터인데... 참다가 왔어요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"6개월 전에... (잠깐 멈춤) 네, 그때부터요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"6개월이요. 진통제 먹으면 좀 나아요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네, 6개월이요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"다른 증상은... 특별히 없는 것 같은데요. (잠깐 생각하며)","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(잠시 침묵) ...아, 네. 그냥 뭔가 달라진 것들이 좀 있기는 해요. 사소한 건데요.","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"(시선을 내리며) 사실 생활이 좀 달라졌어요. 6개월 전쯤부터.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"다른 증상은 없어요. 두통만요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...글쎄요. 잘 모르겠어요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"(잠깐 머뭇) 두통 말고 다른 건 진짜 없어요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(시선을 내리며) 그게... 선생님 시간 낭비가 될 것 같아서요.","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(작게) 누구한테도 말 안 한 건데... (멈춤) 아니에요.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"추가 검사 필요하면 해주세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네?","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"...그냥 두통이에요. (더 말하기 힘든 듯)","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad","text":"아... 사실은요. (잠깐 멈춤) 6개월 전에 유산을 했어요. 아무한테도 말을 못 했어요.","rapport_change":1,"flag_trigger":"real_opened"},
+    "personal":  {"emotion":"sad","text":"(떨리는 목소리로) 6개월 전에... 아이를 잃었어요. (작게)","rapport_change":1,"flag_trigger":"real_opened"},
+    "direct":    {"emotion":"neutral","text":"(침묵) ...처방만 해주세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...(침묵)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"...네. 약 처방이요? 알겠어요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(눈물은 없지만 목소리가 조금 낮아지며) 뭐가 문젠지 모르겠어서 온 것도 있고... 네.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"(조용히) 남편도 모르는 거예요. 혼자 감당하고 있었어요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"(고개 끄덕임) 네. 알겠어요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...(시선을 떨구며)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"네. 감사합니다. 약 타러 갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"...감사해요. 오길 잘 한 것 같아요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(작게 웃으며) 누군가한테 말하니까... 좀 나아요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"알겠어요. 다음에 또 오면 되죠.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네. (일어남)","rapport_change":0,"flag_trigger":"none"}
+  }
+]

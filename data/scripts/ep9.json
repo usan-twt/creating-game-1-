@@ -1,0 +1,58 @@
+[
+  {
+    "symptom":   {"emotion":"exhausted","text":"3개월 정도 됐어요. 두통이랑 불면. 진통제 먹어도 잠깐인 것 같고.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(피곤한 표정) ...네, 좀 힘들어요. 3개월째 잠을 잘 못 자요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"요즘 좀 복잡한 일이 있어서... 3개월째 두통이랑 불면이에요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"exhausted","text":"두통, 불면, 3개월. 진통제 효과 일시적.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"exhausted","text":"...네? 아, 두통이요. 3개월 됐어요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"수면은 4~5시간? 잠들기가 힘들어요. 생각이 많아서요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(작게) 잠들기가 힘들어요. 자꾸 생각이 나서... 4시간 정도요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"생각이 많아서 잠을 못 자요. 직장 일 때문에...","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"입면장애, 4-5시간. 중도각성도 있어요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...4시간? 5시간? 그 정도요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"스트레스 원인이요? 직장이요. (짧게)","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(잠시 후) ...누구한테도 말 못 한 건데. 직장에서 좀... (말끝 흐림)","rapport_change":1,"flag_trigger":"article_hint"},
+    "personal":  {"emotion":"conflicted","text":"직장 관련해서 좀... 복잡한 게 있어요. (짧게, 더 말하기 싫은 듯)","rapport_change":1,"flag_trigger":"article_hint"},
+    "direct":    {"emotion":"neutral","text":"직장 스트레스요. 상세하게 말하기는... 좀 그래요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...직장이요. (더 이상 말 안 함)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"3개월 전에 뭔가 있었어요. 직장에서. (짧게)","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"anxious","text":"(조용히) 3개월 전에... 뭔가가 있었어요. 직장에서. 아직 정리가 안 됐어요.","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"anxious","text":"3개월 전에 직장에서... 뭔가를 봤어요. 그 뒤로 계속 생각나서.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"3개월 전 사건이요. 업무 관련인데 자세히는...","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...3개월 전이요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"그게 뭔지는... 말하기 어려워요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(잠시 후) 선생님한테 말하면... 비밀이 지켜지나요?","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(작게) 이거 말하면... 저한테 불이익이 올 수도 있거든요.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"의무기록에 남나요? ...좀 민감한 거라서요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...(침묵)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"...그냥 처방만 해주세요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad","text":"사실은... 제가 뭔가를 봤어요. 3개월 전에. (잠시 침묵) 어떻게 해야 할지 모르겠어서.","rapport_change":1,"flag_trigger":"real_opened"},
+    "personal":  {"emotion":"sad","text":"(떨리는 목소리로) 회사에서... 뭔가 잘못된 걸 봤어요. 그걸 말해야 하는지...","rapport_change":1,"flag_trigger":"real_opened"},
+    "direct":    {"emotion":"neutral","text":"(잠깐 고민하다) ...내부 문제를 목격했어요. 신고할지 말지.","rapport_change":0,"flag_trigger":"real_opened"},
+    "unrelated": {"emotion":"neutral","text":"...(입을 열다 닫음)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"네. 약 받아갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"말했다고 달라지는 건 없겠죠. 근데... 말하고 싶었어요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"(조용히) 혼자 안고 있으니까 미칠 것 같았어요. 말해서 좀 나아요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"상담 연계요? ...생각해볼게요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...(고개를 숙임)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"감사합니다. 약 타러 갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"알겠어요. ...감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(작게) 선생님한테 말해서 다행이에요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 처방전 주세요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네. (나감)","rapport_change":0,"flag_trigger":"none"}
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "symptom":   {"emotion":"neutral","text":"(논문에서 눈을 들며) 응, 뭐야. 들어와. 앉아.","flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(안경을 벗으며) 어, 왔어? 무슨 일이야. 앉아봐.","flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(논문을 덮으며) 들어와. 요즘 어때?","flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"(논문에서 눈을 들며) 상담이야? 앉아.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...응? (안경 위로 봄) 들어와.","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"요즘 어때. 많이 힘들어 보이던데.","flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(관심 있는 표정) 표정이 안 좋은데. 무슨 일 있어?","flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"1년차가 힘들긴 하지. 다 그래. 뭐가 제일 힘들어?","flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"보고 싶은 게 있으면 말해. 시간 좀 있어.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...힘들어 보이네. (잠깐 봄)","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"환자 보는 게 어렵지? 처음엔 다 그래.","flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(잠시 생각하다가) 1년차 때는 다들 그래. 근데 힘든 게 있으면 말해야지.","flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(조용히) 나도 1년차 때 그랬어. 환자 얼굴이 자꾸 떠오르고.","flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"공부가 부족한 거 같으면 세미나 하나 더 들어. 시간표 조정해줄게.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...뭐. 시간이 해결해줄 거야.","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"경험이 쌓이면 나아져. 지금은 참고 배우는 시기야.","flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(조용히) 의사라는 게 말이야... 다 알아야 한다고 생각하지 마. 모르는 것도 있는 거야.","flag_trigger":"mentor_moment"},
+    "personal":  {"emotion":"neutral","text":"(진지하게) 완벽할 필요 없어. 환자 앞에서 솔직한 게 더 중요해. 나도 그걸 늦게 배웠어.","flag_trigger":"mentor_moment"},
+    "direct":    {"emotion":"neutral","text":"레지던트 프로그램에 상담 시스템 있어. 필요하면 연결해줄게.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...뭐, 그래. (논문을 다시 봄)","flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"(논문을 다시 펴며) 그래, 수고해. 더 궁금한 거 있으면 와.","flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(논문을 덮으며) 어. 그래. 수고해. 내년에도 잘 해봐.","flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(일어서며) 가끔 와. 문 열어놓을 테니까.","flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"그래. 필요한 거 있으면 말하고. 수고해.","flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...어. 그래. (논문으로 돌아감)","flag_trigger":"none"}
+  }
+]

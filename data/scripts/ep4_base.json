@@ -1,0 +1,30 @@
+[
+  {
+    "symptom":   {"emotion":"neutral","text":"결과 확인하러 왔어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"neutral","text":"네, 왔어요. 뭐 별거 아니겠죠?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"neutral","text":"(짧게) 결과 보러요. 바빠서 빨리 좀...","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"결과 확인이요. 이상 있어요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...네? 아, 결과 보러요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"이상 없으면 된 거 아닌가요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"neutral","text":"다행이네요. 뭐, 크게 걱정은 안 했어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"neutral","text":"네, 뭐. 별일 없죠. (핸드폰 확인)","rapport_change":0,"flag_trigger":"none","phone_check":true},
+    "direct":    {"emotion":"neutral","text":"수치가 정상이면 됐죠.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...그래요? 네.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"담배는... 좀 줄여보죠 뭐. 혈압이 경계선이라고요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"neutral","text":"줄여야 하는 건 아는데... 쉽지 않죠. 노력해볼게요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"neutral","text":"혼자 사니까 신경 쓸 사람도 없고. 뭐, 알겠어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"경계선이면 약은 안 먹어도 되는 거죠? 생활습관만?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...네, 담배요. 줄여보죠.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"알겠어요. 또 오라고 하면 오고요. 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"neutral","text":"네, 감사해요. 또 올게요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"neutral","text":"네. (일어서며) 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"알겠어요. 다음 예약은 언제요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...네. 가볼게요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  }
+]

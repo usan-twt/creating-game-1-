@@ -1,0 +1,44 @@
+[
+  {
+    "symptom":   {"emotion":"exhausted","text":"잠을 좀 못 자고 있어요. 두통도 있고요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(피곤한 표정으로) ...네, 좀 힘들어요. 잠을 못 자서요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"요즘 좀... 일이 있어서요. 잠을 못 자고 있어요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"exhausted","text":"불면이요. 3주째. 두통도 동반되고요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"exhausted","text":"...네? (피곤한 눈으로) 아, 잠을 못 자요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"3주 정도 됐어요. 스트레스요? 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"3주 됐어요. (짧게) 요즘 좀 힘든 일이 있어서...","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"3주요. (잠시 침묵) 집에 일이 좀 있었어요.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"3주, 수면제 복용 없어요. 기저질환도 없고요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...3주 정도요.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"스트레스 원인이요? 좀 복잡해요. (짧게)","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(잠시 침묵) 어머니가 돌아가셨어요. 얼마 전에. (담담하게)","rapport_change":1,"flag_trigger":"grief_opened"},
+    "personal":  {"emotion":"conflicted","text":"(조용히) 어머니가... 얼마 전에 돌아가셨어요.","rapport_change":1,"flag_trigger":"grief_opened"},
+    "direct":    {"emotion":"neutral","text":"가족 상이요. 어머니가 돌아가셨어요.","rapport_change":0,"flag_trigger":"grief_opened"},
+    "unrelated": {"emotion":"neutral","text":"...(침묵)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"exhausted","text":"간병을 했어요. 6개월. 지금은 그냥... 아무것도 하기 싫어요.","rapport_change":1,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"간병이 6개월이었어요. (작게) 지금은 그냥... 뭘 해야 할지 모르겠어요.","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"6개월 간병했어요. 혼자서. 형제도 없고... 지금은 텅 빈 것 같아요.","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"exhausted","text":"6개월 간병 후 사별이요. 무기력감이 지속되고 있어요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"exhausted","text":"...(시선을 떨굼)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"약 처방해주시면 될 것 같아요. 잠만 잘 자면...","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"(고개를 끄덕이며) 네. 알겠어요. 처방 받아갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(작게) 약으로 되는 건가요... 이런 거.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"수면제 처방이요? 네, 알겠어요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네. (고개 끄덕임)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"감사합니다. (일어서며 작게) ...말하니까 좀 나아요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(문 앞에서) 감사해요. ...다음에 또 올게요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네.","rapport_change":0,"flag_trigger":"none"}
+  }
+]

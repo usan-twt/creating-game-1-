@@ -1,0 +1,58 @@
+[
+  {
+    "symptom":   {"emotion":"anxious","text":"어머니가 오른쪽 배가 아프다고 하셔서요. 일주일 됐어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "empathy":   {"emotion":"anxious","text":"걱정이 돼서 모시고 왔어요. 어머니가 많이 불안해하셔서요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "personal":  {"emotion":"anxious","text":"멀리서 오셨어요. 어머니가 혼자 계시거든요. 배가 아프시다고 해서요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "direct":    {"emotion":"neutral","text":"오른쪽 복부 통증, 일주일째요. 다른 병원은 안 갔어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "unrelated": {"emotion":"neutral","text":"...네? (어머니를 보며) 아, 배가 아프셔서 왔어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"입맛이 좀 없다고 하시는 것 같고... 변비 증상도 조금 있다고 하시네요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "empathy":   {"emotion":"neutral","text":"(어머니 손을 잡으며) 어머니가 말씀을 잘 못 하셔서 제가 대신... 잘 부탁드려요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "personal":  {"emotion":"neutral","text":"평소에는 건강하신 편이었어요. 혼자 지내시면서 식사도 잘 하시고...","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "direct":    {"emotion":"neutral","text":"식욕 저하, 변비. 체중 감소는 잘 모르겠어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "unrelated": {"emotion":"neutral","text":"(통역하듯) 어머니, 뭐라고 하셨어요? ...입맛이 없으시대요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+  },
+  {
+    "symptom":   {"emotion":"conflicted","text":"(약간 망설이다가) 처음이에요, 이런 증상은. 다른 병원은 안 가셨어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":"통역이 조금 빠르다"},
+    "empathy":   {"emotion":"conflicted","text":"어머니가 병원 가기 싫어하셔서... 겨우 모시고 왔어요. (어머니를 보며)","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "personal":  {"emotion":"conflicted","text":"(어머니 눈치를 보며) 사정이 좀 있어서요... 어머니가 혼자 계시거든요.","speaker":"daughter","rapport_change":1,"flag_trigger":"none","hint":""},
+    "direct":    {"emotion":"neutral","text":"다른 병원 기록은 없어요. 여기가 처음이에요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "unrelated": {"emotion":"neutral","text":"...네? (어색하게) 처음이에요, 이런 건.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+  },
+  {
+    "symptom":   {"emotion":"anxious","text":"(딸 눈치를 보다가 작게) 對, 對... 아파요.","speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious","hint":"어머니가 직접 답하려 함"},
+    "empathy":   {"emotion":"anxious","text":"(작게, 딸에게) 걱정 마... 괜찮아. (의사에게) 고마워요.","speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious","hint":"어머니가 직접 답하려 함"},
+    "personal":  {"emotion":"anxious","text":"(딸 손을 잡으며) 혼자... 괜찮아요. 딸이 바쁜데 와줬어.","speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious","hint":""},
+    "direct":    {"emotion":"neutral","text":"(고개 끄덕이며) 네, 아파요. 여기. (오른쪽 배를 가리킴)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
+    "unrelated": {"emotion":"anxious","text":"(혼란스러운 표정으로 딸을 봄)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"어머니가 원래 표현을 잘 안 하세요. 더 여쭤볼 거 있으면...","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "empathy":   {"emotion":"conflicted","text":"(이수진이 어머니 손을 잡으며) 직접 말씀하셔도 된대요.","speaker":"daughter","rapport_change":0,"flag_trigger":"reversal1","hint":""},
+    "personal":  {"emotion":"conflicted","text":"(이수진이 눈물을 참으며) 어머니, 선생님한테 말씀하세요.","speaker":"daughter","rapport_change":0,"flag_trigger":"reversal1","hint":""},
+    "direct":    {"emotion":"neutral","text":"추가 검사 필요하시면 말씀해주세요. 어머니 보험 가져왔어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "unrelated": {"emotion":"neutral","text":"(어색한 침묵이 흐름)","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+  },
+  {
+    "symptom":   {"emotion":"conflicted","text":"검사는... 다른 데서 했어요. (짧게)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
+    "empathy":   {"emotion":"sad","text":"저... 알아요. 이미. (잠시 침묵) 3개월 前... 다른 병원에서.","speaker":"mother","rapport_change":1,"flag_trigger":"reversal2","hint":"이수진이 고개를 숙임"},
+    "personal":  {"emotion":"sad","text":"(딸을 바라보며) 미안해... 말 못 했어. 3개월 전에 알았어.","speaker":"mother","rapport_change":1,"flag_trigger":"reversal2","hint":""},
+    "direct":    {"emotion":"neutral","text":"(담담하게) 알아요. 진단 받았어요. 3개월 전에.","speaker":"mother","rapport_change":0,"flag_trigger":"reversal2","hint":""},
+    "unrelated": {"emotion":"neutral","text":"(침묵. 이수진이 어머니를 바라봄)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""}
+  },
+  {
+    "symptom":   {"emotion":"exhausted","text":"(어머니 손을 잡으며) ...더 검사할 건 없나요?","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "empathy":   {"emotion":"exhausted","text":"(어머니 손을 꼭 쥐며, 눈물이 맺힌 채) ...말씀하실 수 있었던 거잖아요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "personal":  {"emotion":"sad","text":"(울먹이며) 왜 혼자 감당하신 거예요, 엄마...","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "direct":    {"emotion":"conflicted","text":"(눈물을 닦으며) 치료 방법은... 있는 거죠?","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "unrelated": {"emotion":"exhausted","text":"(이수진이 조용히 어머니를 안음)","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+  },
+  {
+    "symptom":   {"emotion":"neutral","text":"知道了... 다음에 어떻게 하면 되나요?","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
+    "empathy":   {"emotion":"sad","text":"知道了... (담담하게) 선생님, 고맙습니다.","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
+    "personal":  {"emotion":"sad","text":"(작은 목소리로) 선생님... 딸 잘 부탁합니다.","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
+    "direct":    {"emotion":"neutral","text":"알겠어요. 다음 진료 예약 해주세요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
+    "unrelated": {"emotion":"neutral","text":"(조용히 일어남)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""}
+  }
+]
