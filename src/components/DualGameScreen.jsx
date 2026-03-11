@@ -150,7 +150,7 @@ export default function DualGameScreen({ ep, storyFlags, residentState, onEnd })
         )}
       </div>
 
-      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={ep.notebookPre} userNotes={userNotes} onUserNotesChange={setUserNotes}/>
+      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={ep.notebookPre} userNotes={userNotes} onUserNotesChange={setUserNotes} hints={activePat.hints} usedIntents={activeLogic.usedIntents} hintsUnlocked={totalTurns>=3}/>
       <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}@keyframes cardIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}`}</style>
     </div>
   );

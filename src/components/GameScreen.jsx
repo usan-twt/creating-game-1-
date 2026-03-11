@@ -10,7 +10,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const scriptData     = ep.getScriptData?.(storyFlags) ?? null;
   const initialRapport = ep.getInitialRapport?.(storyFlags) ?? 0;
   const logic = useGameLogic(systemPrompt, scriptData, initialRapport);
-  const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send } = logic;
+  const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send, usedIntents } = logic;
 
   const [phoneCheck,       setPhoneCheck]       = useState(ep.initialPhoneCheck||false);
   const [translatorDirect, setTranslatorDirect] = useState(false);
@@ -196,7 +196,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
         </div>
       </div>
 
-      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={preNotes} userNotes={userNotes} onUserNotesChange={setUserNotes} articleText={ep.articleText} articleVisible={articleVisible}/>
+      <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={preNotes} userNotes={userNotes} onUserNotesChange={setUserNotes} articleText={ep.articleText} articleVisible={articleVisible} hints={ep.hints} usedIntents={usedIntents} hintsUnlocked={exchangeCount>=(ep.hintUnlockTurn||3)}/>
       <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}@keyframes phoneWiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}@keyframes cardIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}@keyframes breatheRing{0%,100%{transform:scaleX(1);opacity:0.2}50%{transform:scaleX(1.12);opacity:0.35}}`}</style>
     </div>
   );

@@ -17,6 +17,7 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
   const [rapportLevel,  setRapportLevel]  = useState(initialRapport);
   const [sessionFlags,  setSessionFlags]  = useState({});
   const [turnIndex,     setTurnIndex]     = useState(0);
+  const [usedIntents,   setUsedIntents]   = useState({});
   const rapportRef      = useRef(initialRapport);
   const turnIndexRef    = useRef(0);
   const scriptUsedRef   = useRef(false); // true after the last entry has been used once
@@ -53,6 +54,7 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
     if (turnData && turnData.symptom) {
       // Intent-branching format
       const intent = classifyIntent(text);
+      setUsedIntents(p => ({ ...p, [intent]: (p[intent] || 0) + 1 }));
 
       // ── Nurse intervention on unrelated intent ────────────────────────
       if (intent === "unrelated") {
@@ -95,5 +97,5 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
     return parsed;
   }, [loading, scriptData]);
 
-  return { emotion, setEmotion, talking, setTalking, history, setHistory, loading, rapportLevel, setRapportLevel, sessionFlags, setSessionFlags, send, rapportRef, talkTimer, turnIndex };
+  return { emotion, setEmotion, talking, setTalking, history, setHistory, loading, rapportLevel, setRapportLevel, sessionFlags, setSessionFlags, send, rapportRef, talkTimer, turnIndex, usedIntents };
 }

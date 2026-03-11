@@ -41,6 +41,12 @@ export const EPISODE_LIST = [
     getResultLines:(_,lf)=>lf.jinsu_opened
       ?{lines:["오늘","박진수 씨는 병원에 왔다."," ","흉통 때문이라고 했다.","그건 사실이었다."," ","하지만 당신이 잠깐 기다렸을 때,","그가 말했다."," ","\u201c집에 가기 싫어서요.\u201d"," ","당신은 그 말을 들었다."],footer:"그는 다음 달에 다시 올 수 있습니다."}
       :{lines:["오늘","박진수 씨는 병원에 왔다."," ","흉통이 주소였다.","진료가 끝났다."," ","그가 왜 혼자 왔는지는","묻지 않았다."],footer:"그는 다음 달에 다시 올 수 있습니다."},
+    hints:[
+      { intent:"symptom", category:"증상 파악", guide:"흉통이 어떤 느낌인지, 언제 시작됐는지 물어보세요.", questions:["어디가 아프세요?","언제부터 그러셨어요?","팔이나 어깨 쪽으로 퍼지진 않나요?"] },
+      { intent:"empathy", category:"공감하기", guide:"혼자 왔다는 점, 불안해 보이는 점에 주목해보세요.", questions:["많이 걱정되시죠.","혼자 오셨네요.","힘드셨겠어요."] },
+      { intent:"personal", category:"개인 상황", guide:"왜 혼자 왔는지, 생활이 어떤지 물어보면 다른 이야기가 나올 수 있습니다.", questions:["집에서는 어떠세요?","요즘 좀 어떠세요?"] },
+    ],
+    hintUnlockTurn:3,
     completedFlag:"EP1_completed", localFlags:["jinsu_opened"], mechanics:{},
   },
   {
@@ -59,6 +65,12 @@ export const EPISODE_LIST = [
       if(lf.reversal1)return{lines:["오늘","통역이 있었습니다."," ","그리고 그 틈에서","당신은 무언가를 감지했습니다."," ","어머니는 직접 말했습니다.","조금씩, 서툰 한국어로."],footer:"다음에 이수진이 혼자 올 수도 있습니다."};
       return{lines:["오늘","왕메이링 씨의 딸이 통역했습니다."," ","모든 것이 명확해 보였습니다.","오른쪽 아랫배 통증, 1주일째."," ","그게 전부였습니다."],footer:"다음에 이수진이 혼자 올 수도 있습니다."};
     },
+    hints:[
+      { intent:"symptom", category:"증상 파악", guide:"복통의 위치와 시작 시점을 확인하세요.", questions:["언제부터 아프셨어요?","어느 쪽이 아프세요?","식사랑 관련이 있나요?"] },
+      { intent:"empathy", category:"공감하기", guide:"딸과 어머니 사이의 분위기를 살펴보세요.", questions:["어머니, 많이 불편하시죠.","걱정이 많으시겠어요."] },
+      { intent:"personal", category:"생활 상황", guide:"통역 너머의 이야기 — 어머니의 실제 상황이 궁금하다면 물어보세요.", questions:["집에서는 어떠세요?","한국에 오신 지 얼마나 되셨어요?"] },
+    ],
+    hintUnlockTurn:3,
     completedFlag:"EP2_completed", localFlags:["daughter_suspicious","reversal1","reversal2"],
     mechanics:{ translator:true },
   },
@@ -76,6 +88,12 @@ export const EPISODE_LIST = [
     getResultLines:(_,lf)=>lf.real_opened
       ?{lines:["김지영 씨는 오늘","완벽한 환자였습니다."," ","당신이 물어보지 않은 것들에 대해서는."," ","하지만 당신이 잠깐 멈추었을 때,","그가 말했습니다."," ","\u201c아... 사실은요.\u201d"," ","그 말이 얼마나 오래된 것인지."],footer:"김지영 씨는 다음 주에 다시 올 것 같습니다."}
       :{lines:["김지영 씨는 오늘","완벽한 환자였습니다."," ","두통과 피로.","진단이 끝났습니다."," ","그가 말하지 않은 것은","묻지 않았기 때문입니다."],footer:"김지영 씨는 다음 주에 다시 올 것 같습니다."},
+    hints:[
+      { intent:"symptom", category:"증상 파악", guide:"두통의 패턴과 수면 상태를 확인하세요.", questions:["머리가 어떻게 아프세요?","잠은 잘 주무세요?","언제 더 심해져요?"] },
+      { intent:"empathy", category:"공감하기", guide:"답이 너무 깔끔하다면, 잠깐 멈추고 기다려보세요.", questions:["힘드셨겠어요.","괜찮으세요, 정말?","천천히 말씀하셔도 돼요."] },
+      { intent:"personal", category:"일상 이야기", guide:"\"좋은 환자\" 너머의 사람이 궁금하다면 물어보세요.", questions:["요즘 어떻게 지내세요?","집에서는 좀 쉬시나요?"] },
+    ],
+    hintUnlockTurn:3,
     completedFlag:"EP3_completed", localFlags:["real_opened"], mechanics:{},
   },
   {
@@ -96,6 +114,12 @@ export const EPISODE_LIST = [
       if(sf.EP1_jinsu_opened)return{lines:["박진수 씨가 다시 왔습니다."," ","검사 결과는 정상이었습니다."," ","지난번의 말은","오늘은 나오지 않았습니다."],footer:""};
       return{lines:["박진수 씨가","검사 결과를 확인했습니다."," ","이상 없음.","다음에 또 오세요."],footer:""};
     },
+    hints:[
+      { intent:"symptom", category:"결과 확인", guide:"검사 결과를 설명하고 생활습관 교정을 안내하세요.", questions:["혈압이 좀 높게 나왔는데요.","담배는 얼마나 피우세요?"] },
+      { intent:"empathy", category:"공감하기", guide:"재진 환자입니다. 지난번의 기억이 있다면 이어가보세요.", questions:["지난번 이후로 좀 어떠셨어요?","요즘은 좀 나아지셨나요?"] },
+      { intent:"personal", category:"근황 묻기", guide:"검사 결과 너머에 그 사람의 생활이 있습니다.", questions:["요즘 어떻게 지내세요?","집에서는 좀 편하세요?"] },
+    ],
+    hintUnlockTurn:2,
     completedFlag:"EP4_completed", localFlags:["deeper_connection"], mechanics:{},
   },
   {
@@ -112,6 +136,12 @@ export const EPISODE_LIST = [
     getResultLines:(_,lf)=>lf.real_opened
       ?{lines:["이준혁 씨는","숨을 고르고 있었습니다."," ","당신이 물었을 때,","그는 말했습니다."," ","\u201c집에서 나왔거요.\u201d"," ","당신이 해줄 수 있는","의학적인 것은 없었습니다."," ","하지만 당신은 들었습니다."],footer:"의사가 할 수 있는 것과 할 수 없는 것."}
       :{lines:["과호흡은 나아졌습니다."," ","호흡 기법을 안내했습니다.","이준혁 씨는","\"감사합니다\"라고 말했습니다."," ","왜 그랬는지는","묻지 않았습니다."],footer:"의사가 할 수 있는 것과 할 수 없는 것."},
+    hints:[
+      { intent:"symptom", category:"증상 파악", guide:"과호흡의 유발 요인과 이전 경험을 확인하세요.", questions:["처음 이런 일이 있으셨나요?","숨이 안 쉬어지기 전에 무슨 일이 있었나요?"] },
+      { intent:"empathy", category:"안정시키기", guide:"아직 불안한 상태입니다. 천천히, 안전하다는 걸 알려주세요.", questions:["지금은 좀 괜찮으세요?","놀라셨겠어요.","천천히 하셔도 돼요."] },
+      { intent:"personal", category:"무슨 일이 있었는지", guide:"혼자 응급실에 왔습니다. 왜 그랬는지 물어보면 다른 이야기가 나올 수 있습니다.", questions:["요즘 많이 힘드신 건 아닌지...","집에서 무슨 일이 있으셨어요?"] },
+    ],
+    hintUnlockTurn:3,
     completedFlag:"EP5_completed", localFlags:["real_opened"], mechanics:{ breathing:true },
   },
   {
@@ -131,6 +161,12 @@ export const EPISODE_LIST = [
       if(lf.deflected)return{lines:["최병철 씨는 물었습니다."," ","\u201c얼마나 살 수 있어요?\u201d"," ","당신은","더 검사해봐야 한다고 했습니다."," ","그는 천천히 고개를 끄덕였습니다.","그 말이 무슨 뜻인지 알고 있었습니다."],footer:""};
       return{lines:["최병철 씨는","그 질문을 꺼내지 않았습니다."," ","아니면","꺼낼 기회가 없었습니다."," ","그는 조용히 일어났습니다."],footer:""};
     },
+    hints:[
+      { intent:"symptom", category:"상태 확인", guide:"말기 환자입니다. 증상 변화와 일상생활을 확인하세요.", questions:["요즘 숨이 더 차신가요?","호흡기는 쓰고 계세요?","일상생활은 어떠세요?"] },
+      { intent:"empathy", category:"기다리기", guide:"뭔가를 물어보려는 것 같습니다. 서두르지 말고 기다려보세요.", questions:["혹시 뭔가 물어보고 싶으신 거 있으세요?","편하게 말씀하세요."] },
+      { intent:"personal", category:"가족과 시간", guide:"남은 시간에 대해 — 그가 먼저 꺼낼 수 있도록 여유를 두세요.", questions:["가족분들은 어떠세요?","요즘 하루가 어떠세요?"] },
+    ],
+    hintUnlockTurn:2,
     completedFlag:"EP6_completed", localFlags:["asked_the_question","answered_directly","gave_comfort","deflected"], mechanics:{},
   },
   {
@@ -150,8 +186,16 @@ export const EPISODE_LIST = [
       return{lines:["두 사람이 기다리고 있었습니다."," ","당신은 최대한 나눠서","시간을 썼습니다."," ","완벽하지 않았습니다.","하지만 그게 그날이었습니다."],footer:""};
     },
     completedFlag:"EP7_completed", localFlags:["turnsA","turnsB","rapportA","rapportB"], mechanics:{ dual:true },
-    patientA:{ name:"이혜란", age:78, sex:"여", skin:"#c8a888", shirt:"#8a6070", hairColor:"#e0e0e0", hairType:"f_old", vitals:{ BP:"136/82", HR:"102", SpO2:"94%"}, initialEmotion:"anxious", cc:"저... 좀 열이 나요." },
-    patientB:{ name:"강도현", age:45, sex:"남", skin:"#c09070", shirt:"#3a5030", hairColor:"#1a1010", hairType:"m_mid", vitals:{ BP:"142/88", HR:"96", SpO2:"98%"}, initialEmotion:"distressed", cc:"MRI 빨리 찍어줘요. 허리가 못 버티겠어요." },
+    patientA:{ name:"이혜란", age:78, sex:"여", skin:"#c8a888", shirt:"#8a6070", hairColor:"#e0e0e0", hairType:"f_old", vitals:{ BP:"136/82", HR:"102", SpO2:"94%"}, initialEmotion:"anxious", cc:"저... 좀 열이 나요.",
+      hints:[
+        { intent:"symptom", category:"증상", guide:"고열의 원인을 파악하세요.", questions:["언제부터 열이 나셨어요?","다른 증상은요?"] },
+        { intent:"empathy", category:"공감", guide:"혼자 오신 고령 환자입니다.", questions:["많이 힘드시죠.","보호자분은 어디 계세요?"] },
+      ]},
+    patientB:{ name:"강도현", age:45, sex:"남", skin:"#c09070", shirt:"#3a5030", hairColor:"#1a1010", hairType:"m_mid", vitals:{ BP:"142/88", HR:"96", SpO2:"98%"}, initialEmotion:"distressed", cc:"MRI 빨리 찍어줘요. 허리가 못 버티겠어요.",
+      hints:[
+        { intent:"symptom", category:"증상", guide:"요통의 양상과 신경 증상을 확인하세요.", questions:["언제부터 아프셨어요?","다리 쪽으로 저리지 않나요?"] },
+        { intent:"empathy", category:"공감", guide:"급해하는 이유가 있을 수 있습니다.", questions:["많이 아프시죠.","급하신 사정이 있으신가요?"] },
+      ]},
   },
   {
     id:"EP8", day:8, titleNum:"EP.08", name:"이수진", age:35, sex:"여",
@@ -175,6 +219,12 @@ export const EPISODE_LIST = [
       if(lf.grief_opened)return{lines:["이수진 씨는","잠을 못 잔다고 했습니다."," ","당신이 물었을 때,","그녀는 말했습니다."," ","\u201c어머니가 돌아가셨어요.\u201d"," ","담담하게. 짧게."],footer:""};
       return{lines:["이수진 씨는","잠을 못 잔다고 했습니다."," ","처방이 끝났습니다."," ","그녀가 왜 돌아왔는지","묻지 않았습니다."],footer:""};
     },
+    hints:[
+      { intent:"symptom", category:"증상 파악", guide:"불면의 양상과 시작 시점을 확인하세요.", questions:["언제부터 잠을 못 주무셨어요?","밤에 깨시나요, 아예 못 드시나요?"] },
+      { intent:"empathy", category:"공감하기", guide:"지쳐 보입니다. 서두르지 마세요.", questions:["많이 힘드셨겠어요.","혼자 오셨네요."] },
+      { intent:"personal", category:"무슨 일이 있었는지", guide:"왜 다시 왔는지, 어떤 일이 있었는지 물어볼 수 있습니다.", questions:["요즘 어떻게 지내세요?","가족분들은 좀 어떠세요?"] },
+    ],
+    hintUnlockTurn:2,
     completedFlag:"EP8_completed", localFlags:["grief_opened"], mechanics:{},
   },
   {
@@ -194,6 +244,12 @@ export const EPISODE_LIST = [
       if(lf.article_hint)return{lines:["정민우 씨는","두통과 불면으로 왔습니다."," ","직장에 복잡한 게 있다고 했습니다.","그게 전부였습니다."," ","진짜 이야기는","나오지 않았습니다."],footer:""};
       return{lines:["정민우 씨는","두통과 불면으로 왔습니다."," ","진통제와 수면 위생 교육.","진료가 끝났습니다."," ","3개월 전에 무슨 일이 있었는지","묻지 않았습니다."],footer:""};
     },
+    hints:[
+      { intent:"symptom", category:"증상 파악", guide:"비특이적 증상이 3개월째입니다. 시작 시점의 계기를 물어보세요.", questions:["3개월 전에 특별한 일이 있었나요?","두통은 어떤 느낌이에요?"] },
+      { intent:"empathy", category:"공감하기", guide:"지쳐 보이지만 뭔가를 참고 있는 것 같습니다.", questions:["많이 힘드시죠.","혹시 누구한테 말 못 한 게 있으세요?"] },
+      { intent:"personal", category:"직장 상황", guide:"직업이 제약회사 연구원입니다. 직장에서 무슨 일이 있었는지 물어보세요.", questions:["회사에서는 요즘 어떠세요?","업무 스트레스가 있으신가요?"] },
+    ],
+    hintUnlockTurn:3,
     completedFlag:"EP9_completed", localFlags:["article_hint","real_opened"], mechanics:{ article:true },
   },
   {
