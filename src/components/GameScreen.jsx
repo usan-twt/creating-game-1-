@@ -53,6 +53,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const emotionMeta = EMOTION_META[emotion]||EMOTION_META.neutral;
   const fatigueDelay = (residentState?.fatigue >= 3 && ep.day >= 4) ? 1 : 0;
   const canEnd      = exchangeCount >= ep.minTurns + fatigueDelay;
+  const turnsLeft   = scriptData ? scriptData.length - logic.turnIndex : Infinity;
   const preNotes    = typeof ep.getNotebookPre==="function" ? ep.getNotebookPre(storyFlags) : ep.notebookPre;
   const isAbnormal  = (k,v) => (k==="BP"&&parseInt(v)>130)||(k==="HR"&&parseInt(v)>90)||(k==="SpO2"&&parseInt(v)<94);
 
@@ -66,6 +67,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
 
   const getBubble = (msg) => {
     if(msg.role==="doctor") return {bg:"rgba(52,72,44,0.92)",color:"#ccdac4"};
+    if(msg.speaker==="nurse") return {bg:"rgba(30,42,58,0.94)",color:"rgba(160,190,220,0.9)"};
     if(msg.speaker==="mother") return {bg:"rgba(60,48,75,0.92)",color:"rgba(220,210,240,0.9)"};
     return {bg:"rgba(245,238,218,0.95)",color:"#1a1008"};
   };
@@ -124,9 +126,9 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
             const isDoc=msg.role==="doctor"; const bc=getBubble(msg);
             return (
               <div key={i} style={{display:"flex",flexDirection:"column",alignItems:isDoc?"flex-end":"flex-start"}}>
-                {!isDoc&&msg.speaker&&<div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginLeft:28,marginBottom:2}}>{msg.speaker==="mother"?"어머니 (직접)":"이수진 (통역)"}</div>}
+                {!isDoc&&msg.speaker&&<div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginLeft:28,marginBottom:2}}>{msg.speaker==="nurse"?"간호사":msg.speaker==="mother"?"어머니 (직접)":"이수진 (통역)"}</div>}
                 <div style={{display:"flex",justifyContent:isDoc?"flex-end":"flex-start",gap:8,alignItems:"flex-end"}}>
-                  {!isDoc&&<div style={{width:20,height:20,borderRadius:"50%",background:EMOTION_META[msg.emotion]?.color||emotionMeta.color,flexShrink:0,opacity:0.55}}/>}
+                  {!isDoc&&<div style={{width:20,height:20,borderRadius:"50%",background:msg.speaker==="nurse"?"rgba(100,140,180,0.7)":EMOTION_META[msg.emotion]?.color||emotionMeta.color,flexShrink:0,opacity:0.55}}/>}
                   <div style={{maxWidth:"74%",padding:"8px 12px",borderRadius:isDoc?"11px 11px 2px 11px":"11px 11px 11px 2px",background:bc.bg,color:bc.color,fontSize:12,lineHeight:1.7}}>
                     {msg.text}
                     {msg.hint&&<div style={{fontStyle:"italic",fontSize:10,color:"rgba(200,185,160,0.45)",marginTop:5}}>{msg.hint}</div>}
@@ -139,6 +141,15 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
         </div>
       )}
 
+      {/* Turns-left warning */}
+      {turnsLeft <= 2 && turnsLeft > 0 && (
+        <div style={{position:"absolute",bottom:"76px",left:0,right:0,zIndex:15,display:"flex",justifyContent:"center",pointerEvents:"none"}}>
+          <div style={{background:"rgba(160,120,40,0.18)",border:"1px solid rgba(180,140,50,0.35)",borderRadius:20,padding:"5px 16px",fontSize:11,color:"rgba(200,165,70,0.85)",letterSpacing:"0.04em"}}>
+            대기 환자가 있습니다
+          </div>
+        </div>
+      )}
+
       {/* Dialog + Input */}
       <div style={{position:"absolute",bottom:0,left:0,right:0,zIndex:10}}>
         {!showLog&&(
@@ -147,9 +158,9 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
               const isDoc=msg.role==="doctor"; const bc=getBubble(msg);
               return (
                 <div key={i} style={{display:"flex",flexDirection:"column",alignItems:isDoc?"flex-end":"flex-start"}}>
-                  {!isDoc&&msg.speaker&&<div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginLeft:38,marginBottom:2}}>{msg.speaker==="mother"?"어머니 (직접)":"이수진 (통역)"}</div>}
+                  {!isDoc&&msg.speaker&&<div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginLeft:38,marginBottom:2}}>{msg.speaker==="nurse"?"간호사":msg.speaker==="mother"?"어머니 (직접)":"이수진 (통역)"}</div>}
                   <div style={{display:"flex",justifyContent:isDoc?"flex-end":"flex-start",alignItems:"flex-end",gap:10}}>
-                    {!isDoc&&<div style={{width:28,height:28,borderRadius:"50%",background:EMOTION_META[msg.emotion]?.color||emotionMeta.color,flexShrink:0,opacity:0.65,boxShadow:`0 0 10px ${EMOTION_META[msg.emotion]?.color||emotionMeta.color}55`}}/>}
+                    {!isDoc&&<div style={{width:28,height:28,borderRadius:"50%",background:msg.speaker==="nurse"?"rgba(100,140,180,0.8)":EMOTION_META[msg.emotion]?.color||emotionMeta.color,flexShrink:0,opacity:0.65,boxShadow:`0 0 10px ${msg.speaker==="nurse"?"rgba(100,140,180,0.5)":EMOTION_META[msg.emotion]?.color||emotionMeta.color}55`}}/>}
                     <div style={{maxWidth:"72%",padding:"12px 17px",borderRadius:isDoc?"15px 15px 4px 15px":"15px 15px 15px 4px",background:bc.bg,color:bc.color,fontSize:13.5,lineHeight:1.8,boxShadow:"0 3px 18px rgba(0,0,0,0.45)",backdropFilter:"blur(8px)"}}>
                       {msg.text}
                       {msg.hint&&<div style={{fontStyle:"italic",fontSize:11,color:"rgba(200,185,160,0.4)",marginTop:5}}>{msg.hint}</div>}
