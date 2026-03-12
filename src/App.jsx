@@ -1,5 +1,6 @@
 import { useState, useReducer, useCallback } from "react";
 import { EPISODE_LIST } from "./data/episodes";
+import { buildInitialFlags } from "./utils/buildInitialFlags";
 import { getInterlude } from "./data/interludes";
 import EpisodeHub from "./components/EpisodeHub";
 import IntroScreen from "./components/IntroScreen";
@@ -35,14 +36,6 @@ function gameReducer(state, action) {
   return next;
 }
 
-/* ── Deep flags that cause fatigue (EP4+ only) ── */
-const DEEP_FLAG_MAP = {
-  EP4: ["deeper_connection"],
-  EP5: ["real_opened"],
-  EP6: ["gave_comfort", "answered_directly"],
-  EP8: ["grief_opened"],
-  EP9: ["real_opened"],
-};
 
 export default function App() {
   const [gameState, dispatch] = useReducer(gameReducer, {
@@ -51,18 +44,7 @@ export default function App() {
     sessionSnap: {},
   });
 
-  const [storyFlags, setStoryFlags] = useState({
-    EP1_completed:false, EP1_jinsu_opened:false,
-    EP2_completed:false, EP2_daughter_suspicious:false, EP2_reversal1:false, EP2_reversal2:false,
-    EP3_completed:false, EP3_real_opened:false,
-    EP4_completed:false, EP4_deeper_connection:false,
-    EP5_completed:false, EP5_real_opened:false,
-    EP6_completed:false, EP6_asked_the_question:false, EP6_answered_directly:false, EP6_gave_comfort:false, EP6_deflected:false,
-    EP7_completed:false,
-    EP8_completed:false, EP8_grief_opened:false,
-    EP9_completed:false, EP9_article_hint:false, EP9_real_opened:false,
-    EP10_completed:false,
-  });
+  const [storyFlags, setStoryFlags] = useState(() => buildInitialFlags(EPISODE_LIST));
 
   const [residentState, setResidentState] = useState({
     fatigue: 0,
@@ -96,13 +78,10 @@ export default function App() {
 
     // Update fatigue (EP4+ only)
     let fatigueDelta = 0;
-    if (epDef.id === "EP7") {
+    if (epDef.alwaysFatigue) {
       fatigueDelta = 1;
-    } else {
-      const deepFlags = DEEP_FLAG_MAP[epDef.id];
-      if (deepFlags && deepFlags.some(f => localFlags[f])) {
-        fatigueDelta = 1;
-      }
+    } else if (epDef.deepFlags?.some(f => localFlags[f])) {
+      fatigueDelta = 1;
     }
     if (fatigueDelta > 0) {
       setResidentState(p => ({ ...p, fatigue: Math.min(5, p.fatigue + fatigueDelta) }));

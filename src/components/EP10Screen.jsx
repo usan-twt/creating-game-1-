@@ -12,6 +12,7 @@ export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
   const [userNotes,   setUserNotes]   = useState("");
   const [vis,         setVis]         = useState(false);
   const turnIndexRef = useRef(0);
+  const scriptRef    = useRef(null);
   const inputRef     = useRef(null);
   const logRef       = useRef(null);
 
@@ -20,12 +21,13 @@ export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
 
   const choiceName = choice==="colleague"?"박세진 (동기)":choice==="professor"?"김철수 교수님":"(혼자)";
 
-  const handleChoose = (c) => {
+  const handleChoose = async (c) => {
     setChoice(c);
     turnIndexRef.current = 0;
     if(c==="alone") return;
-    const script = ep.scripts?.[c] || [];
-    const opening = script[0]?.text || (c==="colleague" ? "어, 왔어? 나 지금 진짜 녹초야. 앉아." : "(논문에서 눈을 들며) 응, 뭐야. 들어와.");
+    const data = await ep.getScriptData(c);
+    scriptRef.current = data;
+    const opening = data[0]?.text || (c==="colleague" ? "어, 왔어? 나 지금 진짜 녹초야. 앉아." : "(논문에서 눈을 들며) 응, 뭐야. 들어와.");
     turnIndexRef.current = 1;
     setTimeout(()=>{ setMessages([{role:"other",text:opening}]); },400);
   };
@@ -37,7 +39,7 @@ export default function EP10Screen({ ep, storyFlags, residentState, onEnd }) {
 
     await new Promise(r=>setTimeout(r,500));
 
-    const script = ep.scripts?.[choice] || [];
+    const script = scriptRef.current || [];
     const idx = turnIndexRef.current;
     const parsed = script[idx] || { text:"...", flag_trigger:"none" };
     if(idx < script.length - 1) turnIndexRef.current = idx + 1;

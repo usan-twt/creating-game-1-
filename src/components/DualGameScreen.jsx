@@ -1,15 +1,23 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { EMOTION_META } from "../data/emotions";
 import { EP7A_PROMPT, EP7B_PROMPT, EPISODE_LIST } from "../data/episodes";
-import ep7aScript from "../data/scripts/ep7a.json";
-import ep7bScript from "../data/scripts/ep7b.json";
 import useGameLogic from "../hooks/useGameLogic";
 import ClinicScene from "./ClinicScene";
 import NotebookPanel from "./NotebookPanel";
 
 export default function DualGameScreen({ ep, storyFlags, residentState, onEnd }) {
-  const logicA = useGameLogic(EP7A_PROMPT, ep7aScript);
-  const logicB = useGameLogic(EP7B_PROMPT, ep7bScript);
+  const [scriptA, setScriptA] = useState(null);
+  const [scriptB, setScriptB] = useState(null);
+  const logicA = useGameLogic(EP7A_PROMPT, scriptA);
+  const logicB = useGameLogic(EP7B_PROMPT, scriptB);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([ep.getScriptDataA(), ep.getScriptDataB()]).then(([a, b]) => {
+      if (!cancelled) { setScriptA(a); setScriptB(b); }
+    });
+    return () => { cancelled = true; };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [focused,     setFocused]     = useState("A");
   const [totalTurns,  setTotalTurns]  = useState(0);
   const [turnsA,      setTurnsA]      = useState(0);
