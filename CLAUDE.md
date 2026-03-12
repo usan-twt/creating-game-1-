@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 작업 규칙
+
+1. 채팅은 모두 한국어로 진행한다.
+2. 코드는 최대한 효율적으로 짠다. 이때, 스파게티 코드가 되지 않도록 용도에 따라 폴더를 적절히 분류한다.
+3. 코드 설계 및 기획 및 피드백은 claude-opus-4-6으로, 코드 작성은 claude-sonnet-4-6으로 한다.
+
 ## Commands
 
 ```bash
