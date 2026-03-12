@@ -18,7 +18,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     ep.getScriptData?.(storyFlags)?.then(data => { if (!cancelled) setScriptData(data); });
     return () => { cancelled = true; };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send, usedIntents } = logic;
+  const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send, usedIntents, lastIntentFamily } = logic;
 
   const [phoneCheck,       setPhoneCheck]       = useState(ep.initialPhoneCheck||false);
   const [translatorDirect, setTranslatorDirect] = useState(false);
@@ -30,6 +30,8 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const [exchangeCount,    setExchangeCount]    = useState(0);
   const [input,            setInput]            = useState("");
   const [discovery,        setDiscovery]        = useState(null);
+  const [innerVoice,       setInnerVoice]       = useState(null);
+  const [freeInput,        setFreeInput]        = useState(false);
 
   const inputRef = useRef(null);
   const logRef   = useRef(null);
@@ -62,6 +64,43 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     }
     setTimeout(()=>inputRef.current?.focus(),50);
   },[loading, translatorDirect, breathingCalm, send]);
+
+  // ── 선택지 계산 ──────────────────────────────────────────────────────────
+  const currentTurnData = scriptData?.[logic.turnIndex] ?? null;
+  const choices = (() => {
+    if (!currentTurnData) return null;
+    if (currentTurnData.firstChoices) return currentTurnData.firstChoices;
+    if (!currentTurnData.pivots) return null;
+    const cont = lastIntentFamily && currentTurnData.continue?.[`after_${lastIntentFamily}`];
+    const filteredPivots = currentTurnData.pivots.filter(p => p.family !== lastIntentFamily);
+    if (cont) return [cont, ...filteredPivots.slice(0, 2)];
+    return currentTurnData.pivots.slice(0, 3);
+  })();
+
+  // ── 선택지 클릭 핸들러 ────────────────────────────────────────────────
+  const handleChoice = useCallback(async (choice) => {
+    if (loading || innerVoice) return;
+    if (choice.innerVoice) {
+      setInnerVoice(choice.innerVoice);
+      await new Promise(r => setTimeout(r, Math.max(1500, choice.innerVoice.length * 38)));
+      setInnerVoice(null);
+      await new Promise(r => setTimeout(r, 150));
+    }
+    setExchangeCount(p => p + 1);
+    setShowLog(false);
+    let ctx = "";
+    if (ep.mechanics?.translator) ctx += `\n[translator_mode: ${translatorDirect?"direct":"daughter"}]`;
+    if (ep.mechanics?.breathing)  ctx += `\n[breathing_calm: ${breathingCalm}]`;
+    const parsed = await send(choice.text, ctx, choice.intent);
+    if (parsed?.phone_check !== undefined) setPhoneCheck(!!parsed.phone_check);
+    if (parsed?.breathing_calm !== undefined) setBreathingCalm(!!parsed.breathing_calm);
+    if (parsed?.flag_trigger === "reversal1") setTranslatorDirect(true);
+    if (parsed?.flag_trigger === "article_hint") setArticleVisible(true);
+    if (parsed?.flag_trigger && parsed.flag_trigger !== "none") {
+      const disc = ep.discoveries?.[parsed.flag_trigger];
+      if (disc) setDiscovery(disc);
+    }
+  }, [loading, innerVoice, translatorDirect, breathingCalm, send, ep]);
 
   const emotionMeta = EMOTION_META[emotion]||EMOTION_META.neutral;
   const fatigueDelay = (residentState?.fatigue >= 3 && ep.day >= 4) ? 1 : 0;
@@ -187,33 +226,74 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
           </div>
         )}
 
-        <div style={{padding:"10px 20px 18px",background:"rgba(10,8,6,0.97)",borderTop:"1px solid rgba(255,255,255,0.05)",display:"flex",gap:10,alignItems:"flex-end"}}>
-          <div style={{display:"flex",flexDirection:"column",gap:5,flexShrink:0}}>
-            <button onClick={()=>setNotebookOpen(o=>!o)} style={{background:notebookOpen?"rgba(200,175,80,0.22)":"rgba(255,255,255,0.06)",border:`1px solid ${notebookOpen?"rgba(200,175,80,0.4)":"rgba(255,255,255,0.1)"}`,color:notebookOpen?"rgba(210,185,90,0.9)":"rgba(255,255,255,0.4)",padding:"7px 11px",cursor:"pointer",fontSize:11,fontFamily:"inherit",borderRadius:8}}>📓</button>
-            <button onClick={()=>setShowLog(v=>!v)} style={{background:showLog?"rgba(255,255,255,0.12)":"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.4)",padding:"7px 11px",cursor:"pointer",fontSize:11,fontFamily:"inherit",borderRadius:8}}>📋</button>
-          </div>
-          <div style={{flex:1,display:"flex",flexDirection:"column",gap:5}}>
-            {ep.mechanics?.translator&&sessionFlags.daughter_suspicious&&(
-              <button onClick={()=>setTranslatorDirect(d=>!d)} style={{alignSelf:"flex-start",background:translatorDirect?"rgba(130,90,160,0.2)":"rgba(60,140,120,0.15)",border:`1px solid ${translatorDirect?"rgba(130,90,160,0.4)":"rgba(60,140,120,0.3)"}`,color:translatorDirect?"rgba(180,140,210,0.9)":"rgba(100,180,160,0.9)",padding:"4px 10px",borderRadius:20,cursor:"pointer",fontSize:10,fontFamily:"inherit"}}>
-                {translatorDirect?"⇄ 통역 통해서":"💬 어머니께 직접"}
-              </button>
-            )}
-            <textarea ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
-              onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleSend(input);}}}
-              placeholder="무슨 말을 할까요...   ↵ Enter" disabled={loading} rows={2}
-              style={{background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.09)",borderRadius:10,padding:"11px 14px",fontSize:13,fontFamily:"system-ui,sans-serif",lineHeight:1.65,color:"rgba(255,255,255,0.82)",outline:"none",resize:"none",caretColor:"#c0b070"}}/>
-          </div>
-          <div style={{display:"flex",flexDirection:"column",gap:5}}>
-            <button onClick={()=>handleSend(input)} disabled={loading||!input.trim()} style={{background:(loading||!input.trim())?"rgba(255,255,255,0.06)":"rgba(64,82,52,0.9)",border:"none",color:(loading||!input.trim())?"rgba(255,255,255,0.2)":"#ccdac4",padding:"11px 17px",borderRadius:8,cursor:(loading||!input.trim())?"not-allowed":"pointer",fontSize:12,fontFamily:"inherit"}}>전송</button>
-            {canEnd&&<button onClick={()=>onEnd({...sessionFlags, exchangeCount})} style={{background:"rgba(160,130,60,0.18)",border:"1px solid rgba(170,140,60,0.38)",color:"rgba(190,160,75,0.88)",padding:"11px 17px",borderRadius:8,cursor:"pointer",fontSize:12,fontFamily:"inherit"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(160,130,60,0.32)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(160,130,60,0.18)";}}>마치기</button>}
-          </div>
+        <div style={{padding:"10px 20px 18px",background:"rgba(10,8,6,0.97)",borderTop:"1px solid rgba(255,255,255,0.05)"}}>
+          {/* 내면 독백 */}
+          {innerVoice&&(
+            <div style={{padding:"11px 16px",marginBottom:10,borderRadius:10,background:"rgba(55,50,35,0.6)",border:"1px solid rgba(180,160,90,0.18)",fontFamily:"Georgia,serif",fontSize:12,lineHeight:1.9,color:"rgba(205,188,140,0.78)",fontStyle:"italic",animation:"fadeIn 0.3s ease"}}>
+              <span style={{fontSize:8,letterSpacing:"0.25em",color:"rgba(180,155,90,0.4)",display:"block",marginBottom:5}}>THINKING</span>
+              {innerVoice}
+            </div>
+          )}
+          {choices && !freeInput && !innerVoice ? (
+            /* 선택지 모드 */
+            <div style={{display:"flex",gap:10,alignItems:"flex-end"}}>
+              <div style={{display:"flex",flexDirection:"column",gap:5,flexShrink:0}}>
+                <button onClick={()=>setNotebookOpen(o=>!o)} style={{background:notebookOpen?"rgba(200,175,80,0.22)":"rgba(255,255,255,0.06)",border:`1px solid ${notebookOpen?"rgba(200,175,80,0.4)":"rgba(255,255,255,0.1)"}`,color:notebookOpen?"rgba(210,185,90,0.9)":"rgba(255,255,255,0.4)",padding:"7px 11px",cursor:"pointer",fontSize:11,fontFamily:"inherit",borderRadius:8}}>📓</button>
+                <button onClick={()=>setShowLog(v=>!v)} style={{background:showLog?"rgba(255,255,255,0.12)":"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.4)",padding:"7px 11px",cursor:"pointer",fontSize:11,fontFamily:"inherit",borderRadius:8}}>📋</button>
+              </div>
+              <div style={{flex:1,display:"flex",flexDirection:"column",gap:5}}>
+                {ep.mechanics?.translator&&sessionFlags.daughter_suspicious&&(
+                  <button onClick={()=>setTranslatorDirect(d=>!d)} style={{alignSelf:"flex-start",background:translatorDirect?"rgba(130,90,160,0.2)":"rgba(60,140,120,0.15)",border:`1px solid ${translatorDirect?"rgba(130,90,160,0.4)":"rgba(60,140,120,0.3)"}`,color:translatorDirect?"rgba(180,140,210,0.9)":"rgba(100,180,160,0.9)",padding:"4px 10px",borderRadius:20,cursor:"pointer",fontSize:10,fontFamily:"inherit"}}>
+                    {translatorDirect?"⇄ 통역 통해서":"💬 어머니께 직접"}
+                  </button>
+                )}
+                {choices.map((c,i)=>(
+                  <button key={i} onClick={()=>handleChoice(c)} disabled={loading}
+                    style={{textAlign:"left",padding:"9px 14px",borderRadius:10,background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.08)",cursor:loading?"not-allowed":"pointer",transition:"background 0.15s,border-color 0.15s",opacity:loading?0.5:1}}
+                    onMouseEnter={e=>{if(!loading){e.currentTarget.style.background="rgba(255,255,255,0.09)";e.currentTarget.style.borderColor="rgba(255,255,255,0.18)";}}}
+                    onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.borderColor="rgba(255,255,255,0.08)";}}>
+                    <div style={{fontSize:10,fontWeight:700,color:"rgba(255,255,255,0.38)",marginBottom:2,letterSpacing:"0.03em"}}>{c.label}</div>
+                    <div style={{fontSize:13,color:"rgba(255,255,255,0.82)",lineHeight:1.6,fontFamily:"system-ui,sans-serif"}}>"{c.text}"</div>
+                  </button>
+                ))}
+                <button onClick={()=>setFreeInput(true)} style={{alignSelf:"center",background:"none",border:"none",color:"rgba(255,255,255,0.18)",fontSize:10,cursor:"pointer",padding:"3px 8px",fontFamily:"inherit",letterSpacing:"0.02em"}}>직접 입력</button>
+              </div>
+              {canEnd&&<button onClick={()=>onEnd({...sessionFlags, exchangeCount})} style={{background:"rgba(160,130,60,0.18)",border:"1px solid rgba(170,140,60,0.38)",color:"rgba(190,160,75,0.88)",padding:"11px 17px",borderRadius:8,cursor:"pointer",fontSize:12,fontFamily:"inherit",alignSelf:"flex-end",flexShrink:0}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(160,130,60,0.32)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(160,130,60,0.18)";}}>마치기</button>}
+            </div>
+          ) : (
+            /* 자유 입력 모드 */
+            <div style={{display:"flex",gap:10,alignItems:"flex-end"}}>
+              <div style={{display:"flex",flexDirection:"column",gap:5,flexShrink:0}}>
+                <button onClick={()=>setNotebookOpen(o=>!o)} style={{background:notebookOpen?"rgba(200,175,80,0.22)":"rgba(255,255,255,0.06)",border:`1px solid ${notebookOpen?"rgba(200,175,80,0.4)":"rgba(255,255,255,0.1)"}`,color:notebookOpen?"rgba(210,185,90,0.9)":"rgba(255,255,255,0.4)",padding:"7px 11px",cursor:"pointer",fontSize:11,fontFamily:"inherit",borderRadius:8}}>📓</button>
+                <button onClick={()=>setShowLog(v=>!v)} style={{background:showLog?"rgba(255,255,255,0.12)":"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.4)",padding:"7px 11px",cursor:"pointer",fontSize:11,fontFamily:"inherit",borderRadius:8}}>📋</button>
+              </div>
+              <div style={{flex:1,display:"flex",flexDirection:"column",gap:5}}>
+                {choices&&freeInput&&(
+                  <button onClick={()=>{setFreeInput(false);setInput("");}} style={{alignSelf:"flex-start",background:"none",border:"none",color:"rgba(255,255,255,0.25)",fontSize:10,cursor:"pointer",padding:"2px 0",fontFamily:"inherit"}}>← 선택지로</button>
+                )}
+                {ep.mechanics?.translator&&sessionFlags.daughter_suspicious&&(
+                  <button onClick={()=>setTranslatorDirect(d=>!d)} style={{alignSelf:"flex-start",background:translatorDirect?"rgba(130,90,160,0.2)":"rgba(60,140,120,0.15)",border:`1px solid ${translatorDirect?"rgba(130,90,160,0.4)":"rgba(60,140,120,0.3)"}`,color:translatorDirect?"rgba(180,140,210,0.9)":"rgba(100,180,160,0.9)",padding:"4px 10px",borderRadius:20,cursor:"pointer",fontSize:10,fontFamily:"inherit"}}>
+                    {translatorDirect?"⇄ 통역 통해서":"💬 어머니께 직접"}
+                  </button>
+                )}
+                <textarea ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
+                  onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleSend(input);}}}
+                  placeholder="무슨 말을 할까요...   ↵ Enter" disabled={loading} rows={2}
+                  style={{background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.09)",borderRadius:10,padding:"11px 14px",fontSize:13,fontFamily:"system-ui,sans-serif",lineHeight:1.65,color:"rgba(255,255,255,0.82)",outline:"none",resize:"none",caretColor:"#c0b070"}}/>
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:5}}>
+                <button onClick={()=>handleSend(input)} disabled={loading||!input.trim()} style={{background:(loading||!input.trim())?"rgba(255,255,255,0.06)":"rgba(64,82,52,0.9)",border:"none",color:(loading||!input.trim())?"rgba(255,255,255,0.2)":"#ccdac4",padding:"11px 17px",borderRadius:8,cursor:(loading||!input.trim())?"not-allowed":"pointer",fontSize:12,fontFamily:"inherit"}}>전송</button>
+                {canEnd&&<button onClick={()=>onEnd({...sessionFlags, exchangeCount})} style={{background:"rgba(160,130,60,0.18)",border:"1px solid rgba(170,140,60,0.38)",color:"rgba(190,160,75,0.88)",padding:"11px 17px",borderRadius:8,cursor:"pointer",fontSize:12,fontFamily:"inherit"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(160,130,60,0.32)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(160,130,60,0.18)";}}>마치기</button>}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       {discovery && <DiscoveryFlash discovery={discovery} onDone={() => setDiscovery(null)} />}
 
       <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={preNotes} userNotes={userNotes} onUserNotesChange={setUserNotes} articleText={ep.articleText} articleVisible={articleVisible} hints={ep.hints} usedIntents={usedIntents} hintsUnlocked={exchangeCount>=(ep.hintUnlockTurn||3)} glossary={glossary}/>
-      <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}@keyframes phoneWiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}@keyframes cardIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}@keyframes breatheRing{0%,100%{transform:scaleX(1);opacity:0.2}50%{transform:scaleX(1.12);opacity:0.35}}`}</style>
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}@keyframes phoneWiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}@keyframes cardIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}@keyframes breatheRing{0%,100%{transform:scaleX(1);opacity:0.2}50%{transform:scaleX(1.12);opacity:0.35}}`}</style>
     </div>
   );
 }

@@ -1,5 +1,10 @@
 [
   {
+    "firstChoices": [
+      { "family":"medical",   "intent":"onset",   "label":"두통부터 파악한다",   "text":"두통이 어디가 아프세요?",   "innerVoice":"두통부터 체계적으로 파악하자. 위치, 성격, 빈도." },
+      { "family":"emotional", "intent":"empathy", "label":"오래 참으셨겠어요",   "text":"오래 참으셨겠어요.",        "innerVoice":"'계속'이라고 했다. 얼마나 됐는지 모르지만 참다가 온 것 같다." },
+      { "family":"life",      "intent":"personal","label":"요즘 많이 바쁘세요?", "text":"요즘 많이 바쁘세요?",      "innerVoice":"34세, 피로, '두통이 계속'. 요즘 어떻게 지내는지가 두통보다 중요할 수도 있다." }
+    ],
     "symptom":   {"emotion":"neutral","text":"두통은 이마 쪽이요. 묵직한 느낌. 빈도는 일주일에 서너 번 정도 됩니다.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"...네, 괜찮아요. 두통이 좀 있어서요. (미소 지으려 함)","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"요즘요? 뭐... 바쁘죠. (짧게) 두통이 좀 있어서요.","rapport_change":0,"flag_trigger":"none"},
@@ -7,6 +12,17 @@
     "unrelated": {"emotion":"neutral","text":"...네? 아, 두통이요. 이마 쪽이에요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"character","label":"두통 성격을 더 파고든다", "text":"묵직하다고 하셨는데, 두통이 시작되면 얼마나 지속돼요?",  "innerVoice":"지속시간도 중요하다. 편두통인지, 긴장성인지 구분하는 데 도움이 된다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy",  "label":"참다가 오셨군요",       "text":"참다가 오신 것 같은데, 오시길 잘 하셨어요.",             "innerVoice":"오래 참은 것 같다. 오길 잘 했다고 말해주면 이야기가 더 나올 수 있다." },
+      "after_life":      { "family":"life",      "intent":"personal", "label":"혼자 사세요?",          "text":"혼자 사세요?",                                          "innerVoice":"바쁘다고 했다. 집 상황도 궁금하다." },
+      "after_clinical":  { "family":"medical",   "intent":"character","label":"두통 양상 확인",        "text":"두통이 시작되면 어떻게 해요? 약 드세요?",                "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"character","label":"두통을 더 자세히",   "text":"묵직하다고 하셨는데, 두통이 얼마나 지속돼요?","innerVoice":"" },
+      { "family":"emotional", "intent":"empathy",  "label":"참다가 오셨군요",    "text":"참다가 오신 것 같은데, 오시길 잘 하셨어요.",  "innerVoice":"" },
+      { "family":"life",      "intent":"personal", "label":"혼자 사세요?",       "text":"혼자 사세요?",                                "innerVoice":"" }
+    ],
     "symptom":   {"emotion":"neutral","text":"수면은 6시간 정도요. 나쁘지 않아요. 스트레스는... 직장인이니까 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"(조금 풀린 표정) 수면은 나쁘지 않은데... 스트레스는 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"혼자 살아요. 수면은 6시간. ...충분하죠?","rapport_change":0,"flag_trigger":"none"},
@@ -14,6 +30,17 @@
     "unrelated": {"emotion":"neutral","text":"(잠깐 멈칫) 네, 뭐 그렇죠.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"onset",   "label":"언제부터 시작됐나요",  "text":"이 두통이 언제부터 시작됐어요?",                  "innerVoice":"두통 기간을 확인해야 한다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"스트레스가 어떤 종류인지","text":"스트레스가 좀 있으시다고요. 어떤 종류의 스트레스예요?", "innerVoice":"'스트레스는 좀 있다'고 했다. 어떤 종류인지가 중요하다." },
+      "after_life":      { "family":"life",      "intent":"personal","label":"최근에 달라진 게 있나요","text":"최근에 생활이 좀 달라진 게 있으신가요?",           "innerVoice":"혼자 산다. 최근 변화가 두통의 원인일 수 있다." },
+      "after_clinical":  { "family":"medical",   "intent":"onset",   "label":"언제부터",            "text":"언제부터 이런 두통이 있었어요?",                  "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"onset",   "label":"언제부터 시작됐나요",   "text":"이 두통이 언제부터 시작됐어요?",                  "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"스트레스가 어떤 종류인지","text":"스트레스가 어떤 종류예요?",                         "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"최근에 달라진 게",       "text":"최근에 달라진 게 있으신가요?",                     "innerVoice":"" }
+    ],
     "symptom":   {"emotion":"neutral","text":"6개월 전부터요. 처음엔 가볍게 넘겼는데 최근에 좀 더 자주 오는 것 같아서요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"(고마운 듯) 6개월 전부터인데... 참다가 왔어요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"conflicted","text":"6개월 전에... (잠깐 멈춤) 네, 그때부터요.","rapport_change":0,"flag_trigger":"none"},
@@ -21,6 +48,17 @@
     "unrelated": {"emotion":"neutral","text":"...네, 6개월이요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"associated","label":"다른 증상도 있나요",    "text":"두통 말고 다른 증상은 없으세요?",                  "innerVoice":"6개월이면 꽤 됐다. 다른 동반증상이 있는지 확인해야 한다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"6개월 전에 무슨 일이","text":"...6개월 전에 뭔가 있으셨나요?",                    "innerVoice":"6개월 전이라고 할 때 잠깐 멈췄다. 그 시점이 중요할 것 같다." },
+      "after_life":      { "family":"life",      "intent":"personal",  "label":"그때 뭔가 바뀐 게",  "text":"6개월 전에 생활이 바뀐 게 있으셨나요?",            "innerVoice":"잠깐 멈췄다. personal로 접근하면 뭔가 나올 것 같다." },
+      "after_clinical":  { "family":"medical",   "intent":"associated","label":"다른 증상",           "text":"두통 외에 다른 증상은 없으세요?",                  "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"associated","label":"다른 증상도 있나요",  "text":"두통 말고 다른 증상은 없으세요?",       "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy",   "label":"6개월 전에 무슨 일이","text":"...6개월 전에 뭔가 있으셨나요?",        "innerVoice":"" },
+      { "family":"life",      "intent":"personal",  "label":"그때 뭔가 바뀐 게",  "text":"6개월 전에 뭔가 바뀐 게 있으셨나요?", "innerVoice":"" }
+    ],
     "symptom":   {"emotion":"neutral","text":"다른 증상은... 특별히 없는 것 같은데요. (잠깐 생각하며)","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"(잠시 침묵) ...아, 네. 그냥 뭔가 달라진 것들이 좀 있기는 해요. 사소한 건데요.","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"exhausted","text":"(시선을 내리며) 사실 생활이 좀 달라졌어요. 6개월 전쯤부터.","rapport_change":1,"flag_trigger":"none"},
@@ -28,6 +66,17 @@
     "unrelated": {"emotion":"neutral","text":"...글쎄요. 잘 모르겠어요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"검사를 해볼게요",       "text":"검사를 몇 가지 해볼게요.",              "innerVoice":"'사소하다'고 했지만 exhausted 표정이다. 일단 검사를 잡자." },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"사소한 게 아닐 수도",   "text":"사소한 게 아닐 수도 있어요. 말씀해주셔도 돼요.", "innerVoice":"'사소하다'고 한 게 마음에 걸린다. 공간을 만들어주자." },
+      "after_life":      { "family":"life",      "intent":"personal","label":"생활이 어떻게 달라지셨나요","text":"어떻게 달라지셨어요?",                "innerVoice":"달라진 것들. 그게 두통의 진짜 원인일 수도 있다." },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"검사 잡겠습니다",       "text":"검사를 잡겠습니다.",                    "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"direct",  "label":"검사를 해볼게요",         "text":"검사를 몇 가지 해볼게요.",          "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"사소한 게 아닐 수도",     "text":"사소한 게 아닐 수도 있어요.",       "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"어떻게 달라지셨나요",     "text":"어떻게 달라지셨어요?",             "innerVoice":"" }
+    ],
     "symptom":   {"emotion":"neutral","text":"(잠깐 머뭇) 두통 말고 다른 건 진짜 없어요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"conflicted","text":"(시선을 내리며) 그게... 선생님 시간 낭비가 될 것 같아서요.","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"conflicted","text":"(작게) 누구한테도 말 안 한 건데... (멈춤) 아니에요.","rapport_change":1,"flag_trigger":"none"},
@@ -35,6 +84,17 @@
     "unrelated": {"emotion":"neutral","text":"...네?","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"처방을 안내한다",       "text":"진통제 처방해드릴게요.",                "innerVoice":"이 정도면 처방으로 마무리할 수 있다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"천천히 말씀하셔도 돼요","text":"천천히 말씀하셔도 돼요.",                "innerVoice":"'누구한테도 말 안 했다'고 했다. 아직 말하지 못한 게 있다." },
+      "after_life":      { "family":"life",      "intent":"personal","label":"무슨 일인지 여쭤봐도 될까요","text":"무슨 일인지 여쭤봐도 될까요?",       "innerVoice":"아직 말 못 한 게 있는 것 같다." },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"두통약 처방",           "text":"두통약 처방해드릴게요.",                "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"direct",  "label":"처방을 안내한다",           "text":"진통제 처방해드릴게요.",          "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"천천히 말씀하셔도 돼요",    "text":"천천히 말씀하셔도 돼요.",         "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"무슨 일인지 여쭤봐도 될까요","text":"무슨 일인지 여쭤봐도 될까요?",   "innerVoice":"" }
+    ],
     "symptom":   {"emotion":"neutral","text":"...그냥 두통이에요. (더 말하기 힘든 듯)","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"sad","text":"아... 사실은요. (잠깐 멈춤) 6개월 전에 유산을 했어요. 아무한테도 말을 못 했어요.","rapport_change":1,"flag_trigger":"real_opened"},
     "personal":  {"emotion":"sad","text":"(떨리는 목소리로) 6개월 전에... 아이를 잃었어요. (작게)","rapport_change":1,"flag_trigger":"real_opened"},
@@ -42,6 +102,17 @@
     "unrelated": {"emotion":"neutral","text":"...(침묵)","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"다음 진료 안내",    "text":"다음에 또 오세요.",            "innerVoice":"" },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"오길 잘 하셨다",   "text":"오늘 오시길 잘 하셨어요.",     "innerVoice":"이 사람에게 오늘 뭔가 달랐을 것 같다." },
+      "after_life":      { "family":"life",      "intent":"personal","label":"말씀해주셔서 감사해요","text":"말씀해주셔서 감사해요.",     "innerVoice":"누군가에게 말한 게 오래간만이었을 수도." },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"다음 진료",        "text":"다음에 또 오세요.",            "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"direct",  "label":"다음에 또 오세요",       "text":"다음에 또 오세요.",         "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"오길 잘 하셨다",         "text":"오늘 오시길 잘 하셨어요.", "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"말씀해주셔서 감사해요",  "text":"말씀해주셔서 감사해요.",   "innerVoice":"" }
+    ],
     "symptom":   {"emotion":"neutral","text":"...네. 약 처방이요? 알겠어요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"(눈물은 없지만 목소리가 조금 낮아지며) 뭐가 문젠지 모르겠어서 온 것도 있고... 네.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"exhausted","text":"(조용히) 남편도 모르는 거예요. 혼자 감당하고 있었어요.","rapport_change":0,"flag_trigger":"none"},
@@ -49,6 +120,17 @@
     "unrelated": {"emotion":"neutral","text":"...(시선을 떨구며)","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"인사",           "text":"수고하셨습니다.",                      "innerVoice":"" },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"문을 열어둔다",  "text":"언제든 이야기하고 싶으시면 오세요.",  "innerVoice":"이 말이 이 사람에게 어떤 의미일지." },
+      "after_life":      { "family":"life",      "intent":"personal","label":"또 오세요",      "text":"다음에 또 오세요.",                    "innerVoice":"" },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"인사",           "text":"수고하셨습니다.",                      "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"direct",  "label":"수고하셨습니다", "text":"수고하셨습니다.",                     "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"문을 열어둔다", "text":"언제든 이야기하고 싶으시면 오세요.", "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"다음에 또 오세요","text":"다음에 또 오세요.",                   "innerVoice":"" }
+    ],
     "symptom":   {"emotion":"neutral","text":"네. 감사합니다. 약 타러 갈게요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"...감사해요. 오길 잘 한 것 같아요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"(작게 웃으며) 누군가한테 말하니까... 좀 나아요.","rapport_change":0,"flag_trigger":"none"},

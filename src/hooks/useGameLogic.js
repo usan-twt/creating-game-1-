@@ -57,21 +57,22 @@ function resolveResponse(turnData, intent) {
 }
 
 export default function useGameLogic(systemPrompt, scriptData = null, initialRapport = 0) {
-  const [emotion,       setEmotion]       = useState("neutral");
-  const [talking,       setTalking]       = useState(false);
-  const [history,       setHistory]       = useState([]);
-  const [loading,       setLoading]       = useState(false);
-  const [rapportLevel,  setRapportLevel]  = useState(initialRapport);
-  const [sessionFlags,  setSessionFlags]  = useState({});
-  const [turnIndex,     setTurnIndex]     = useState(0);
-  const [usedIntents,   setUsedIntents]   = useState({});
+  const [emotion,          setEmotion]          = useState("neutral");
+  const [talking,          setTalking]          = useState(false);
+  const [history,          setHistory]          = useState([]);
+  const [loading,          setLoading]          = useState(false);
+  const [rapportLevel,     setRapportLevel]     = useState(initialRapport);
+  const [sessionFlags,     setSessionFlags]     = useState({});
+  const [turnIndex,        setTurnIndex]        = useState(0);
+  const [usedIntents,      setUsedIntents]      = useState({});
+  const [lastIntentFamily, setLastIntentFamily] = useState(null);
   const rapportRef      = useRef(initialRapport);
   const turnIndexRef    = useRef(0);
   const lastFamilyRef   = useRef(null);   // 직전 intent 계열
   const scriptUsedRef   = useRef(false);  // 마지막 항목이 이미 사용된 경우
   const talkTimer       = useRef(null);
 
-  const send = useCallback(async (text, extraCtx = "") => {
+  const send = useCallback(async (text, extraCtx = "", overrideIntent = null) => {
     if (!text.trim() || loading) return null;
     setLoading(true);
     setHistory(p => [...p, { role: "doctor", text }]);
@@ -99,7 +100,7 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
     }
 
     // ── Intent 분류 ──────────────────────────────────────────────────────
-    const intent = classifyIntent(text);
+    const intent = overrideIntent || classifyIntent(text);
     const hintKey = HINT_FAMILY[intent] || intent;
     setUsedIntents(p => ({ ...p, [hintKey]: (p[hintKey] || 0) + 1 }));
 
@@ -136,9 +137,12 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
       parsed = turnData || { emotion: "neutral", text: "...", rapport_change: 0, flag_trigger: "none" };
     }
 
+    // ── lastIntentFamily 항상 업데이트 (선택지 UI가 다음 continue를 계산하기 위해 필요)
+    setLastIntentFamily(currentFamily);
+    lastFamilyRef.current = currentFamily;
+
     // ── 대본 인덱스 진행 ─────────────────────────────────────────────────
     if (shouldAdvance) {
-      lastFamilyRef.current = currentFamily;
       if (idx < script.length - 1) {
         turnIndexRef.current = idx + 1;
         setTurnIndex(idx + 1);
@@ -163,7 +167,7 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
 
     setLoading(false);
     return parsed;
-  }, [loading, scriptData]);
+  }, [loading, scriptData]); // overrideIntent은 호출 시마다 달라지므로 deps에 불필요
 
-  return { emotion, setEmotion, talking, setTalking, history, setHistory, loading, rapportLevel, setRapportLevel, sessionFlags, setSessionFlags, send, rapportRef, talkTimer, turnIndex, usedIntents };
+  return { emotion, setEmotion, talking, setTalking, history, setHistory, loading, rapportLevel, setRapportLevel, sessionFlags, setSessionFlags, send, rapportRef, talkTimer, turnIndex, usedIntents, lastIntentFamily };
 }
