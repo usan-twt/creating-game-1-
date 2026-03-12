@@ -39,6 +39,12 @@ export const EPISODE_LIST = [
       { key:"bp_borderline", symbol:"BP 130–139/80–89", source:"박진수 · EP1", reading:"고혈압 전단계", meaning:"당장 약을 쓸 단계는 아니다.\n그러나 생활습관이 바뀌지 않으면 고혈압으로 진행된다." },
       { key:"alone_visit", symbol:"보호자 없음", source:"박진수 · EP1", reading:"혼자 온 환자", meaning:"혼자 왔다는 것이 때로는 단서가 된다.\n주변 상황이 어떤지 물어볼 이유가 생긴다." },
     ],
+    discoveries:{
+      jinsu_opened:{ title:"진짜 이유", text:"집에 가기 싫어서 병원에 온 것도 있다고 합니다.", color:"#6a8faa" },
+    },
+    getDayEndNarrative:(lf)=>lf.jinsu_opened
+      ?["그가 왜 병원에 왔는지 알게 되었습니다."]
+      :["그가 왜 왔는지는 끝내 묻지 않았습니다."],
     completedFlag:"EP1_completed", localFlags:["jinsu_opened"], deepFlags:[], mechanics:{},
   },
   {
@@ -67,6 +73,15 @@ export const EPISODE_LIST = [
       { key:"translator_present", symbol:"통역 동석", source:"왕메이링 · EP2", reading:"제3자가 있는 진료", meaning:"환자가 직접 말하지 않는다.\n통역자가 무엇을 바꾸는지, 무엇을 빼는지 살펴볼 필요가 있다." },
       { key:"rif_pain", symbol:"우하복부 통증", source:"왕메이링 · EP2", reading:"오른쪽 아랫배 통증", meaning:"맹장(충수)이 있는 위치.\n갑작스럽고 지속적이면 응급일 수 있다." },
     ],
+    discoveries:{
+      reversal1:{ title:"균열", text:"어머니가 직접 말하기 시작했습니다.", color:"#9a8faa" },
+      reversal2:{ title:"이미 알고 있었다", text:"왕메이링 씨는 오래전부터 알고 있었습니다.", color:"#b08878" },
+    },
+    getDayEndNarrative:(lf)=>{
+      if(lf.reversal2) return["어머니가 이미 알고 있었다는 것을 들었습니다."];
+      if(lf.reversal1) return["통역 너머의 어머니에게 직접 닿았습니다."];
+      return["통역을 통해서만 대화했습니다."];
+    },
     completedFlag:"EP2_completed", localFlags:["daughter_suspicious","reversal1","reversal2"], deepFlags:[],
     mechanics:{ translator:true },
   },
@@ -94,6 +109,12 @@ export const EPISODE_LIST = [
       { key:"vitals_normal_caveat", symbol:"바이탈 정상", source:"김지영 · EP3", reading:"수치가 정상 = 이상 없음이 아니다", meaning:"혈압·맥박·산소포화도가 정상이어도\n환자는 아플 수 있다. 숫자 너머를 봐야 한다." },
       { key:"good_patient", symbol:"협조적인 환자", source:"김지영 · EP3", reading:"'좋은 환자'의 이면", meaning:"대답이 너무 깔끔하면 오히려 의심해볼 것.\n말해도 된다고 느껴야 사람은 진짜 이야기를 꺼낸다." },
     ],
+    discoveries:{
+      real_opened:{ title:"진짜 이야기", text:"\"사실은요\"라는 말이 나왔습니다.", color:"#7a9a7a" },
+    },
+    getDayEndNarrative:(lf)=>lf.real_opened
+      ?["\"완벽한 환자\" 너머의 이야기를 들었습니다."]
+      :["그가 말하지 않은 것은 묻지 않았기 때문입니다."],
     completedFlag:"EP3_completed", localFlags:["real_opened"], deepFlags:[], mechanics:{},
   },
   {
@@ -125,6 +146,12 @@ export const EPISODE_LIST = [
       { key:"revisit", symbol:"재진 (f/u)", source:"박진수 · EP4", reading:"다시 온 환자", meaning:"처음과 달리, 이미 관계가 있다.\n지난번에 무슨 말을 했는지 기억하는 것 자체가 치료가 된다." },
       { key:"lifestyle_mod", symbol:"생활습관 교정", source:"박진수 · EP4", reading:"약 대신 생활을 바꾸는 것", meaning:"금연, 운동, 식이 조절.\n의사가 처방할 수 있지만, 실제로 하는 건 환자다." },
     ],
+    discoveries:{
+      deeper_connection:{ title:"기억", text:"그는 3주 전 대화를 기억하고 있었습니다.", color:"#8a9a6a" },
+    },
+    getDayEndNarrative:(lf)=>lf.deeper_connection
+      ?["그는 3주 전 대화를 기억하고 있었습니다."]
+      :["검사 결과만 확인했습니다."],
     completedFlag:"EP4_completed", localFlags:["deeper_connection"], deepFlags:["deeper_connection"], mechanics:{},
   },
   {
@@ -151,6 +178,12 @@ export const EPISODE_LIST = [
       { key:"hr_high", symbol:"HR 110–120대", source:"이준혁 · EP5", reading:"많이 빠른 맥박", meaning:"발작 직후, 극도의 불안, 또는 심한 통증.\nEP1의 HR 94보다 훨씬 높다 — 그만큼 상태가 심했다는 뜻." },
       { key:"hyperventilation", symbol:"과호흡 발작", source:"이준혁 · EP5", reading:"숨이 너무 빨라지는 것", meaning:"의학적 위기처럼 느껴지지만, 원인은 심리적일 수 있다.\n산소가 부족한 게 아니라 이산화탄소가 너무 빠져나간다." },
     ],
+    discoveries:{
+      real_opened:{ title:"집에서 나왔다", text:"과호흡의 진짜 원인이 드러났습니다.", color:"#7a8faa" },
+    },
+    getDayEndNarrative:(lf)=>lf.real_opened
+      ?["숨을 못 쉰 진짜 이유가 무엇인지 알게 되었습니다."]
+      :["과호흡은 나아졌습니다. 이유는 묻지 않았습니다."],
     completedFlag:"EP5_completed", localFlags:["real_opened"], deepFlags:["real_opened"], mechanics:{ breathing:true },
   },
   {
@@ -181,6 +214,17 @@ export const EPISODE_LIST = [
       { key:"copd_end", symbol:"COPD GOLD 4기", source:"최병철 · EP6", reading:"만성 폐쇄성 폐질환 말기", meaning:"숨길이 영구적으로 좁아진 상태. 완치는 없다.\n남은 시간을 어떻게 살 것인가가 진짜 질문이 된다." },
       { key:"end_of_life_q", symbol:"얼마나 살 수 있어요?", source:"최병철 · EP6", reading:"환자가 직접 묻는 예후 질문", meaning:"이 질문을 꺼내기까지 오래 걸렸을 것이다.\n피하는 것, 직접 답하는 것, 함께 생각하는 것 — 셋 다 선택지다." },
     ],
+    discoveries:{
+      asked_the_question:{ title:"마침내", text:"그가 오래 참아온 질문을 꺼냈습니다.", color:"#a89060" },
+      gave_comfort:{ title:"함께 생각했다", text:"숫자 대신 남은 시간을 어떻게 쓸지 이야기했습니다.", color:"#8a9aaa" },
+      answered_directly:{ title:"직접 답했다", text:"그는 오랫동안 창밖을 바라봤습니다.", color:"#9a8888" },
+    },
+    getDayEndNarrative:(lf)=>{
+      if(lf.gave_comfort) return["그가 묻고 싶었던 것을 꺼낼 수 있게 했습니다.", "그는 고개를 끄덕였습니다."];
+      if(lf.answered_directly) return["그의 질문에 직접 답했습니다."];
+      if(lf.deflected || lf.asked_the_question) return["그는 오늘도 그 질문을 꺼냈지만", "답을 받지 못했습니다."];
+      return["그는 오늘도 그 질문을 꺼내지 못했습니다."];
+    },
     completedFlag:"EP6_completed", localFlags:["asked_the_question","answered_directly","gave_comfort","deflected"], deepFlags:["gave_comfort","answered_directly"], mechanics:{},
   },
   {
@@ -206,6 +250,12 @@ export const EPISODE_LIST = [
       { key:"triage_implicit", symbol:"동시 대기 환자", source:"EP7", reading:"시간 배분이 치료의 일부", meaning:"누군가에게 더 시간을 쓰면 다른 누군가는 덜 받는다.\n완벽한 배분은 없다 — 그게 임상의 현실이다." },
       { key:"hr_fever", symbol:"HR 102 + 고열", source:"이혜란 · EP7", reading:"감염 또는 패혈증 가능성", meaning:"고열과 빠른 맥박이 함께 오면 감염을 의심한다.\n고령일수록 빠른 평가가 필요하다." },
     ],
+    getDayEndNarrative:(lf)=>{
+      const aT=lf.turnsA||0, bT=lf.turnsB||0;
+      if(aT>=bT*1.5) return["이혜란 씨에게 더 많은 시간을 썼습니다."];
+      if(bT>=aT*1.5) return["강도현 씨에게 더 많은 시간을 썼습니다."];
+      return["두 사람에게 시간을 나눠 썼습니다."];
+    },
     completedFlag:"EP7_completed", localFlags:["turnsA","turnsB","rapportA","rapportB"], numericFlags:["turnsA","turnsB","rapportA","rapportB"], deepFlags:[], alwaysFatigue:true, mechanics:{ dual:true },
     patientA:{ name:"이혜란", age:78, sex:"여", skin:"#c8a888", shirt:"#8a6070", hairColor:"#e0e0e0", hairType:"f_old", vitals:{ BP:"136/82", HR:"102", SpO2:"94%"}, initialEmotion:"anxious", cc:"저... 좀 열이 나요.",
       hints:[
@@ -254,6 +304,12 @@ export const EPISODE_LIST = [
       { key:"insomnia_grief", symbol:"불면 + 보호자 사망", source:"이수진 · EP8", reading:"슬픔이 신체 증상으로 나타나는 것", meaning:"불면, 피로, 식욕부진은 우울이나 애도의 신체 표현일 수 있다.\n약 처방 전에 무슨 일이 있었는지 물어볼 필요가 있다." },
       { key:"returning_patient", symbol:"다시 찾아온 보호자", source:"이수진 · EP8", reading:"진료실에 혼자 오는 사람", meaning:"보호자로 왔다가, 이번엔 환자로 왔다.\n이전에 어떤 관계였는지 기억하는 것이 출발점이 된다." },
     ],
+    discoveries:{
+      grief_opened:{ title:"상실", text:"어머니 이야기가 나왔습니다.", color:"#8888aa" },
+    },
+    getDayEndNarrative:(lf)=>lf.grief_opened
+      ?["이수진 씨가 어머니 이야기를 했습니다."]
+      :["그녀가 왜 돌아왔는지 묻지 않았습니다."],
     completedFlag:"EP8_completed", localFlags:["grief_opened"], deepFlags:["grief_opened"], mechanics:{},
   },
   {
@@ -283,6 +339,15 @@ export const EPISODE_LIST = [
       { key:"nonspecific_sx", symbol:"비특이적 증상", source:"정민우 · EP9", reading:"딱 한 가지 원인을 가리키지 않는 증상", meaning:"두통·피로·불면은 수십 가지 원인이 있다.\n신체 원인이 없다면 심리·사회적 배경을 확인해야 한다." },
       { key:"3mo_trigger", symbol:"3개월 전부터", source:"정민우 · EP9", reading:"증상 시작의 계기", meaning:"'언제부터'를 물으면 '왜'가 따라온다.\n3개월 전에 무슨 일이 있었는지가 진짜 단서일 수 있다." },
     ],
+    discoveries:{
+      article_hint:{ title:"단서", text:"직장에 관한 이야기가 나왔습니다.", color:"#9a9060" },
+      real_opened:{ title:"내부 제보자", text:"그가 본 것을 말했습니다.", color:"#aa7a60" },
+    },
+    getDayEndNarrative:(lf)=>{
+      if(lf.real_opened) return["그가 본 것을 말했습니다."];
+      if(lf.article_hint) return["직장에 뭔가 있다는 것은 알았습니다.", "하지만 진짜 이야기는 나오지 않았습니다."];
+      return["3개월 전에 무슨 일이 있었는지 묻지 않았습니다."];
+    },
     completedFlag:"EP9_completed", localFlags:["article_hint","real_opened"], deepFlags:["real_opened"], mechanics:{ article:true },
   },
   {

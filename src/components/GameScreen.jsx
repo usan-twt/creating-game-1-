@@ -5,6 +5,7 @@ import useGameLogic from "../hooks/useGameLogic";
 import RapportBar from "./RapportBar";
 import ClinicScene from "./ClinicScene";
 import NotebookPanel from "./NotebookPanel";
+import DiscoveryFlash from "./DiscoveryFlash";
 
 export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const systemPrompt   = ep.getSystemPrompt(storyFlags, residentState);
@@ -28,6 +29,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const [showLog,          setShowLog]          = useState(false);
   const [exchangeCount,    setExchangeCount]    = useState(0);
   const [input,            setInput]            = useState("");
+  const [discovery,        setDiscovery]        = useState(null);
 
   const inputRef = useRef(null);
   const logRef   = useRef(null);
@@ -54,6 +56,10 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     if(parsed?.breathing_calm!==undefined) setBreathingCalm(!!parsed.breathing_calm);
     if(parsed?.flag_trigger==="reversal1") setTranslatorDirect(true);
     if(parsed?.flag_trigger==="article_hint") setArticleVisible(true);
+    if(parsed?.flag_trigger && parsed.flag_trigger !== "none") {
+      const disc = ep.discoveries?.[parsed.flag_trigger];
+      if(disc) setDiscovery(disc);
+    }
     setTimeout(()=>inputRef.current?.focus(),50);
   },[loading, translatorDirect, breathingCalm, send]);
 
@@ -203,6 +209,8 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
           </div>
         </div>
       </div>
+
+      {discovery && <DiscoveryFlash discovery={discovery} onDone={() => setDiscovery(null)} />}
 
       <NotebookPanel isOpen={notebookOpen} onClose={()=>setNotebookOpen(false)} epNum={ep.titleNum} preNotes={preNotes} userNotes={userNotes} onUserNotesChange={setUserNotes} articleText={ep.articleText} articleVisible={articleVisible} hints={ep.hints} usedIntents={usedIntents} hintsUnlocked={exchangeCount>=(ep.hintUnlockTurn||3)} glossary={glossary}/>
       <style>{`@keyframes ep_b{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-5px);opacity:1}}@keyframes pulse2{0%,100%{opacity:0.7;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}@keyframes phoneWiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}@keyframes cardIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}@keyframes breatheRing{0%,100%{transform:scaleX(1);opacity:0.2}50%{transform:scaleX(1.12);opacity:0.35}}`}</style>

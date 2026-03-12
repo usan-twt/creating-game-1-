@@ -56,6 +56,24 @@ export default function DayEndScreen({ ep, sessionSnap, onContinue }) {
           }}>{timeNote}</div>
         </div>
 
+        {ep.getDayEndNarrative && (() => {
+          const lines = ep.getDayEndNarrative(sessionSnap || {});
+          if (!lines?.length) return null;
+          return (
+            <div style={{
+              marginBottom: 24, textAlign: "left",
+            }}>
+              {lines.map((line, i) => (
+                <div key={i} style={{
+                  fontSize: 11, color: "rgba(255,255,255,0.28)",
+                  fontFamily: "Georgia,serif", fontStyle: "italic",
+                  lineHeight: 1.9, letterSpacing: "0.02em",
+                }}>{line}</div>
+              ))}
+            </div>
+          );
+        })()}
+
         <div style={{
           opacity:vis?1:0, transition:`opacity 0.8s ease 0.6s`,
         }}>
