@@ -72,10 +72,10 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
   const scriptUsedRef   = useRef(false);  // 마지막 항목이 이미 사용된 경우
   const talkTimer       = useRef(null);
 
-  const send = useCallback(async (text, extraCtx = "", overrideIntent = null) => {
+  const send = useCallback(async (text, extraCtx = "", overrideIntent = null, thinking = null) => {
     if (!text.trim() || loading) return null;
     setLoading(true);
-    setHistory(p => [...p, { role: "doctor", text }]);
+    setHistory(p => [...p, { role: "doctor", text, ...(thinking ? { thinking } : {}) }]);
     clearTimeout(talkTimer.current);
 
     await new Promise(r => setTimeout(r, 500));

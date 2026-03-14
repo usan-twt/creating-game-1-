@@ -32,6 +32,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const [discovery,        setDiscovery]        = useState(null);
   const [innerVoice,       setInnerVoice]       = useState(null);
   const [freeInput,        setFreeInput]        = useState(false);
+  const [expandedThinking, setExpandedThinking] = useState(null);
 
   const inputRef = useRef(null);
   const logRef   = useRef(null);
@@ -91,7 +92,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     let ctx = "";
     if (ep.mechanics?.translator) ctx += `\n[translator_mode: ${translatorDirect?"direct":"daughter"}]`;
     if (ep.mechanics?.breathing)  ctx += `\n[breathing_calm: ${breathingCalm}]`;
-    const parsed = await send(choice.text, ctx, choice.intent);
+    const parsed = await send(choice.text, ctx, choice.intent, choice.innerVoice || null);
     if (parsed?.phone_check !== undefined) setPhoneCheck(!!parsed.phone_check);
     if (parsed?.breathing_calm !== undefined) setBreathingCalm(!!parsed.breathing_calm);
     if (parsed?.flag_trigger === "reversal1") setTranslatorDirect(true);
@@ -177,14 +178,31 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
           {history.map((msg,i)=>{
             if(msg.role==="system") return <div key={i} style={{textAlign:"center",fontSize:10,color:"rgba(255,255,255,0.2)"}}>{msg.text}</div>;
             const isDoc=msg.role==="doctor"; const bc=getBubble(msg);
+            const thinkingOpen = expandedThinking === i;
             return (
               <div key={i} style={{display:"flex",flexDirection:"column",alignItems:isDoc?"flex-end":"flex-start"}}>
                 {!isDoc&&msg.speaker&&<div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginLeft:28,marginBottom:2}}>{msg.speaker==="nurse"?"간호사":msg.speaker==="mother"?"어머니 (직접)":"이수진 (통역)"}</div>}
                 <div style={{display:"flex",justifyContent:isDoc?"flex-end":"flex-start",gap:8,alignItems:"flex-end"}}>
                   {!isDoc&&<div style={{width:20,height:20,borderRadius:"50%",background:msg.speaker==="nurse"?"rgba(100,140,180,0.7)":EMOTION_META[msg.emotion]?.color||emotionMeta.color,flexShrink:0,opacity:0.55}}/>}
-                  <div style={{maxWidth:"74%",padding:"8px 12px",borderRadius:isDoc?"11px 11px 2px 11px":"11px 11px 11px 2px",background:bc.bg,color:bc.color,fontSize:12,lineHeight:1.7}}>
-                    {msg.text}
-                    {msg.hint&&<div style={{fontStyle:"italic",fontSize:10,color:"rgba(200,185,160,0.45)",marginTop:5}}>{msg.hint}</div>}
+                  <div style={{display:"flex",flexDirection:"column",alignItems:isDoc?"flex-end":"flex-start",gap:4,maxWidth:"74%"}}>
+                    <div style={{padding:"8px 12px",borderRadius:isDoc?"11px 11px 2px 11px":"11px 11px 11px 2px",background:bc.bg,color:bc.color,fontSize:12,lineHeight:1.7}}>
+                      {msg.text}
+                      {msg.hint&&<div style={{fontStyle:"italic",fontSize:10,color:"rgba(200,185,160,0.45)",marginTop:5}}>{msg.hint}</div>}
+                    </div>
+                    {isDoc&&msg.thinking&&(
+                      <>
+                        <button onClick={()=>setExpandedThinking(thinkingOpen?null:i)}
+                          style={{alignSelf:"flex-end",background:"none",border:"none",color:thinkingOpen?"rgba(200,175,100,0.7)":"rgba(255,255,255,0.2)",fontSize:10,cursor:"pointer",padding:"1px 4px",fontFamily:"inherit",letterSpacing:"0.02em"}}>
+                          💭 {thinkingOpen?"숨기기":"내면 독백"}
+                        </button>
+                        {thinkingOpen&&(
+                          <div style={{padding:"8px 12px",borderRadius:8,background:"rgba(55,50,35,0.7)",border:"1px solid rgba(180,160,90,0.2)",fontFamily:"Georgia,serif",fontSize:11,lineHeight:1.8,color:"rgba(205,188,140,0.75)",fontStyle:"italic",animation:"fadeIn 0.2s ease"}}>
+                            <span style={{fontSize:7,letterSpacing:"0.25em",color:"rgba(180,155,90,0.4)",display:"block",marginBottom:4}}>THINKING</span>
+                            {msg.thinking}
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
