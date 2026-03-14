@@ -1,140 +1,206 @@
 [
   {
     "firstChoices": [
-      { "family":"medical",   "intent":"onset",   "label":"증상을 파악한다",        "text":"언제부터 아프다고 하시는지요?",          "innerVoice":"복통이 일주일이면 급성은 아닌 것 같다. 위치와 성격을 먼저 확인해야 한다." },
-      { "family":"emotional", "intent":"empathy", "label":"따님도 걱정이 많으시겠어요","text":"걱정이 많으시겠어요, 따님도.",            "innerVoice":"딸도 긴장한 표정이다. 어머니만큼이나. 통역이 있다는 게 어떤 의미인지 생각해봐야 한다." },
-      { "family":"life",      "intent":"personal","label":"어머니 혼자 계세요?",      "text":"어머니가 혼자 계시나요?",               "innerVoice":"딸이 통역으로 왔다는 건, 평소엔 혼자라는 뜻일 수 있다." }
+      { "family":"medical",   "intent":"onset",   "label":"증상을 파악한다",          "text":"언제부터 아프다고 하시는지요?",        "innerVoice":"복통 일주일이면 급성은 아니다. 위치와 성격부터 확인해야 한다." },
+      { "family":"emotional", "intent":"empathy", "label":"따님이 걱정이 많아 보인다", "text":"걱정이 많으시겠어요, 따님도.",          "innerVoice":"딸도 긴장한 표정이다. 통역으로 온 사람치고는 손이 너무 꼭 쥐어져 있다." },
+      { "family":"life",      "intent":"personal","label":"어머니 혼자 계시나요",      "text":"어머니가 평소에도 혼자 지내세요?",     "innerVoice":"딸이 통역으로 왔다는 건, 평소엔 혼자라는 뜻일 수 있다." }
     ],
-    "symptom":   {"emotion":"anxious","text":"어머니가 오른쪽 배가 아프다고 하셔서요. 일주일 됐어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "empathy":   {"emotion":"anxious","text":"걱정이 돼서 모시고 왔어요. 어머니가 많이 불안해하셔서요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "personal":  {"emotion":"anxious","text":"멀리서 오셨어요. 어머니가 혼자 계시거든요. 배가 아프시다고 해서요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "direct":    {"emotion":"neutral","text":"오른쪽 복부 통증, 일주일째요. 다른 병원은 안 갔어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "unrelated": {"emotion":"neutral","text":"...네? (어머니를 보며) 아, 배가 아프셔서 왔어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"anxious",  "text":"어머니가 오른쪽 배가 아프다고 하셔서요. 일주일 됐어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"anxious",  "text":"걱정이 돼서 모시고 왔어요. 어머니가 많이 불안해하셔서요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"anxious",  "text":"평소에는 혼자 지내세요. 멀리서 오셨는데 배가 아프다고 하셔서 달려왔어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral",  "text":"오른쪽 복부 통증, 일주일째요. 다른 병원은 안 갔어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"anxious",  "text":"어머니가 표현을 잘 못 하셔서요. 아프다고만 하시지, 어떻게 아프다는 말씀을 잘 안 하세요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"anxious",  "text":"다른 증상은... 잘 모르겠어요. 저도 오늘 처음 뵈서.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"anxious",  "text":"(짧게) 아, 네. 어머니 챙기러 달려왔어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "symptom":   {"emotion":"anxious",  "text":"어머니가 오른쪽 배가 아프다고 하셔서요. 일주일 됐어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"}
   },
   {
     "continue": {
-      "after_medical":   { "family":"medical",   "intent":"associated","label":"동반 증상을 확인한다",     "text":"식욕이나 소화는 어떠신지요?",                    "innerVoice":"복통 + 1주일. 식욕 저하, 변비 여부를 확인해야 한다." },
-      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"따님이 힘들어 보인다",    "text":"어머니 모시고 오시느라 힘드셨겠어요.",           "innerVoice":"딸도 지쳐 보인다. 어머니 걱정에 자기 감정을 숨기고 있는 것 같다." },
-      "after_life":      { "family":"life",      "intent":"personal",  "label":"멀리서 오셨나요?",        "text":"멀리서 오셨나요?",                              "innerVoice":"혼자 계신다고 했다. 딸이 얼마나 자주 볼 수 있는지가 궁금하다." },
-      "after_clinical":  { "family":"medical",   "intent":"associated","label":"동반증상 확인",           "text":"다른 증상은 없으신지요?",                        "innerVoice":"" }
+      "after_medical":   { "family":"medical",   "intent":"associated","label":"동반 증상을 확인한다",   "text":"식욕이나 소화는 어떠신지요?",                "innerVoice":"복통에 식욕 저하와 변비가 같이 오면 대장 쪽을 더 봐야 한다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"따님이 힘들어 보인다",  "text":"어머니 모시고 오시느라 힘드셨겠어요.",       "innerVoice":"딸도 지쳐 보인다. 어머니 걱정에 자기 감정을 숨기고 있는 것 같다." },
+      "after_life":      { "family":"life",      "intent":"personal",  "label":"자주 뵙지 못하시겠다",  "text":"어머니를 자주 뵙기가 어려우시겠어요.",       "innerVoice":"혼자 계신다고 했다. 딸이 얼마나 자주 볼 수 있는지." },
+      "after_clinical":  { "family":"medical",   "intent":"associated","label":"동반 증상 확인",         "text":"다른 증상은 없으신지요?",                    "innerVoice":"" }
     },
     "pivots": [
-      { "family":"medical",   "intent":"associated","label":"동반 증상",       "text":"식욕이나 소화는 어떠신지요?",         "innerVoice":"" },
-      { "family":"emotional", "intent":"empathy",   "label":"따님이 힘드셨겠다","text":"어머니 모시고 오시느라 힘드셨겠어요.", "innerVoice":"" },
-      { "family":"life",      "intent":"personal",  "label":"멀리서 오셨나요?", "text":"멀리서 오셨나요?",                    "innerVoice":"" }
+      { "family":"medical",   "intent":"associated","label":"동반 증상을 확인한다",  "text":"식욕이나 소화는 어떠신지요?",          "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy",   "label":"따님이 힘드셨겠다",    "text":"어머니 모시고 오시느라 힘드셨겠어요.", "innerVoice":"" },
+      { "family":"life",      "intent":"personal",  "label":"자주 뵙기 어려우시겠다","text":"어머니를 자주 뵙기가 어려우시겠어요.", "innerVoice":"" }
     ],
-    "symptom":   {"emotion":"neutral","text":"입맛이 좀 없다고 하시는 것 같고... 변비 증상도 조금 있다고 하시네요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "empathy":   {"emotion":"neutral","text":"(어머니 손을 잡으며) 어머니가 말씀을 잘 못 하셔서 제가 대신... 잘 부탁드려요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "personal":  {"emotion":"neutral","text":"평소에는 건강하신 편이었어요. 혼자 지내시면서 식사도 잘 하시고...","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "direct":    {"emotion":"neutral","text":"식욕 저하, 변비. 체중 감소는 잘 모르겠어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "unrelated": {"emotion":"neutral","text":"(통역하듯) 어머니, 뭐라고 하셨어요? ...입맛이 없으시대요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"neutral",  "text":"언제부터인지는... 어머니가 정확히 말씀 안 하시는데, 일주일이라고 하셔서요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral",  "text":"입맛이 좀 없다고 하시는 것 같고... 변비 증상도 조금 있다고 하시네요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral",  "text":"(어머니 손을 잡으며) 어머니가 말씀을 잘 못 하셔서 제가 대신... 잘 부탁드려요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral",  "text":"평소에는 건강하신 편이었어요. 혼자 지내시면서 식사도 잘 하시고...", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral",  "text":"식욕 저하, 변비. 체중 감소는 잘 모르겠어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"neutral",  "text":"어떻게 아프다는 건... 그냥 아프다고만 하셔서요. 뭔가 누르면 아프신 것 같고.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"neutral",  "text":"(작게 한숨) 먼 길 왔어요. 어머니가 전화해서 아프다고 하시길래.", "speaker":"daughter","rapport_change":1,"flag_trigger":"none"},
+    "symptom":   {"emotion":"neutral",  "text":"입맛이 좀 없다고 하시는 것 같고... 변비 증상도 조금 있다고 하시네요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"}
   },
   {
     "continue": {
-      "after_medical":   { "family":"medical",   "intent":"associated","label":"이전 병력을 확인한다",       "text":"이전에 비슷한 증상이 있으신 적 있으셨나요?",     "innerVoice":"처음이라고 했다. 과거력 확인." },
-      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"겨우 오셨다는 말이 걸린다", "text":"어머니가 병원 오기 싫어하시나봐요.",             "innerVoice":"'겨우 모시고 왔다'는 말이 걸린다. 어머니와의 관계가 복잡할 수도." },
-      "after_life":      { "family":"life",      "intent":"personal",  "label":"어머니 혼자 계신 게",       "text":"어머니 혼자 계신 게 걱정 많이 되시겠어요.",     "innerVoice":"딸이 어머니 눈치를 보고 있다. 사이에 뭔가 있는 것 같다." },
-      "after_clinical":  { "family":"medical",   "intent":"associated","label":"병력 확인",                 "text":"다른 병원 기록은 없으신가요?",                   "innerVoice":"" }
+      "after_medical":   { "family":"medical",   "intent":"associated","label":"이전 병력을 확인한다",       "text":"이전에 비슷한 증상이 있으신 적 있으셨나요?", "innerVoice":"처음이라고 했다. 과거력 확인해야 한다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"겨우 오셨다는 말이 걸린다", "text":"어머니가 병원 오기 싫어하시나봐요.",          "innerVoice":"'겨우 모시고 왔다'는 말이 걸린다. 무슨 사정이 있는 걸까." },
+      "after_life":      { "family":"life",      "intent":"personal",  "label":"딸과 어머니 사이",           "text":"어머니 혼자 계신 게 걱정 많이 되시겠어요.",  "innerVoice":"딸이 어머니 눈치를 보고 있다. 둘 사이에 뭔가 있는 것 같다." },
+      "after_clinical":  { "family":"medical",   "intent":"associated","label":"병력 확인",                  "text":"다른 병원 기록은 없으신가요?",               "innerVoice":"" }
     },
     "pivots": [
-      { "family":"medical",   "intent":"associated","label":"이전 병력 확인",         "text":"이전에 비슷한 증상이 있으셨나요?",         "innerVoice":"" },
-      { "family":"emotional", "intent":"empathy",   "label":"겨우 오셨다는 말",       "text":"병원 오기 싫어하시나봐요.",               "innerVoice":"" },
-      { "family":"life",      "intent":"personal",  "label":"어머니 혼자 계신 게",    "text":"어머니 혼자 계신 게 걱정되시겠어요.",     "innerVoice":"" }
+      { "family":"medical",   "intent":"associated","label":"이전 병력 확인",       "text":"이전에 비슷한 증상이 있으셨나요?",     "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy",   "label":"겨우 오셨다는 말",     "text":"병원 오기 싫어하시나봐요.",            "innerVoice":"" },
+      { "family":"life",      "intent":"personal",  "label":"어머니 혼자 계신 것",  "text":"어머니 혼자 계신 게 걱정되시겠어요.", "innerVoice":"" }
     ],
-    "symptom":   {"emotion":"conflicted","text":"(약간 망설이다가) 처음이에요, 이런 증상은. 다른 병원은 안 가셨어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":"통역이 조금 빠르다"},
-    "empathy":   {"emotion":"conflicted","text":"어머니가 병원 가기 싫어하셔서... 겨우 모시고 왔어요. (어머니를 보며)","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "personal":  {"emotion":"conflicted","text":"(어머니 눈치를 보며) 사정이 좀 있어서요... 어머니가 혼자 계시거든요.","speaker":"daughter","rapport_change":1,"flag_trigger":"none","hint":""},
-    "direct":    {"emotion":"neutral","text":"다른 병원 기록은 없어요. 여기가 처음이에요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "unrelated": {"emotion":"neutral","text":"...네? (어색하게) 처음이에요, 이런 건.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"conflicted","text":"처음이에요, 이런 증상은. 다른 병원은 안 가셨어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"conflicted","text":"(약간 망설이다가) 처음이에요, 이런 건. 다른 병원은 안 가셨어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"어머니가 병원 가기 싫어하셔서... 겨우 모시고 왔어요. (어머니를 보며)", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(어머니 눈치를 보며) 사정이 좀 있어서요... 어머니가 혼자 계시거든요.", "speaker":"daughter","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral",   "text":"다른 병원 기록은 없어요. 여기가 처음이에요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"conflicted","text":"어머니가 표현을 잘 안 하셔서... 잘 모르겠어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"conflicted","text":"(어머니 눈치 보며) 어머니가... 병원을 좀 꺼리세요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "symptom":   {"emotion":"conflicted","text":"처음이에요, 이런 건. 다른 병원은 안 가셨어요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"}
   },
   {
     "continue": {
-      "after_medical":   { "family":"medical",   "intent":"onset",   "label":"어머니께 직접 여쭤본다", "text":"(어머니에게) 어디가 얼마나 아프세요?",           "innerVoice":"어머니가 직접 반응했다. 통역 없이 소통이 가능할 것 같다." },
-      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"어머니 눈빛이 다르다",   "text":"(어머니에게) 많이 불편하셨죠.",                  "innerVoice":"어머니가 직접 반응했다. 눈빛이 달라졌다." },
-      "after_life":      { "family":"life",      "intent":"personal","label":"어머니에게 직접",       "text":"(어머니에게) 혼자 계시는 게 힘드시진 않으세요?","innerVoice":"딸이 아니라 어머니에게 직접 닿고 싶다." },
-      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"검사 계획 설명",       "text":"검사를 몇 가지 해볼 필요가 있을 것 같아요.",     "innerVoice":"" }
+      "after_medical":   { "family":"medical",   "intent":"onset",   "label":"어머니께 직접 여쭤본다", "text":"(어머니에게) 어디가 얼마나 아프세요?",            "innerVoice":"딸 통역만으로는 부족하다. 직접 닿아야 한다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"어머니 눈빛이 다르다",   "text":"(어머니에게) 많이 불편하셨죠.",                   "innerVoice":"어머니가 직접 반응하려 한다. 딸이 아닌 나를 보고 있다." },
+      "after_life":      { "family":"life",      "intent":"personal","label":"어머니에게 직접",        "text":"(어머니에게) 혼자 계시는 게 힘드시진 않으세요?", "innerVoice":"딸이 아니라 어머니에게 직접 닿고 싶다." },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"검사 계획 설명",          "text":"검사를 몇 가지 해볼 필요가 있을 것 같아요.",      "innerVoice":"" }
     },
     "pivots": [
-      { "family":"medical",   "intent":"onset",   "label":"어머니께 직접",       "text":"(어머니에게) 어디가 얼마나 아프세요?",           "innerVoice":"" },
-      { "family":"emotional", "intent":"empathy", "label":"어머니 눈빛",         "text":"(어머니에게) 많이 불편하셨죠.",                  "innerVoice":"" },
-      { "family":"life",      "intent":"personal","label":"어머니에게 직접",     "text":"(어머니에게) 혼자 계시는 게 어떠세요?",          "innerVoice":"" }
+      { "family":"medical",   "intent":"onset",   "label":"어머니께 직접 여쭤본다", "text":"(어머니에게) 어디가 얼마나 아프세요?",           "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"어머니 눈빛이 다르다",   "text":"(어머니에게) 많이 불편하셨죠.",                  "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"어머니에게 직접",        "text":"(어머니에게) 혼자 계시는 게 어떠세요?",          "innerVoice":"" }
     ],
-    "symptom":   {"emotion":"anxious","text":"(딸 눈치를 보다가 작게) 對, 對... 아파요.","speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious","hint":"어머니가 직접 답하려 함"},
-    "empathy":   {"emotion":"anxious","text":"(작게, 딸에게) 걱정 마... 괜찮아. (의사에게) 고마워요.","speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious","hint":"어머니가 직접 답하려 함"},
-    "personal":  {"emotion":"anxious","text":"(딸 손을 잡으며) 혼자... 괜찮아요. 딸이 바쁜데 와줬어.","speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious","hint":""},
-    "direct":    {"emotion":"neutral","text":"(고개 끄덕이며) 네, 아파요. 여기. (오른쪽 배를 가리킴)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
-    "unrelated": {"emotion":"anxious","text":"(혼란스러운 표정으로 딸을 봄)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"anxious", "text":"(딸 눈치를 보다가 작게) 對, 對... 아파요. 여기.", "speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious"},
+    "empathy":   {"emotion":"anxious", "text":"(작게, 딸에게) 걱정 마... 괜찮아. (의사에게) 고마워요.", "speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious"},
+    "personal":  {"emotion":"anxious", "text":"(딸 손을 잡으며) 혼자... 괜찮아요. 딸이 바쁜데 와줬어.", "speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious"},
+    "direct":    {"emotion":"neutral", "text":"(고개 끄덕이며) 네, 아파요. 여기. (오른쪽 배를 가리킴)", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"anxious", "text":"(한참 생각하다가) 아파요. 누르면 더 아파요.", "speaker":"mother","rapport_change":0,"flag_trigger":"daughter_suspicious"},
+    "associated":{"emotion":"neutral", "text":"(고개를 끄덕이다 멈추더니) 다른 건... 밥이 잘 안 넘어가요.", "speaker":"mother","rapport_change":0,"flag_trigger":"daughter_suspicious"},
+    "comfort":   {"emotion":"anxious", "text":"(작게) 고마워요. 딸이 바빠서... 신경 써줘서.", "speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious"},
+    "symptom":   {"emotion":"anxious", "text":"(딸 눈치를 보다가 작게) 對, 對... 아파요. 여기.", "speaker":"mother","rapport_change":1,"flag_trigger":"daughter_suspicious"}
   },
   {
     "continue": {
-      "after_medical":   { "family":"medical",   "intent":"associated","label":"추가 검사 질문",            "text":"추가적으로 확인해야 할 것들이 좀 있어요.",        "innerVoice":"검사가 필요하다." },
-      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"어머니께 직접 여쭤봐도 될까요","text":"(딸에게) 어머니께 직접 여쭤봐도 될까요?",       "innerVoice":"어머니에게 직접 닿고 싶다. 딸의 통역이 전부가 아닐 수 있다." },
-      "after_life":      { "family":"life",      "intent":"personal",  "label":"딸과 어머니 사이",          "text":"(딸에게) 따님, 어머니 표정이 좀 달라 보이시는 것 같은데요.", "innerVoice":"딸과 어머니 사이에 뭔가 있다." },
-      "after_clinical":  { "family":"medical",   "intent":"direct",    "label":"검사 안내",                 "text":"검사를 진행하겠습니다.",                          "innerVoice":"" }
+      "after_medical":   { "family":"medical",   "intent":"associated","label":"어머니 직접 더 여쭤본다", "text":"(어머니에게) 밥은 잘 드세요?",                      "innerVoice":"어머니가 직접 답하기 시작했다. 딸이 긴장한다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"어머니가 더 말하실 것 같다","text":"(어머니에게) 하실 말씀이 있으신 것 같아요.",       "innerVoice":"딸이 끼어들지 않는다. 어머니가 잠깐 나를 본다." },
+      "after_life":      { "family":"life",      "intent":"personal",  "label":"오래 혼자 지내셨나요",   "text":"(어머니에게) 혼자 지내신 지 오래됐어요?",           "innerVoice":"딸이 멈칫한다. 어머니가 조용히 답을 고른다." },
+      "after_clinical":  { "family":"medical",   "intent":"direct",    "label":"검사 설명",               "text":"검사 몇 가지 더 해봐야 할 것 같아요.",              "innerVoice":"" }
     },
     "pivots": [
-      { "family":"medical",   "intent":"associated","label":"추가 확인",               "text":"추가로 확인해야 할 것들이 있어요.",                   "innerVoice":"" },
-      { "family":"emotional", "intent":"empathy",   "label":"어머니께 직접",           "text":"(딸에게) 어머니께 직접 여쭤봐도 될까요?",             "innerVoice":"" },
-      { "family":"life",      "intent":"personal",  "label":"딸과 어머니 사이",        "text":"(딸에게) 어머니 표정이 좀 달라 보이시는 것 같은데요.", "innerVoice":"" }
+      { "family":"medical",   "intent":"associated","label":"어머니 직접 더 여쭤본다", "text":"(어머니에게) 밥은 잘 드세요?",               "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy",   "label":"어머니가 더 말하실 것 같다","text":"(어머니에게) 하실 말씀이 있으신 것 같아요.", "innerVoice":"" },
+      { "family":"life",      "intent":"personal",  "label":"오래 혼자 지내셨나요",   "text":"(어머니에게) 혼자 지내신 지 오래됐어요?",   "innerVoice":"" }
     ],
-    "symptom":   {"emotion":"neutral","text":"어머니가 원래 표현을 잘 안 하세요. 더 여쭤볼 거 있으면...","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "empathy":   {"emotion":"conflicted","text":"(이수진이 어머니 손을 잡으며) 직접 말씀하셔도 된대요.","speaker":"daughter","rapport_change":0,"flag_trigger":"reversal1","hint":""},
-    "personal":  {"emotion":"conflicted","text":"(이수진이 눈물을 참으며) 어머니, 선생님한테 말씀하세요.","speaker":"daughter","rapport_change":0,"flag_trigger":"reversal1","hint":""},
-    "direct":    {"emotion":"neutral","text":"추가 검사 필요하시면 말씀해주세요. 어머니 보험 가져왔어요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "unrelated": {"emotion":"neutral","text":"(어색한 침묵이 흐름)","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"neutral", "text":"(어머니가 딸을 힐끗 보고) 밥은... 조금. 요즘은 잘 안 먹혀요.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral", "text":"밥이 잘 안 먹혀요. 요즘은. (잠시 침묵) 피곤하고.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"conflicted","text":"(잠깐 멈추더니) ...할 말이요. (딸을 본다. 딸도 어머니를 본다.)", "speaker":"mother","rapport_change":1,"flag_trigger":"none"},
+    "personal":  {"emotion":"conflicted","text":"(조용히) 남편 가고 나서... 15년 됐어요. 그래도 괜찮았어요.", "speaker":"mother","rapport_change":1,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral", "text":"(고개를 끄덕이며) 알겠어요. 검사 하면 돼요.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"neutral", "text":"처음에는 그냥 뭉치는 것 같았어요. 지금은 계속 아파요.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"conflicted","text":"(딸을 보며) 걱정 마, 수진아. (의사에게) 괜찮아요, 저.", "speaker":"mother","rapport_change":1,"flag_trigger":"none"},
+    "symptom":   {"emotion":"neutral", "text":"밥이 잘 안 먹혀요. 요즘은. 조금씩은 먹어요.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"}
   },
   {
     "continue": {
-      "after_medical":   { "family":"medical",   "intent":"associated","label":"어떤 검사를 받으셨나요",  "text":"(어머니에게) 어떤 검사를 받으셨나요?",             "innerVoice":"'다른 데서 검사를 했다'고 했다. 이미 진단이 있는 건 아닐까." },
-      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"기다려본다",            "text":"(어머니에게) ...말씀하시기 어려우신 거예요?",       "innerVoice":"어머니가 뭔가 알고 있다. 꺼내기 어려운 것을." },
-      "after_life":      { "family":"life",      "intent":"personal",  "label":"이게 처음이 아닌 것 같다","text":"(어머니에게) 정말 이게 처음이세요?",               "innerVoice":"뭔가 더 있다." },
-      "after_clinical":  { "family":"medical",   "intent":"associated","label":"검사 기록 확인",         "text":"검사 기록 가져오셨나요?",                          "innerVoice":"" }
+      "after_medical":   { "family":"medical",   "intent":"associated","label":"이전에 다른 검사 받으셨나요", "text":"(어머니에게) 전에 다른 병원에서 검사받으신 적 있으세요?", "innerVoice":"무언가 더 있다. 어머니가 숨기는 것이 있는 것 같다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"기다려본다",                "text":"(어머니에게) ...말씀하시기 어려우신 거예요?",           "innerVoice":"어머니가 뭔가 알고 있다. 꺼내기 어려운 것을 품고 있다." },
+      "after_life":      { "family":"life",      "intent":"personal",  "label":"이게 처음이 아닌 것 같다",  "text":"(어머니에게) 처음이 아닌 것 같아서요.",                "innerVoice":"어머니가 대답 전에 잠깐 멈췄다. 뭔가 더 있다." },
+      "after_clinical":  { "family":"medical",   "intent":"associated","label":"검사 기록 확인",             "text":"검사 기록 가져오셨나요?",                              "innerVoice":"" }
     },
     "pivots": [
-      { "family":"medical",   "intent":"associated","label":"어떤 검사를 받으셨나요",     "text":"(어머니에게) 어떤 검사를 받으셨나요?",       "innerVoice":"" },
-      { "family":"emotional", "intent":"empathy",   "label":"기다려본다",               "text":"(어머니에게) ...말씀하시기 어려우신 거예요?", "innerVoice":"" },
-      { "family":"life",      "intent":"personal",  "label":"이게 처음이 아닌 것 같다", "text":"(어머니에게) 정말 이게 처음이세요?",         "innerVoice":"" }
+      { "family":"medical",   "intent":"associated","label":"이전 검사 여부",           "text":"(어머니에게) 전에 검사받으신 적 있으세요?", "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy",   "label":"기다려본다",               "text":"(어머니에게) ...말씀하시기 어려우신 거예요?","innerVoice":"" },
+      { "family":"life",      "intent":"personal",  "label":"이게 처음이 아닌 것 같다", "text":"(어머니에게) 처음이 아닌 것 같아서요.",     "innerVoice":"" }
     ],
-    "symptom":   {"emotion":"conflicted","text":"검사는... 다른 데서 했어요. (짧게)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
-    "empathy":   {"emotion":"sad","text":"저... 알아요. 이미. (잠시 침묵) 3개월 前... 다른 병원에서.","speaker":"mother","rapport_change":1,"flag_trigger":"reversal2","hint":"이수진이 고개를 숙임"},
-    "personal":  {"emotion":"sad","text":"(딸을 바라보며) 미안해... 말 못 했어. 3개월 전에 알았어.","speaker":"mother","rapport_change":1,"flag_trigger":"reversal2","hint":""},
-    "direct":    {"emotion":"neutral","text":"(담담하게) 알아요. 진단 받았어요. 3개월 전에.","speaker":"mother","rapport_change":0,"flag_trigger":"reversal2","hint":""},
-    "unrelated": {"emotion":"neutral","text":"(침묵. 이수진이 어머니를 바라봄)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"conflicted","text":"검사는... (딸을 본다. 그리고 다시 의사를 본다) ...받은 적 있어요.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"conflicted","text":"(조용히) 검사를 받긴 했어요. 다른 데서.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad",       "text":"(긴 침묵. 그러다 작게) ...저, 알아요. 이미. (딸을 본다)", "speaker":"mother","rapport_change":1,"flag_trigger":"reversal1"},
+    "personal":  {"emotion":"sad",       "text":"(딸을 바라보며, 조용히) 미안해... 말 못 했어. (의사에게) 알고 있어요, 저.", "speaker":"mother","rapport_change":1,"flag_trigger":"reversal1"},
+    "direct":    {"emotion":"neutral",   "text":"(담담하게) 받았어요, 검사. 알고 있어요.", "speaker":"mother","rapport_change":0,"flag_trigger":"reversal1"},
+    "character": {"emotion":"conflicted","text":"(머뭇거리다가) 어... 검사는 받은 적 있어요. (짧게 끊음)", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"conflicted","text":"(딸 손을 잡으며) ...수진아, 미안해.", "speaker":"mother","rapport_change":1,"flag_trigger":"reversal1"},
+    "symptom":   {"emotion":"conflicted","text":"(조용히) 검사를 받긴 했어요. 다른 데서.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"}
   },
   {
     "continue": {
-      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"다음 계획을 묻는다","text":"다음에 어떻게 하면 되는지 안내해드릴게요.", "innerVoice":"" },
-      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"감사합니다",       "text":"오늘 오주셔서 감사합니다.",                "innerVoice":"이분들에게 오늘이 어떤 날이었을지." },
-      "after_life":      { "family":"life",      "intent":"personal","label":"다음에 또 오세요", "text":"다음에 또 오세요.",                        "innerVoice":"" },
-      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"다음 예약",        "text":"다음 진료 예약 해드릴게요.",               "innerVoice":"" }
+      "after_medical":   { "family":"medical",   "intent":"associated","label":"어떤 검사를 받으셨나요",  "text":"(어머니에게) 어떤 검사를 받으셨나요?",             "innerVoice":"'이미 알고 있다'는 말이 걸린다. 이미 진단이 있는 건 아닐까." },
+      "after_emotional": { "family":"emotional", "intent":"empathy",   "label":"천천히 말씀하셔도 됩니다","text":"(어머니에게) 천천히 말씀하셔도 됩니다.",            "innerVoice":"어머니가 결심을 한 것 같다. 기다린다." },
+      "after_life":      { "family":"life",      "intent":"personal",  "label":"말씀하시려는 게 있으신 것 같다","text":"(어머니에게) 말씀하시려는 게 있으신 것 같아요.", "innerVoice":"무언가를 혼자 감당해온 사람의 얼굴이다." },
+      "after_clinical":  { "family":"medical",   "intent":"direct",    "label":"검사 결과 보여달라",       "text":"검사 결과 가지고 계시면 보여주실 수 있을까요?",   "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"associated","label":"어떤 검사를 받으셨나요",      "text":"(어머니에게) 어떤 검사를 받으셨나요?",           "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy",   "label":"천천히 말씀하셔도 된다",     "text":"(어머니에게) 천천히 말씀하셔도 됩니다.",          "innerVoice":"" },
+      { "family":"life",      "intent":"personal",  "label":"말씀하시려는 게 있으신 것 같다","text":"(어머니에게) 말씀하시려는 게 있으신 것 같아요.", "innerVoice":"" }
+    ],
+    "onset":     {"emotion":"sad", "text":"(조용히, 딸은 듣지 못하게 작은 목소리로) 3개월 전에... 다른 병원 갔어요. 대장에 뭐가 있다고 했어요.", "speaker":"mother","rapport_change":1,"flag_trigger":"none"},
+    "associated":{"emotion":"sad", "text":"(천천히) 대장이에요. 3개월 전에 검사에서 나왔어요.", "speaker":"mother","rapport_change":1,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad", "text":"(잠시 침묵. 그러다 조용히) ...대장암이라고 했어요. 3기. 3개월 前.", "speaker":"mother","rapport_change":2,"flag_trigger":"reversal2"},
+    "personal":  {"emotion":"sad", "text":"(딸 손을 꼭 잡고, 작은 목소리로) 대장암이에요. 3기라고 했어요. 3개월 전에 알았어요.", "speaker":"mother","rapport_change":2,"flag_trigger":"reversal2"},
+    "direct":    {"emotion":"neutral","text":"(담담하게) 대장암이에요. 3기. 3개월 전에 진단받았어요.", "speaker":"mother","rapport_change":0,"flag_trigger":"reversal2"},
+    "character": {"emotion":"sad", "text":"(천천히) 대장에... 암이 있대요. 그게... 3개월 됐어요.", "speaker":"mother","rapport_change":1,"flag_trigger":"reversal2"},
+    "comfort":   {"emotion":"sad", "text":"(딸을 보며) 수진아... (의사에게) 대장암이에요. 3기예요.", "speaker":"mother","rapport_change":1,"flag_trigger":"reversal2"},
+    "symptom":   {"emotion":"sad", "text":"(천천히) 대장이에요. 3개월 전에 검사에서 나왔어요.", "speaker":"mother","rapport_change":1,"flag_trigger":"none"}
+  },
+  {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"치료 방법을 설명한다",   "text":"지금 상태에서 어떻게 해야 할지 말씀드릴게요.",  "innerVoice":"3기. 수술 가능한 경우가 있다. 지금 먼저 현재 상황을 파악해야 한다." },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"딸을 본다",              "text":"(이수진에게) 알고 계셨나요?",                   "innerVoice":"딸의 얼굴이 굳어있다. 이미 알았나, 몰랐나." },
+      "after_life":      { "family":"life",      "intent":"personal","label":"왜 말씀 안 하셨을까",    "text":"(어머니에게) 왜 말씀 안 하셨어요?",             "innerVoice":"3개월. 이걸 혼자 가지고 있었다는 게." },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"지금부터 어떻게 하나요", "text":"지금부터 어떻게 진행할지 안내해드릴게요.",       "innerVoice":"" }
+    },
+    "pivots": [
+      { "family":"medical",   "intent":"direct",  "label":"치료 방법을 묻는다",   "text":"지금 상태에서 어떻게 해야 할지 말씀드릴게요.",   "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"딸에게 묻는다",        "text":"(이수진에게) 알고 계셨나요?",                    "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"왜 말씀 안 하셨을까", "text":"(어머니에게) 왜 말씀 안 하셨어요?",              "innerVoice":"" }
+    ],
+    "onset":     {"emotion":"exhausted","text":"(어머니 손을 잡으며) ...더 검사할 건 없나요?", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"exhausted","text":"(눈물을 억누르며) 언제부터... 언제부터 알고 계셨어요, 엄마.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"exhausted","text":"(고개를 숙이고, 눈물이 맺힌 채) ...몰랐어요. 하나도.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"exhausted","text":"(울먹이며) 왜 혼자 감당하신 거예요, 엄마...", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"conflicted","text":"(눈물을 닦으며) 치료 방법은... 있는 거죠?", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"exhausted","text":"(작게) 얼마나 진행됐는지... 더 검사해야 해요?", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"exhausted","text":"(황망한 표정으로 어머니를 바라봄)", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "symptom":   {"emotion":"exhausted","text":"(어머니 손을 잡으며) ...더 검사할 건 없나요?", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "continue": {
+      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"다음 진료를 안내한다",   "text":"다음 진료 예약 해드릴게요.",       "innerVoice":"" },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"오늘 오셔서 다행입니다", "text":"오늘 오주셔서 다행이에요.",        "innerVoice":"" },
+      "after_life":      { "family":"life",      "intent":"personal","label":"잘 오셨습니다",          "text":"오늘 잘 오셨어요.",               "innerVoice":"" },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"다음 예약",               "text":"다음 진료 예약 해드릴게요.",       "innerVoice":"" }
     },
     "pivots": [
       { "family":"medical",   "intent":"direct",  "label":"다음 진료 예약", "text":"다음 진료 예약 해드릴게요.", "innerVoice":"" },
-      { "family":"emotional", "intent":"empathy", "label":"감사합니다",     "text":"오늘 오주셔서 감사합니다.", "innerVoice":"" },
-      { "family":"life",      "intent":"personal","label":"다음에 또 오세요","text":"다음에 또 오세요.",         "innerVoice":"" }
+      { "family":"emotional", "intent":"empathy", "label":"오늘 오셔서 다행", "text":"오늘 오주셔서 다행이에요.", "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"잘 오셨습니다",   "text":"오늘 잘 오셨어요.",        "innerVoice":"" }
     ],
-    "symptom":   {"emotion":"exhausted","text":"(어머니 손을 잡으며) ...더 검사할 건 없나요?","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "empathy":   {"emotion":"exhausted","text":"(어머니 손을 꼭 쥐며, 눈물이 맺힌 채) ...말씀하실 수 있었던 거잖아요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "personal":  {"emotion":"sad","text":"(울먹이며) 왜 혼자 감당하신 거예요, 엄마...","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "direct":    {"emotion":"conflicted","text":"(눈물을 닦으며) 치료 방법은... 있는 거죠?","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "unrelated": {"emotion":"exhausted","text":"(이수진이 조용히 어머니를 안음)","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"neutral", "text":"(담담하게) 다음에 언제 오면 되나요?", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral", "text":"(조용히) 어디로 가면 되나요, 다음에.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad",     "text":"(작은 목소리로) 고마워요, 선생님. (이수진을 바라보며) 수진아, 울지 마.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"sad",     "text":"(이수진의 손을 두 손으로 꼭 잡으며) 수진아... 엄마 괜찮아. 걱정하지 마.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral", "text":"(고개를 끄덕이며) 알겠어요. 다음에 뭘 준비해오면 돼요?", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"neutral", "text":"(딸 손을 어루만지며) 많이 놀랐지... 미안해.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"sad",     "text":"(작게) 선생님... 딸이 많이 놀랐지요.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "symptom":   {"emotion":"neutral", "text":"(담담하게) 다음에 언제 오면 되나요?", "speaker":"mother","rapport_change":0,"flag_trigger":"none"}
   },
   {
     "continue": {
-      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"다음 계획 안내","text":"다음 진료 예약 해드릴게요.", "innerVoice":"" },
-      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"감사합니다",     "text":"오늘 오주셔서 감사합니다.", "innerVoice":"" },
-      "after_life":      { "family":"life",      "intent":"personal","label":"잘 오셨습니다",  "text":"오늘 잘 오셨어요.",        "innerVoice":"" },
-      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"마무리",          "text":"다음에 또 오세요.",         "innerVoice":"" }
+      "after_medical":   { "family":"medical",   "intent":"direct",  "label":"마무리한다",      "text":"다음 진료까지 잘 챙기세요.",   "innerVoice":"" },
+      "after_emotional": { "family":"emotional", "intent":"empathy", "label":"감사합니다",      "text":"오늘 오주셔서 감사합니다.",    "innerVoice":"" },
+      "after_life":      { "family":"life",      "intent":"personal","label":"잘 지내세요",     "text":"두 분 잘 지내세요.",           "innerVoice":"" },
+      "after_clinical":  { "family":"medical",   "intent":"direct",  "label":"마무리",           "text":"다음 진료까지 잘 챙기세요.",   "innerVoice":"" }
     },
     "pivots": [
-      { "family":"medical",   "intent":"direct",  "label":"다음 계획",   "text":"다음 진료 예약 해드릴게요.", "innerVoice":"" },
-      { "family":"emotional", "intent":"empathy", "label":"감사합니다",  "text":"오늘 오주셔서 감사합니다.", "innerVoice":"" },
-      { "family":"life",      "intent":"personal","label":"잘 오셨습니다","text":"오늘 잘 오셨어요.",         "innerVoice":"" }
+      { "family":"medical",   "intent":"direct",  "label":"마무리한다", "text":"다음 진료까지 잘 챙기세요.", "innerVoice":"" },
+      { "family":"emotional", "intent":"empathy", "label":"감사합니다", "text":"오늘 오주셔서 감사합니다.",   "innerVoice":"" },
+      { "family":"life",      "intent":"personal","label":"잘 지내세요","text":"두 분 잘 지내세요.",         "innerVoice":"" }
     ],
-    "symptom":   {"emotion":"neutral","text":"知道了... 다음에 어떻게 하면 되나요?","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
-    "empathy":   {"emotion":"sad","text":"知道了... (담담하게) 선생님, 고맙습니다.","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
-    "personal":  {"emotion":"sad","text":"(작은 목소리로) 선생님... 딸 잘 부탁합니다.","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""},
-    "direct":    {"emotion":"neutral","text":"알겠어요. 다음 진료 예약 해주세요.","speaker":"daughter","rapport_change":0,"flag_trigger":"none","hint":""},
-    "unrelated": {"emotion":"neutral","text":"(조용히 일어남)","speaker":"mother","rapport_change":0,"flag_trigger":"none","hint":""}
+    "onset":     {"emotion":"neutral", "text":"知道了. (자리에서 일어서며) 수진아, 가자.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral", "text":"(조용히) 네, 감사합니다.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad",     "text":"(조용히, 의사를 바라보며) 선생님... 딸 잘 부탁합니다.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"sad",     "text":"(일어서며, 작은 목소리로) 선생님, 딸 잘 부탁합니다.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral", "text":"(고개를 끄덕이며) 감사합니다. 다음에 또 올게요.", "speaker":"daughter","rapport_change":0,"flag_trigger":"none"},
+    "character": {"emotion":"neutral", "text":"(담담하게) 知道了. 알겠어요.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "comfort":   {"emotion":"sad",     "text":"(작은 목소리로) 선생님, 딸 잘 부탁합니다.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"},
+    "symptom":   {"emotion":"neutral", "text":"知道了. (조용히) 감사합니다.", "speaker":"mother","rapport_change":0,"flag_trigger":"none"}
   }
 ]

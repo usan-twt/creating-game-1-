@@ -40,7 +40,7 @@ export const EPISODE_LIST = [
       { key:"alone_visit", symbol:"보호자 없음", source:"박진수 · EP1", reading:"혼자 온 환자", meaning:"혼자 왔다는 것이 때로는 단서가 된다.\n주변 상황이 어떤지 물어볼 이유가 생긴다." },
     ],
     discoveries:{
-      jinsu_opened:{ title:"진짜 이유", text:"집에 가기 싫어서 병원에 온 것도 있다고 합니다.", color:"#6a8faa" },
+      jinsu_opened:{ title:"진짜 이유", text:"박진수 씨는 작년에 퇴직하고 혼자 지내고 있다. 흉통은 실제지만, 아침마다 갈 곳이 없다는 것도 병원에 온 이유였다.", color:"#6a8faa" },
     },
     getDayEndNarrative:(lf)=>lf.jinsu_opened
       ?["그가 왜 병원에 왔는지 알게 되었습니다."]
@@ -48,10 +48,10 @@ export const EPISODE_LIST = [
     completedFlag:"EP1_completed", localFlags:["jinsu_opened"], deepFlags:[], mechanics:{},
   },
   {
-    id:"EP2", day:2, titleNum:"EP.02", name:"왕메이링", age:63, sex:"여",
+    id:"EP2", day:2, titleNum:"EP.02", name:"왕메이링", age:78, sex:"여",
     cc:"배가 좀 아파서요.",
     subtitle:"화요일 오전 11시",
-    teaser:"63세 여성. 복통. 딸이 동석했다.",
+    teaser:"78세 여성. 복통. 딸이 통역으로 동석했다.",
     skin:"#d4c0a0", shirt:"#7a5a6a", hairColor:"#c0c0c0", hairType:"f_old",
     vitals:{ BP:"128/82", HR:"76", SpO2:"96%" },
     initialEmotion:"anxious", initialPhoneCheck:false, minTurns:5,
@@ -74,8 +74,8 @@ export const EPISODE_LIST = [
       { key:"rif_pain", symbol:"우하복부 통증", source:"왕메이링 · EP2", reading:"오른쪽 아랫배 통증", meaning:"맹장(충수)이 있는 위치.\n갑작스럽고 지속적이면 응급일 수 있다." },
     ],
     discoveries:{
-      reversal1:{ title:"균열", text:"어머니가 직접 말하기 시작했습니다.", color:"#9a8faa" },
-      reversal2:{ title:"이미 알고 있었다", text:"왕메이링 씨는 오래전부터 알고 있었습니다.", color:"#b08878" },
+      reversal1:{ title:"균열", text:"왕메이링 씨가 통역 없이 직접 말하기 시작했습니다. 딸 이수진의 시선이 달라졌습니다.", color:"#9a8faa" },
+      reversal2:{ title:"이미 알고 있었다", text:"왕메이링 씨는 3개월 전 대장암 3기 진단을 받았다. 딸이 자기 삶을 포기할까봐 혼자 감당해왔다.", color:"#b08878" },
     },
     getDayEndNarrative:(lf)=>{
       if(lf.reversal2) return["어머니가 이미 알고 있었다는 것을 들었습니다."];
@@ -110,7 +110,7 @@ export const EPISODE_LIST = [
       { key:"good_patient", symbol:"협조적인 환자", source:"김지영 · EP3", reading:"'좋은 환자'의 이면", meaning:"대답이 너무 깔끔하면 오히려 의심해볼 것.\n말해도 된다고 느껴야 사람은 진짜 이야기를 꺼낸다." },
     ],
     discoveries:{
-      real_opened:{ title:"진짜 이야기", text:"\"사실은요\"라는 말이 나왔습니다.", color:"#7a9a7a" },
+      real_opened:{ title:"진짜 이야기", text:"김지영 씨는 6개월 전 임신 12주에 유산을 경험했다. 수술 다음날 출근했고, 슬퍼할 시간을 스스로에게 주지 않았다.", color:"#7a9a7a" },
     },
     getDayEndNarrative:(lf)=>lf.real_opened
       ?["\"완벽한 환자\" 너머의 이야기를 들었습니다."]
