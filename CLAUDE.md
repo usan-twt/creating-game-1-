@@ -203,3 +203,13 @@ Deep flag map (episode `deepFlags` array에 선언):
 - **article** (EP9): `article_hint` 플래그 발동 시 notebook에 단서 문서 표시
 - **dual** (EP7): 두 `useGameLogic` 인스턴스, 별도 스크립트(`ep7a.json`, `ep7b.json`), `focused`로 활성 환자 전환, 12턴 공유 예산
 - **noPatient** (EP10): 동료/교수/혼자 3방향 선택, 각각 스크립트 또는 정적 성찰
+
+### 유틸리티
+
+- **buildInitialFlags.js**: `EPISODE_LIST`에서 `storyFlags` 초기값 자동 생성. 에피소드 추가 시 `App.jsx` 수정 불필요.
+- **episodeDependencies.js**: `dependsOn` 선언적 문서화 전용. 실제 분기 로직은 각 에피소드 함수 내에 위치. `buildDependencyGraph()`로 디버깅 가능.
+- **classifyIntent.js**: 정규식 기반 의도 분류. `ASSOCIATED_OVERRIDES` / `MEDICAL_CONTEXT` 보정 규칙으로 `personal` 버킷 오분류 방지.
+
+### 레퍼런스 파일
+
+`intern-ep01to10.jsx` (루트): EP1~EP10 전체 로직이 담긴 단일 파일 원본. 현재 `src/` 구조로 분리 완료됨. 신규 에피소드 설계 참고용으로 보존.
