@@ -147,8 +147,8 @@
       {"family":"life",      "intent":"personal","label":"집에 있기 싫으신 거예요?","text":"집에 있기 싫으신 거예요?",             "innerVoice":""}
     ],
     "onset":    {"emotion":"neutral","text":"(오래 침묵) ...뭐, 그냥 오는 게 낫겠다 싶었어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
-    "empathy":  {"emotion":"sad","text":"(긴 침묵. 핸드폰 안 봄) ...집에 가기 싫어서요. 솔직히. 아침에 일어나면 갈 데가 없어서요. (작게) 그냥 왔어요.","rapport_change":2,"flag_trigger":"jinsu_opened","phone_check":false},
-    "personal": {"emotion":"sad","text":"(시선이 낮아진 채로) 퇴직하고 나서는... 집에 있으면 답답해요. (잠깐) 갈 데가 없으니까. (작게)","rapport_change":2,"flag_trigger":"jinsu_opened","phone_check":false},
+    "empathy":  {"emotion":"sad","text":"(긴 침묵. 핸드폰 안 봄) ...집에 가기 싫어서요. 솔직히. 아침에 일어나면 갈 데가 없어서요. (작게) 그냥 왔어요.","rapport_change":2,"flag_trigger":"jinsu_opened","phone_check":false,"requires":{"medical":2},"shallow":{"emotion":"conflicted","text":"(잠깐 침묵) ...뭐, 그냥요. (짧게 시선을 낮춤)","rapport_change":1,"flag_trigger":"none","phone_check":false}},
+    "personal": {"emotion":"sad","text":"(시선이 낮아진 채로) 퇴직하고 나서는... 집에 있으면 답답해요. (잠깐) 갈 데가 없으니까. (작게)","rapport_change":2,"flag_trigger":"jinsu_opened","phone_check":false,"requires":{"medical":2},"shallow":{"emotion":"conflicted","text":"(잠깐) ...별거 없어요. (무심하게)","rapport_change":1,"flag_trigger":"none","phone_check":false}},
     "direct":   {"emotion":"neutral","text":"결과나 주시면 됩니다.","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "associated":{"emotion":"neutral","text":"(고개 저음)","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "symptom":  {"emotion":"neutral","text":"(오래 침묵) ...뭐, 그냥 오는 게 낫겠다 싶었어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},

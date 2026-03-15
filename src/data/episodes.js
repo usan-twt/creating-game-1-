@@ -45,6 +45,7 @@ export const EPISODE_LIST = [
     getDayEndNarrative:(lf)=>lf.jinsu_opened
       ?["그가 왜 병원에 왔는지 알게 되었습니다."]
       :["그가 왜 왔는지는 끝내 묻지 않았습니다."],
+    endCondition:{ medical:1, emotional:1 },
     completedFlag:"EP1_completed", localFlags:["jinsu_opened"], deepFlags:[], mechanics:{},
   },
   {
@@ -82,6 +83,7 @@ export const EPISODE_LIST = [
       if(lf.reversal1) return["통역 너머의 어머니에게 직접 닿았습니다."];
       return["통역을 통해서만 대화했습니다."];
     },
+    endCondition:{ medical:1, emotional:1 },
     completedFlag:"EP2_completed", localFlags:["daughter_suspicious","reversal1","reversal2"], deepFlags:[],
     mechanics:{ translator:true },
   },
@@ -115,6 +117,7 @@ export const EPISODE_LIST = [
     getDayEndNarrative:(lf)=>lf.real_opened
       ?["\"완벽한 환자\" 너머의 이야기를 들었습니다."]
       :["그가 말하지 않은 것은 묻지 않았기 때문입니다."],
+    endCondition:{ medical:1, emotional:1 },
     completedFlag:"EP3_completed", localFlags:["real_opened"], deepFlags:[], mechanics:{},
   },
   {
@@ -152,6 +155,7 @@ export const EPISODE_LIST = [
     getDayEndNarrative:(lf)=>lf.deeper_connection
       ?["그는 3주 전 대화를 기억하고 있었습니다."]
       :["검사 결과만 확인했습니다."],
+    endCondition:{ medical:1 },
     completedFlag:"EP4_completed", localFlags:["deeper_connection"], deepFlags:["deeper_connection"], mechanics:{},
   },
   {
@@ -184,6 +188,7 @@ export const EPISODE_LIST = [
     getDayEndNarrative:(lf)=>lf.real_opened
       ?["숨을 못 쉰 진짜 이유가 무엇인지 알게 되었습니다."]
       :["과호흡은 나아졌습니다. 이유는 묻지 않았습니다."],
+    endCondition:{ medical:1, emotional:1 },
     completedFlag:"EP5_completed", localFlags:["real_opened"], deepFlags:["real_opened"], mechanics:{ breathing:true },
   },
   {
@@ -225,6 +230,7 @@ export const EPISODE_LIST = [
       if(lf.deflected || lf.asked_the_question) return["그는 오늘도 그 질문을 꺼냈지만", "답을 받지 못했습니다."];
       return["그는 오늘도 그 질문을 꺼내지 못했습니다."];
     },
+    endCondition:{ medical:1, emotional:1 },
     completedFlag:"EP6_completed", localFlags:["asked_the_question","answered_directly","gave_comfort","deflected"], deepFlags:["gave_comfort","answered_directly"], mechanics:{},
   },
   {
@@ -310,6 +316,7 @@ export const EPISODE_LIST = [
     getDayEndNarrative:(lf)=>lf.grief_opened
       ?["이수진 씨가 어머니 이야기를 했습니다."]
       :["그녀가 왜 돌아왔는지 묻지 않았습니다."],
+    endCondition:{ medical:1, emotional:1 },
     completedFlag:"EP8_completed", localFlags:["grief_opened"], deepFlags:["grief_opened"], mechanics:{},
   },
   {
@@ -348,6 +355,7 @@ export const EPISODE_LIST = [
       if(lf.article_hint) return["직장에 뭔가 있다는 것은 알았습니다.", "하지만 진짜 이야기는 나오지 않았습니다."];
       return["3개월 전에 무슨 일이 있었는지 묻지 않았습니다."];
     },
+    endCondition:{ medical:1, emotional:1 },
     completedFlag:"EP9_completed", localFlags:["article_hint","real_opened"], deepFlags:["real_opened"], mechanics:{ article:true },
   },
   {

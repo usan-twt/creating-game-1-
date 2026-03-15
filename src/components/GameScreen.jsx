@@ -7,6 +7,19 @@ import ClinicScene from "./ClinicScene";
 import NotebookPanel from "./NotebookPanel";
 import DiscoveryFlash from "./DiscoveryFlash";
 
+// ep.endCondition = { medical: N, emotional: N, ... } 형식으로 마치기 커버리지 조건 정의
+// usedIntents의 힌트 카테고리(symptom/empathy/personal/direct)를 family로 집계해 검사
+function checkEndCondition(cond, usedIntents) {
+  if (!cond) return true;
+  const family = {
+    medical:   usedIntents.symptom  || 0,
+    emotional: usedIntents.empathy  || 0,
+    life:      usedIntents.personal || 0,
+    clinical:  usedIntents.direct   || 0,
+  };
+  return Object.entries(cond).every(([k, min]) => (family[k] || 0) >= min);
+}
+
 export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const systemPrompt   = ep.getSystemPrompt(storyFlags, residentState);
   const initialRapport = ep.getInitialRapport?.(storyFlags) ?? 0;
@@ -105,7 +118,8 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
 
   const emotionMeta = EMOTION_META[emotion]||EMOTION_META.neutral;
   const fatigueDelay = (residentState?.fatigue >= 3 && ep.day >= 4) ? 1 : 0;
-  const canEnd      = exchangeCount >= ep.minTurns + fatigueDelay;
+  const canEnd      = exchangeCount >= ep.minTurns + fatigueDelay
+                    && checkEndCondition(ep.endCondition, usedIntents);
   const turnsLeft   = scriptData ? scriptData.length - logic.turnIndex : Infinity;
   const preNotes    = typeof ep.getNotebookPre==="function" ? ep.getNotebookPre(storyFlags) : ep.notebookPre;
   const glossary    = EPISODE_LIST.filter(e=>e.completedFlag&&storyFlags[e.completedFlag]).flatMap(e=>e.glossaryEntries||[]);
