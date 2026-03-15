@@ -125,6 +125,19 @@ EP1-EP3 튜토리얼 (피로 없음). EP4+ deep flag 발동 시 +1. EP7 항상 +
 - `label`: 내적 판단 ("아들 얘기가 신경 쓰인다"), `text`: 실제 발화.
 - Deep flag 응답에는 `requires` + `shallow` 추가.
 
+### 재진 에피소드 설계 (EP4, EP8 등)
+
+base/opened 파일 분리. opened가 더 긴 경험을 제공한다 (이전 투자에 비례).
+
+| 경로 | 턴 수 | 특징 |
+|---|---|---|
+| base | 6–7턴 | 관계 없음. 사무적. deep flag 없거나 제한적 |
+| opened | 8–10턴 | 이전 관계가 콘텐츠를 연다. deep flag 가능 |
+
+- opened의 `firstChoices`에 **"기억하는" 선택지 1개 필수** (예: "지난번 이후 어떠셨어요?")
+- `endCondition: { medical: 1 }` — 관계 형성 이미 완료이므로 emotional 불필요
+- opened의 deep flag는 이전 에피소드 플래그를 전제 조건으로 포함
+
 ### 스크립트 파일 네이밍
 
 ```
