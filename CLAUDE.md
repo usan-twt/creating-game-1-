@@ -204,6 +204,84 @@ Deep flag map (episode `deepFlags` array에 선언):
 - **dual** (EP7): 두 `useGameLogic` 인스턴스, 별도 스크립트(`ep7a.json`, `ep7b.json`), `focused`로 활성 환자 전환, 12턴 공유 예산
 - **noPatient** (EP10): 동료/교수/혼자 3방향 선택, 각각 스크립트 또는 정적 성찰
 
+---
+
+## 에피소드 설계 방법론
+
+**EP1/EP2/EP3가 표준**. EP4 이후 스크립트는 아직 레거시 포맷(intent 키만 존재)이며, 신규 에피소드는 모두 아래 방식으로 설계한다.
+
+### 1단계: 캐릭터 바이블
+
+스크립트 작성 전에 캐릭터를 확정한다. 아래 항목이 모두 결정되어야 대본 작성 가능.
+
+```
+[표면] 주소(CC) + 첫인상. 플레이어가 처음 보는 것.
+[진짜] 숨겨진 이유 또는 상황. 스크립트 후반부에서만 열림.
+[성격] 의사 반응에 따른 행동 패턴.
+[라포 규칙] +1 조건 / 0 조건 / -1 조건.
+[deep flag 조건] rapport N 이상 AND 특정 intent family 사용 시 발동.
+  → deep flag는 반드시 empathy/personal 계열에서만 트리거.
+  → requires: { medical: N } 조건으로 의료 커버리지 선행 요구 가능.
+```
+
+### 2단계: 턴 흐름 설계
+
+10턴(신환 기준)의 감정·정보 곡선을 먼저 잡는다.
+
+| 턴 구간 | 역할 | 분위기 |
+|---|---|---|
+| Turn 0 | 첫인상 + 3방향 진입 선택 | 경계 / 긴장 |
+| Turn 1–3 | 의료 정보 수집 + 관계 탐색 | 중립 → 미세 변화 |
+| Turn 4–6 | 갈등 노출 + 전환 신호 | 균열 / 회피 |
+| Turn 7–8 | **Deep flag zone** — 핵심 발견 가능 지점 | 감정 개방 or 폐쇄 |
+| Turn 9 | 마무리 + 여운 | 체념 / 수용 / 여운 |
+
+### 3단계: 선택지 설계 (pivots + continue + innerVoice)
+
+각 턴(Turn 0 제외)은 아래 구조를 갖는다.
+
+```json
+{
+  "continue": {
+    "after_medical":   { "family":"medical",   "intent":"...", "label":"...", "text":"...", "innerVoice":"..." },
+    "after_emotional": { "family":"emotional", "intent":"...", "label":"...", "text":"...", "innerVoice":"..." },
+    "after_life":      { "family":"life",      "intent":"...", "label":"...", "text":"...", "innerVoice":"..." },
+    "after_clinical":  { "family":"medical",   "intent":"...", "label":"...", "text":"...", "innerVoice":"..." }
+  },
+  "pivots": [
+    { "family":"medical",   "intent":"onset",   "label":"...", "text":"...", "innerVoice":"..." },
+    { "family":"emotional", "intent":"empathy", "label":"...", "text":"...", "innerVoice":"..." },
+    { "family":"life",      "intent":"personal","label":"...", "text":"...", "innerVoice":"..." }
+  ],
+  ... (intent 키 응답들)
+}
+```
+
+**Turn 0**는 `firstChoices` 배열(3개)만 사용. `continue`/`pivots` 없음.
+
+**설계 원칙:**
+- `pivots`는 항상 medical/emotional/life 3개 방향 유지.
+- `continue`는 직전 family에 따라 자연스러운 다음 질문으로 연결.
+- `innerVoice`는 의사의 추론 과정. 선택지를 고른 이유가 보여야 함.
+- `label`은 의사의 내적 판단 (예: "아들 얘기가 신경 쓰인다"), `text`는 실제 발화.
+
+### 4단계: 응답 작성 (intent 키)
+
+각 턴의 intent 키 응답은 자유 입력 폴백 + 선택지 클릭 결과 모두에 사용된다.
+
+- Deep flag가 있는 응답에는 `requires` + `shallow` 추가 권장.
+- `flag_trigger` 응답은 **empathy/personal 계열 전용**.
+- `rapport_change` 누적이 자연스러운 호를 그리는지 확인.
+- `phone_check: true`는 환자가 집중을 잃거나 방어적일 때.
+
+### 스크립트 파일 네이밍
+
+```
+ep{N}.json            기본 스크립트
+ep{N}_{variant}.json  플래그 분기 버전 (예: ep4_opened.json, ep8_r2.json)
+ep{N}a.json / ep{N}b.json  dual 메카닉용 (EP7)
+```
+
 ### 유틸리티
 
 - **buildInitialFlags.js**: `EPISODE_LIST`에서 `storyFlags` 초기값 자동 생성. 에피소드 추가 시 `App.jsx` 수정 불필요.
