@@ -1,5 +1,10 @@
 [
   {
+    "firstChoices": [
+      { "family":"medical",   "intent":"onset",   "label":"증상부터 확인",   "text":"어디가 불편해서 오셨어요?",         "innerVoice":"피곤해 보인다. 증상부터 파악하자." },
+      { "family":"emotional", "intent":"empathy", "label":"힘들어 보인다",   "text":"많이 힘드신 것 같은데, 오셨네요.", "innerVoice":"눈 밑이 어둡다. 한동안 잠을 못 잔 것 같은 얼굴이다." },
+      { "family":"life",      "intent":"personal","label":"요즘 어떻게",     "text":"요즘 어떻게 지내세요?",            "innerVoice":"젊은 여성이 혼자 왔다. 무슨 일이 있는 건지." }
+    ],
     "symptom":   {"emotion":"exhausted","text":"잠을 좀 못 자고 있어요. 두통도 있고요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"(피곤한 표정으로) ...네, 좀 힘들어요. 잠을 못 자서요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"exhausted","text":"요즘 좀... 일이 있어서요. 잠을 못 자고 있어요.","rapport_change":0,"flag_trigger":"none"},
@@ -7,37 +12,115 @@
     "unrelated": {"emotion":"exhausted","text":"...네? (피곤한 눈으로) 아, 잠을 못 자요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"3주 정도 됐어요. 스트레스요? 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"medical",   "intent":"onset",    "label":"기간 확인",        "text":"얼마나 됐어요?", "innerVoice":"불면의 기간과 패턴을 파악해야 한다."},
+      "after_emotional": {"family":"medical",   "intent":"onset",    "label":"증상으로 넘어가자", "text":"잠을 못 주무신다고요? 언제부터요?", "innerVoice":"힘들다고 했다. 증상 파악으로 넘어가자."},
+      "after_life":      {"family":"life",      "intent":"personal", "label":"어떤 일이 있는지", "text":"어떤 일이 있으셨어요?", "innerVoice":"'일이 있어서요'라고 했다. 그 일이 뭔지 물어봐야 한다."},
+      "after_clinical":  {"family":"medical",   "intent":"onset",    "label":"불면 기간",         "text":"3주째라고요, 기간이 꽤 됐네요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"얼마나 됐어요?",  "text":"언제부터 못 주무셨어요?", "innerVoice":"기간이 중요하다."},
+      {"family":"emotional", "intent":"empathy",  "label":"많이 힘드시겠다", "text":"잠을 못 자면 정말 힘들죠.", "innerVoice":"불면이 얼마나 힘든 건지."},
+      {"family":"life",      "intent":"personal", "label":"일이 있다고",     "text":"어떤 일이 있으셨어요?", "innerVoice":"'일이 있어서'라는 말에 뭔가 더 있을 것 같다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"3주 정도 됐어요. 스트레스요? 좀 있죠.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"3주 됐어요. (짧게) 요즘 좀 힘든 일이 있어서...","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"conflicted","text":"3주요. (잠시 침묵) 집에 일이 좀 있었어요.","rapport_change":1,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"3주, 수면제 복용 없어요. 기저질환도 없고요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...3주 정도요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"스트레스 원인이요? 좀 복잡해요. (짧게)","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"스트레스가 뭔지",    "text":"스트레스 원인이 있어요?", "innerVoice":"스트레스 원인을 알면 치료 방향이 달라진다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"집에 어떤 일이",    "text":"집에 무슨 일이 있으셨어요?", "innerVoice":"'집에 일이 좀 있었어요'라고 했다. 그 일이 불면의 원인일 것이다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"집 일이라고",       "text":"집에 어떤 일이 있었어요?", "innerVoice":"'집에 일이 좀 있었어요'라고 했다. 조심스럽게 물어봐야 한다."},
+      "after_clinical":  {"family":"medical",   "intent":"associated","label":"기저질환 확인",   "text":"기저질환이나 복용 중인 약은요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"기저질환 확인",  "text":"평소 건강 문제나 복용 약이 있어요?", "innerVoice":"기저질환 배제가 필요하다."},
+      {"family":"emotional", "intent":"empathy",   "label":"힘든 일이 있었나", "text":"뭔가 힘든 일이 있으셨어요?", "innerVoice":"3주 동안 잠을 못 잤다. 이유가 있을 것이다."},
+      {"family":"life",      "intent":"personal",  "label":"집 얘기가 걸린다", "text":"집에 어떤 일이 있었어요?", "innerVoice":"'집에 일이 좀 있었어요'라는 말에 뭔가 있다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"스트레스 원인이요? 좀 복잡해요. (짧게)","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"conflicted","text":"(잠시 침묵) 어머니가 돌아가셨어요. 얼마 전에. (담담하게)","rapport_change":1,"flag_trigger":"grief_opened"},
     "personal":  {"emotion":"conflicted","text":"(조용히) 어머니가... 얼마 전에 돌아가셨어요.","rapport_change":1,"flag_trigger":"grief_opened"},
+    "associated":{"emotion":"neutral","text":"기저질환 없어요. 가족 상이요. 어머니가 돌아가셨어요.","rapport_change":0,"flag_trigger":"grief_opened"},
     "direct":    {"emotion":"neutral","text":"가족 상이요. 어머니가 돌아가셨어요.","rapport_change":0,"flag_trigger":"grief_opened"},
     "unrelated": {"emotion":"neutral","text":"...(침묵)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"exhausted","text":"간병을 했어요. 6개월. 지금은 그냥... 아무것도 하기 싫어요.","rapport_change":1,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"간병이 있었다고",   "text":"간병을 하셨어요?", "innerVoice":"어머니 사별 후 간병 기간이 있었을 것이다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"간병 기간이 어떠했나", "text":"간병은 얼마나 하셨어요?", "innerVoice":"어머니가 돌아가셨다. 간병을 했다면 얼마나 힘들었을지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"간병은 얼마나",      "text":"간병을 오래 하셨어요?", "innerVoice":"사별 후 무기력함이 지속되고 있다. 간병 기간이 얼마나 됐는지."},
+      "after_clinical":  {"family":"medical",   "intent":"associated","label":"간병 후 경과",    "text":"어머니 사별 후 얼마나 됐어요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"간병 기간",       "text":"어머니 간병은 얼마나 하셨어요?", "innerVoice":"간병 기간과 지금 무기력함이 연결될 수 있다."},
+      {"family":"emotional", "intent":"empathy",   "label":"힘드셨겠다",      "text":"많이 힘드셨겠어요.", "innerVoice":"어머니를 잃은 것이 얼마나 힘든 일인지."},
+      {"family":"life",      "intent":"personal",  "label":"혼자 간병했나",   "text":"혼자 간병하셨어요?", "innerVoice":"혼자 간병했다면 얼마나 지쳤을지."}
+    ],
+    "onset":     {"emotion":"exhausted","text":"간병을 했어요. 6개월. 지금은 그냥... 아무것도 하기 싫어요.","rapport_change":1,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"간병이 6개월이었어요. (작게) 지금은 그냥... 뭘 해야 할지 모르겠어요.","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"exhausted","text":"6개월 간병했어요. 혼자서. 형제도 없고... 지금은 텅 빈 것 같아요.","rapport_change":1,"flag_trigger":"none"},
+    "associated":{"emotion":"exhausted","text":"6개월 간병 후 사별이요. 무기력감이 지속되고 있어요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"exhausted","text":"6개월 간병 후 사별이요. 무기력감이 지속되고 있어요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"exhausted","text":"...(시선을 떨굼)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"약 처방해주시면 될 것 같아요. 잠만 잘 자면...","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"텅 빈 것 같다는 말", "text":"'텅 빈 것 같다'고 하셨는데, 그런 감정이 지속되고 있어요?", "innerVoice":"'텅 빈 것 같아요'라는 말이 걸린다. 복합 사별 반응일 수 있다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"혼자서 간병했다",    "text":"혼자 간병하셨다고요. 많이 힘드셨겠어요.", "innerVoice":"6개월을 혼자서. 형제도 없다고 했다. 얼마나 고립된 상황이었는지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"형제가 없다고",      "text":"형제도 없으셔서 혼자 다 하셨구나요.", "innerVoice":"형제가 없다. 혼자서 6개월을 버텼다."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"처방 방향",           "text":"처방에 대해 말씀드릴게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"처방 설명",      "text":"처방 말씀드릴게요.", "innerVoice":"의료적 도움을 줘야 한다."},
+      {"family":"emotional", "intent":"empathy",   "label":"텅 빈 것 같다",  "text":"'텅 빈 것 같다'는 말, 이해해요.", "innerVoice":"그 감각이 얼마나 외로운 건지."},
+      {"family":"life",      "intent":"personal",  "label":"혼자였다는 게",  "text":"6개월 동안 혼자서 하셨다는 게 정말 힘드셨겠어요.", "innerVoice":"혼자서 6개월을 버텼다는 게 얼마나 힘든 일인지."}
+    ],
+    "onset":     {"emotion":"neutral","text":"약 처방해주시면 될 것 같아요. 잠만 잘 자면...","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"(고개를 끄덕이며) 네. 알겠어요. 처방 받아갈게요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"conflicted","text":"(작게) 약으로 되는 건가요... 이런 거.","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral","text":"수면제 처방이요? 네, 알겠어요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"수면제 처방이요? 네, 알겠어요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...네. (고개 끄덕임)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"약만으로는 부족할 수도", "text":"약이 도움은 되지만, 상담도 고려해보시는 게 좋을 것 같아요.", "innerVoice":"수면제만으로는 충분하지 않을 수 있다. 상담 연계를 제안해야 한다."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"말하니까 나아진다고",   "text":"말씀해주셔서 좀 나아지셨어요?", "innerVoice":""},
+      "after_life":      {"family":"life",      "intent":"personal","label":"마무리 인사",           "text":"힘드시면 또 오세요.", "innerVoice":"마무리."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"오늘 진료 마침",        "text":"그럼 오늘 진료 마칠게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"상담 연계 제안",   "text":"상담도 고려해보시겠어요?", "innerVoice":"복합 사별 반응은 상담이 도움이 된다."},
+      {"family":"emotional", "intent":"empathy",   "label":"말해서 나아요?",   "text":"오늘 말씀해주셔서 좀 나아지셨어요?", "innerVoice":""},
+      {"family":"life",      "intent":"personal",  "label":"또 오세요",        "text":"힘드시면 언제든 또 오세요.", "innerVoice":""}
+    ],
+    "onset":     {"emotion":"neutral","text":"감사합니다.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"감사합니다. (일어서며 작게) ...말하니까 좀 나아요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"(문 앞에서) 감사해요. ...다음에 또 올게요.","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral","text":"네. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네.","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"마무리", "text":"잘 지내세요.", "innerVoice":""},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"또 오세요", "text":"또 오세요.", "innerVoice":""},
+      "after_life":      {"family":"life",      "intent":"personal","label":"건강하게", "text":"건강하게 지내세요.", "innerVoice":""},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"진료 마침", "text":"수고하셨어요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"수고하셨어요", "text":"수고하셨어요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy",   "label":"잘 지내세요", "text":"잘 지내세요.", "innerVoice":""},
+      {"family":"life",      "intent":"personal",  "label":"또 오세요",   "text":"또 오세요.", "innerVoice":""}
+    ],
+    "onset":     {"emotion":"neutral","text":"감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"감사합니다. (일어서며 작게) ...말하니까 좀 나아요.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(문 앞에서) 감사해요. ...다음에 또 올게요.","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral","text":"네. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"네. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...네.","rapport_change":0,"flag_trigger":"none"}
   }

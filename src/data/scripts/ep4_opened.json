@@ -1,5 +1,10 @@
 [
   {
+    "firstChoices": [
+      { "family":"life",      "intent":"personal","label":"기억하는 척 건넨다",   "text":"지난번에 오셨던 분 맞죠?",           "innerVoice":"얼굴이 익다. 지난번에 검사 보낸 그 환자인 것 같다." },
+      { "family":"medical",   "intent":"symptom", "label":"결과부터 확인",        "text":"결과 나왔어요. 확인해드릴게요.",      "innerVoice":"결과 확인이 목적이라고 했다. 바로 들어가는 게 맞다." },
+      { "family":"emotional", "intent":"empathy", "label":"다시 오셨네요",        "text":"다시 오셨네요. 어떻게 지내셨어요?",  "innerVoice":"지난번에 뭔가 마음에 걸리는 말을 했던 것 같다." }
+    ],
     "symptom":   {"emotion":"neutral","text":"결과 보러 왔어요. 이상 없다고 하던데.","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "empathy":   {"emotion":"neutral","text":"(들어오며 잠깐 멈춤) ...왔어요. 결과 보러요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "personal":  {"emotion":"neutral","text":"(진료실 둘러보며) 여기였군요. 왔어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
@@ -7,6 +12,17 @@
     "unrelated": {"emotion":"neutral","text":"...아, 네. 결과요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"medical",   "intent":"symptom", "label":"결과 설명 이어가기",   "text":"결과 볼게요. 이상은 없어요. 다만 혈압은 좀 봐야 해요.", "innerVoice":"결과는 일단 좋다. 그런데 지난번에 뭔가 더 있었는데."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"반응을 살핀다",        "text":"잘 지내셨어요?", "innerVoice":"들어오다 멈췄다. 여기가 낯선 건지, 나를 알아보는 건지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"기억하는지 확인",      "text":"지난번에 검사 보냈던 선생님이에요. 기억하시죠?", "innerVoice":"얼굴이 바뀐 건 아닌지 확인하자."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"수치 확인",            "text":"결과 수치 확인해드릴게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"결과부터 확인", "text":"결과 먼저 확인하고 이야기해요.", "innerVoice":"결과가 목적이니까."},
+      {"family":"emotional", "intent":"empathy", "label":"기억하는 것 같다", "text":"그때 이후 어떠셨어요?", "innerVoice":"지난번 말이 걸린다."},
+      {"family":"life",      "intent":"personal","label":"다시 보니 반갑다", "text":"다시 오셨네요.", "innerVoice":"재방문이다. 어떤 마음으로 왔는지 궁금하다."}
+    ],
     "symptom":   {"emotion":"neutral","text":"(진료실 돌아보며) 여기 선생님이었군요. ...기억하시겠어요?","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "empathy":   {"emotion":"conflicted","text":"(작게) 기억하세요? 저... 그때 이상한 말 했잖아요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
     "personal":  {"emotion":"conflicted","text":"선생님한테 말한 거... 아직도 좀 그래요. 왜 말했는지.","rapport_change":1,"flag_trigger":"none","phone_check":false},
@@ -14,6 +30,17 @@
     "unrelated": {"emotion":"neutral","text":"(어색하게) ...네. 뭐.","rapport_change":0,"flag_trigger":"none","phone_check":false}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"그때 말이 마음에 걸린다", "text":"결과는 이상 없어요. 그런데 그때 하신 말씀이 생각났어요.", "innerVoice":"결과보다 그때 그 말이 더 신경 쓰인다."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"이상한 말 아니었어요",    "text":"이상한 말 아니었어요. 그런 말 하기가 쉽지 않으셨을 텐데.", "innerVoice":"쑥스러워하고 있다. 그때 말이 뭔가 의미 있었을 것이다."},
+      "after_life":      {"family":"emotional", "intent":"empathy", "label":"기억한다고 말해준다",    "text":"기억해요. 그때 많이 힘드셨죠?", "innerVoice":"기억한다는 것만으로도 다를 것이다."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"결과 내용 설명",         "text":"혈압 경계선이고 나머지는 정상이에요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"혈압 경계선 얘기", "text":"혈압이 좀 높아요. 생활습관 얘기를 드려야 해서요.", "innerVoice":"의료적으로 빠뜨리면 안 된다."},
+      {"family":"emotional", "intent":"empathy", "label":"그때 말이 기억난다", "text":"그때 하신 말이 생각났어요.", "innerVoice":"그 말이 계속 머릿속에 있었다."},
+      {"family":"life",      "intent":"personal","label":"어떻게 지내셨어요", "text":"그때 이후로 어떻게 지내셨어요?", "innerVoice":"집 얘기를 했었는데. 어떻게 됐는지 궁금하다."}
+    ],
     "symptom":   {"emotion":"conflicted","text":"(혈압 이야기에 짧게) 생활습관... 뭐, 알죠. 담배 좀 줄여야 되는 거. (잠깐 망설임) 그때 그 말은... 그냥 나온 거예요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
     "empathy":   {"emotion":"conflicted","text":"(시선을 돌리며) ...신경 써주시는 거 고마운데. 괜찮아요, 진짜.","rapport_change":1,"flag_trigger":"none","phone_check":false},
     "personal":  {"emotion":"conflicted","text":"(작게) 집엔... 가긴 갔어요. 좀 서먹하긴 한데.","rapport_change":1,"flag_trigger":"none","phone_check":false},
@@ -21,6 +48,17 @@
     "unrelated": {"emotion":"neutral","text":"...네. 생활습관이요. 알겠어요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"집 얘기가 신경 쓰인다", "text":"생활습관도 중요한데, 집에는 가셨어요?", "innerVoice":"그때 집에 가기 싫다고 했다. 궁금하다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"집은 어떻게 됐어요",   "text":"그때 집에 가기 싫다고 하셨잖아요. 그 후로 어떻게 됐어요?", "innerVoice":"'그냥 나온 거예요'라고 했지만, 그 말엔 분명히 뭔가 있었다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"집 얘기를 묻는다",     "text":"서먹하다고 하셨는데, 많이 어색해요?", "innerVoice":"집에는 갔다고 한다. 어떤 상황인지 더 알고 싶다."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"다음 관리 안내",        "text":"생활습관 관리랑 3개월 후 재검하는 게 좋겠어요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"담배 줄이고 있나", "text":"담배는 좀 줄이고 있어요?", "innerVoice":"의료적으로 확인할 사항이다."},
+      {"family":"emotional", "intent":"empathy", "label":"괜찮다는 말이 걸린다", "text":"'괜찮다'고 하셨는데, 정말요?", "innerVoice":"'괜찮다'는 말이 오히려 걸린다."},
+      {"family":"life",      "intent":"personal","label":"집은 어떻게",     "text":"집에 가셨어요, 그때 이후로?", "innerVoice":"집에 가기 싫다고 했던 게 기억난다."}
+    ],
     "symptom":   {"emotion":"neutral","text":"(작게) 집엔 갔어요. ...서먹하긴 한데. 뭐.","rapport_change":1,"flag_trigger":"none","phone_check":false},
     "empathy":   {"emotion":"conflicted","text":"(잠깐 침묵 후) ...좀 나아지고 있어요. 조금씩.","rapport_change":1,"flag_trigger":"none","phone_check":false},
     "personal":  {"emotion":"conflicted","text":"(한숨) 부모님이랑은... 아직 어색해요. 근데 밥은 같이 먹었어요.","rapport_change":1,"flag_trigger":"none","phone_check":false},
@@ -28,13 +66,71 @@
     "unrelated": {"emotion":"neutral","text":"...네. (시선 회피)","rapport_change":0,"flag_trigger":"none","phone_check":false}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"조금씩 나아지고 있구나", "text":"조금씩 나아지고 있다니 다행이에요.", "innerVoice":"작은 변화가 중요하다. 그 변화를 알아봐줘야 한다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"밥을 같이 먹었다",     "text":"밥 같이 드셨다는 거, 사실 큰 거예요.", "innerVoice":"'밥은 같이 먹었어요'가 걸린다. 그게 얼마나 어려운 일인지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"어색해도 갔다",        "text":"어색해도 갔다는 게... 잘 하셨어요.", "innerVoice":"억지로라도 간 것에 의미가 있다."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"몸 상태 확인",          "text":"가슴 쪽 증상은 지금 어때요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"가슴 증상 지금은", "text":"가슴 쪽 증상은 요즘 어떠세요?", "innerVoice":"처음 왔을 때 흉통으로 왔었다. 지금은 어떤지 확인해야 한다."},
+      {"family":"emotional", "intent":"empathy", "label":"조금씩 나아지고 있다", "text":"조금씩 나아지고 있다니 다행이에요.", "innerVoice":"작은 변화를 알아봐줘야 한다."},
+      {"family":"life",      "intent":"personal","label":"밥 같이 드셨다",  "text":"밥 같이 드신 거, 쉽지 않으셨을 텐데요.", "innerVoice":"그 말에 뭔가 더 있다."}
+    ],
     "symptom":   {"emotion":"neutral","text":"몸은 괜찮아요. 가슴 답답한 건 없어졌어요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
-    "empathy":   {"emotion":"sad","text":"나아지고 있어요. 조금씩. (고개를 끄덕이며) 뭐, 한꺼번에 되는 게 어디 있겠어요.","rapport_change":1,"flag_trigger":"deeper_connection","phone_check":false},
-    "personal":  {"emotion":"sad","text":"(조용히) 집에 가는 게... 덜 싫어졌어요. 조금.","rapport_change":1,"flag_trigger":"deeper_connection","phone_check":false},
+    "empathy":   {"emotion":"sad","text":"나아지고 있어요. 조금씩. (고개를 끄덕이며) 뭐, 한꺼번에 되는 게 어디 있겠어요.","rapport_change":1,"flag_trigger":"none","phone_check":false,"requires":{"medical":1},"shallow":{"emotion":"neutral","text":"뭐, 그냥저냥이에요. (짧게)","rapport_change":0,"flag_trigger":"none","phone_check":false}},
+    "personal":  {"emotion":"sad","text":"(조용히) 집에 가는 게... 덜 싫어졌어요. 조금.","rapport_change":1,"flag_trigger":"none","phone_check":false,"requires":{"medical":1},"shallow":{"emotion":"neutral","text":"뭐, 어떻게든 되겠죠. (짧게)","rapport_change":0,"flag_trigger":"none","phone_check":false}},
     "direct":    {"emotion":"neutral","text":"증상은 없어요. 정기 검진만 하면 되죠?","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "unrelated": {"emotion":"neutral","text":"...뭐, 그렇죠.","rapport_change":0,"flag_trigger":"none","phone_check":false}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"집이 조금씩 달라지고 있다", "text":"집에 가는 게 덜 싫어졌다... 그게 쉬운 변화가 아닌데.", "innerVoice":"그 말이 얼마나 큰 변화인지 본인이 알고 있을까."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"어떻게 된 건지 묻는다", "text":"집에서 뭔가 달라진 거예요?", "innerVoice":"'덜 싫어졌다'는 말 뒤에 뭔가 더 있을 것 같다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"집에 어떤 변화가",     "text":"집에서 어떤 변화가 있었어요?", "innerVoice":"조금씩 나아지고 있다는 게 구체적으로 어떤 건지 궁금하다."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"다음 방문 일정",        "text":"3개월 후 다시 혈압 체크하러 오세요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"다음 방문 일정", "text":"3개월 후에 다시 봐요.", "innerVoice":"마무리 단계에서 의료적 일정을 잡는다."},
+      {"family":"emotional", "intent":"empathy", "label":"집이 달라지고 있다", "text":"조금씩 달라지고 있는 거잖아요.", "innerVoice":"그 말에 힘을 실어줘야 한다."},
+      {"family":"life",      "intent":"personal","label":"어떤 변화가",     "text":"집에서 뭔가 달라진 게 있어요?", "innerVoice":"구체적으로 어떤 변화인지 듣고 싶다."}
+    ],
+    "symptom":   {"emotion":"neutral","text":"다음에 또 오면 되죠. ...수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"sad","text":"(잠깐 생각하다가) ...아버지랑 얘기를 좀 했어요. 짧게. 그게 처음이었어요, 퇴직하고 나서. (작게)","rapport_change":2,"flag_trigger":"deeper_connection","phone_check":false,"requires":{"medical":1},"shallow":{"emotion":"neutral","text":"뭐, 그냥요. 별거 없어요. (시선을 낮춤)","rapport_change":0,"flag_trigger":"none","phone_check":false}},
+    "personal":  {"emotion":"sad","text":"(조용히) 아버지가... 뭐라고 하더라고요. 되게 오랜만에. (잠깐 멈춤)","rapport_change":2,"flag_trigger":"deeper_connection","phone_check":false,"requires":{"medical":1},"shallow":{"emotion":"neutral","text":"뭐, 그냥 시간이 지나면 되겠죠. (짧게)","rapport_change":0,"flag_trigger":"none","phone_check":false}},
+    "direct":    {"emotion":"neutral","text":"증상은 없어요. 정기 검진만 하면 되죠?","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...뭐, 그렇죠.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"아버지랑 처음 얘기를", "text":"퇴직하고 처음으로 아버지랑 얘기를 했다는 거죠?", "innerVoice":"그 '처음'이 얼마나 오랜 침묵 끝의 일인지."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"어떤 대화였는지",     "text":"어떤 얘기를 하셨어요?", "innerVoice":"'처음이었어요'라는 말 뒤에 뭔가 더 있다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"아버지랑 뭘 얘기했나", "text":"아버지가 뭐라고 하셨어요?", "innerVoice":"아버지가 먼저 말했다는 건데, 어떤 말이었을까."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"마무리 정리",           "text":"3개월 후 재검이에요. 그때 봐요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"마무리", "text":"3개월 후에 다시 봐요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy", "label":"대단한 일이에요", "text":"그거 쉬운 일이 아닌데.", "innerVoice":"작아 보이는 일이 실제로는 얼마나 큰 일인지."},
+      {"family":"life",      "intent":"personal","label":"아버지가 뭐라고", "text":"아버지가 뭐라고 하셨어요?", "innerVoice":"구체적인 이야기가 궁금하다."}
+    ],
+    "symptom":   {"emotion":"neutral","text":"다음에 또 오면 되죠. ...수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "empathy":   {"emotion":"neutral","text":"(문 앞에서) ...감사해요. 진짜로. 다음에 또 올게요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "personal":  {"emotion":"neutral","text":"(작게 웃으며) 다음에 또 오죠. 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "direct":    {"emotion":"neutral","text":"알겠어요. 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
+    "unrelated": {"emotion":"neutral","text":"...네. 가볼게요.","rapport_change":0,"flag_trigger":"none","phone_check":false}
+  },
+  {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"마무리 인사", "text":"잘 지내세요.", "innerVoice":"마무리."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"또 오길 기다리겠다", "text":"다음에 또 오세요.", "innerVoice":"다시 오겠다고 했다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"좋은 변화가 있길", "text":"좋은 일 있으시길 바라요.", "innerVoice":""},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"오늘 진료 마침", "text":"그럼 오늘 이걸로 마칠게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"수고하셨어요", "text":"오늘 수고하셨어요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy", "label":"잘 지내세요", "text":"잘 지내세요.", "innerVoice":""},
+      {"family":"life",      "intent":"personal","label":"또 오세요",   "text":"다음에 또 오세요.", "innerVoice":""}
+    ],
     "symptom":   {"emotion":"neutral","text":"다음에 또 오면 되죠. ...수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "empathy":   {"emotion":"neutral","text":"(문 앞에서) ...감사해요. 진짜로. 다음에 또 올게요.","rapport_change":0,"flag_trigger":"none","phone_check":false},
     "personal":  {"emotion":"neutral","text":"(작게 웃으며) 다음에 또 오죠. 수고하세요.","rapport_change":0,"flag_trigger":"none","phone_check":false},

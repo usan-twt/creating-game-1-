@@ -1,55 +1,173 @@
 [
   {
-    "symptom":   {"emotion":"exhausted","text":"3개월 정도 됐어요. 두통이랑 불면. 진통제 먹어도 잠깐인 것 같고.","rapport_change":0,"flag_trigger":"none"},
+    "firstChoices": [
+      { "family":"medical",   "intent":"onset",   "label":"증상부터 확인",   "text":"어디가 불편해서 오셨어요?",          "innerVoice":"피곤해 보인다. 증상부터 파악하자." },
+      { "family":"emotional", "intent":"empathy", "label":"힘들어 보인다",   "text":"많이 힘드신 것 같은데, 어떻게 오셨어요.", "innerVoice":"눈이 무겁다. 많이 지쳐있는 것 같다." },
+      { "family":"life",      "intent":"personal","label":"요즘 어떻게",     "text":"요즘 어떻게 지내세요?",             "innerVoice":"30대 남성이 혼자. 무슨 일이 있는 건지." }
+    ],
+    "onset":     {"emotion":"exhausted","text":"3개월 정도 됐어요. 두통이랑 불면. 진통제 먹어도 잠깐인 것 같고.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"(피곤한 표정) ...네, 좀 힘들어요. 3개월째 잠을 잘 못 자요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"exhausted","text":"요즘 좀 복잡한 일이 있어서... 3개월째 두통이랑 불면이에요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"exhausted","text":"두통, 불면, 3개월. 진통제 효과 일시적.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"exhausted","text":"...네? 아, 두통이요. 3개월 됐어요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"수면은 4~5시간? 잠들기가 힘들어요. 생각이 많아서요.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"medical",   "intent":"onset",    "label":"수면 패턴 확인",   "text":"잠을 어느 정도 자세요? 잠들기가 어려운 건지, 자다가 깨는 건지.", "innerVoice":"불면의 패턴을 파악해야 한다."},
+      "after_emotional": {"family":"medical",   "intent":"onset",    "label":"얼마나 됐는지",   "text":"3개월이면 꽤 됐네요. 잠을 어떻게 못 주무세요?", "innerVoice":"3개월이면 만성화된 것이다."},
+      "after_life":      {"family":"life",      "intent":"personal", "label":"복잡한 일이 있다고", "text":"복잡한 일이 있다고 하셨는데, 직장 일이에요?", "innerVoice":"'복잡한 일'이 뭔지 물어봐야 한다."},
+      "after_clinical":  {"family":"medical",   "intent":"onset",    "label":"수면 시간",         "text":"하루에 몇 시간 자세요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"수면 시간",        "text":"하루에 몇 시간 주무세요?", "innerVoice":"수면 시간과 질을 파악해야 한다."},
+      {"family":"emotional", "intent":"empathy",  "label":"3개월이면 힘들겠다", "text":"3개월이면 정말 힘드셨겠어요.", "innerVoice":"3개월 동안 얼마나 힘들었을지."},
+      {"family":"life",      "intent":"personal", "label":"복잡한 일이 있다고", "text":"복잡한 일이 있으세요?", "innerVoice":"'복잡한 일'이 뭔지 물어봐야 한다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"수면은 4~5시간? 잠들기가 힘들어요. 생각이 많아서요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"(작게) 잠들기가 힘들어요. 자꾸 생각이 나서... 4시간 정도요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"생각이 많아서 잠을 못 자요. 직장 일 때문에...","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"입면장애, 4-5시간. 중도각성도 있어요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...4시간? 5시간? 그 정도요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"스트레스 원인이요? 직장이요. (짧게)","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"생각이 많다는 게",  "text":"어떤 생각들이 많으세요?", "innerVoice":"'생각이 많아서'라는 말이 걸린다. 그 생각들이 뭔지."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"직장 일 때문에",   "text":"직장 일 때문에 힘드신 거예요?", "innerVoice":"직장 일이라고 했다. 그게 뭔지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"직장에서 무슨 일", "text":"직장에서 어떤 일이 있으셨어요?", "innerVoice":"직장 일 때문이라고 했다. 구체적으로 뭔지."},
+      "after_clinical":  {"family":"medical",   "intent":"onset",   "label":"스트레스 원인",     "text":"스트레스 원인이 있어요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"스트레스 원인",    "text":"스트레스 원인이 있어요?", "innerVoice":"불면의 원인이 되는 스트레스를 파악해야 한다."},
+      {"family":"emotional", "intent":"empathy",  "label":"어떤 생각들인지", "text":"어떤 생각들이 많으세요?", "innerVoice":"그 생각들이 뭔지 알아야 한다."},
+      {"family":"life",      "intent":"personal", "label":"직장 이야기",     "text":"직장 일 때문이에요?", "innerVoice":"직장 일이 원인인 것 같다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"스트레스 원인이요? 직장이요. (짧게)","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"conflicted","text":"(잠시 후) ...누구한테도 말 못 한 건데. 직장에서 좀... (말끝 흐림)","rapport_change":1,"flag_trigger":"article_hint"},
     "personal":  {"emotion":"conflicted","text":"직장 관련해서 좀... 복잡한 게 있어요. (짧게, 더 말하기 싫은 듯)","rapport_change":1,"flag_trigger":"article_hint"},
     "direct":    {"emotion":"neutral","text":"직장 스트레스요. 상세하게 말하기는... 좀 그래요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...직장이요. (더 이상 말 안 함)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"3개월 전에 뭔가 있었어요. 직장에서. (짧게)","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"말하기 어렵다는 것", "text":"말하기 어려우신 거군요.", "innerVoice":"말하기 어렵다고 했다. 억지로 캐묻기보단 기다려야 한다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"3개월 전에 뭔가",  "text":"3개월 전에 무슨 일이 있었어요?", "innerVoice":"3개월 전부터 시작됐다. 그때 무슨 일이 있었는지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"직장에서 뭔가",    "text":"직장에서 어떤 일이요?", "innerVoice":"복잡한 일이 있다고 했다. 더 들어봐야 한다."},
+      "after_clinical":  {"family":"medical",   "intent":"onset",   "label":"직장 스트레스",     "text":"직장 스트레스가 심하신 거군요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"3개월 전 시작됐다", "text":"3개월 전에 뭔가 있었어요?", "innerVoice":"발생 시점과 일치하는 사건이 있을 것이다."},
+      {"family":"emotional", "intent":"empathy",  "label":"말하기 어렵구나",   "text":"말하기 어려운 일이 있는 것 같아요.", "innerVoice":"억지로 캐묻지 말자. 기다려야 한다."},
+      {"family":"life",      "intent":"personal", "label":"직장에서 뭔가",     "text":"직장에서 어떤 일이 있었어요?", "innerVoice":"직장 이야기가 걸린다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"3개월 전에 뭔가 있었어요. 직장에서. (짧게)","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"anxious","text":"(조용히) 3개월 전에... 뭔가가 있었어요. 직장에서. 아직 정리가 안 됐어요.","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"anxious","text":"3개월 전에 직장에서... 뭔가를 봤어요. 그 뒤로 계속 생각나서.","rapport_change":1,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"3개월 전 사건이요. 업무 관련인데 자세히는...","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...3개월 전이요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"그게 뭔지는... 말하기 어려워요.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"아직 정리가 안 됐다",  "text":"아직 정리가 안 됐다고 하셨는데, 많이 힘드시겠어요.", "innerVoice":"'아직 정리가 안 됐어요'라는 말. 3개월 동안 혼자 안고 있었던 것이다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"뭔가를 봤다는 것",    "text":"뭔가를 봤다는 게 어떤 건지 여쭤봐도 될까요?", "innerVoice":"'뭔가를 봤어요'라고 했다. 조심스럽게 물어봐야 한다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"계속 생각난다는 것", "text":"계속 생각난다고 하셨는데, 어떤 일이에요?", "innerVoice":"'계속 생각난다'는 게 PTSD 비슷한 증상일 수 있다."},
+      "after_clinical":  {"family":"emotional", "intent":"empathy", "label":"말하기 힘들겠다",     "text":"말하기 어려운 상황이군요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"의무기록 보안",      "text":"이야기하신 내용은 철저하게 보호돼요.", "innerVoice":"비밀 보장이 걱정될 수 있다. 먼저 말해줘야 한다."},
+      {"family":"emotional", "intent":"empathy",  "label":"3개월이나 혼자서",   "text":"3개월 동안 혼자 안고 계셨군요.", "innerVoice":"혼자 3개월을 버텼다는 게 얼마나 힘든 일인지."},
+      {"family":"life",      "intent":"personal", "label":"뭘 봤는지 물어본다", "text":"어떤 일을 보셨어요?", "innerVoice":"조심스럽게 물어봐야 한다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"그게 뭔지는... 말하기 어려워요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"conflicted","text":"(잠시 후) 선생님한테 말하면... 비밀이 지켜지나요?","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"conflicted","text":"(작게) 이거 말하면... 저한테 불이익이 올 수도 있거든요.","rapport_change":1,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"의무기록에 남나요? ...좀 민감한 거라서요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...(침묵)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"...그냥 처방만 해주세요.","rapport_change":0,"flag_trigger":"none"},
-    "empathy":   {"emotion":"sad","text":"사실은... 제가 뭔가를 봤어요. 3개월 전에. (잠시 침묵) 어떻게 해야 할지 모르겠어서.","rapport_change":1,"flag_trigger":"real_opened"},
-    "personal":  {"emotion":"sad","text":"(떨리는 목소리로) 회사에서... 뭔가 잘못된 걸 봤어요. 그걸 말해야 하는지...","rapport_change":1,"flag_trigger":"real_opened"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"비밀 보장을 확인해준다",  "text":"의무기록은 철저하게 보호돼요. 외부에 나가지 않아요.", "innerVoice":"비밀 보장이 걱정되는 것이다. 확인해줘야 한다."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"불이익이 걱정된다",      "text":"불이익이 걱정되시는 거군요.", "innerVoice":"'저한테 불이익이 올 수도 있다'는 말이 걸린다. 심각한 것을 봤나."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"비밀 보장 확인",         "text":"여기서 하시는 말씀은 철저히 비밀이 보장돼요.", "innerVoice":"비밀 보장이 걱정되는 것이다. 확인해줘야 한다."},
+      "after_clinical":  {"family":"medical",   "intent":"onset",   "label":"의무기록 보안 확인",     "text":"의무기록은 외부에 나가지 않아요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"비밀은 지켜져요",   "text":"여기서 하시는 말씀은 비밀이 지켜져요.", "innerVoice":"비밀 보장을 확인해줘야 말할 수 있을 것이다."},
+      {"family":"emotional", "intent":"empathy",  "label":"말하기 두렵다는 것", "text":"말하기 두려우신 거죠.", "innerVoice":"말하고 싶지만 두려운 것이다."},
+      {"family":"life",      "intent":"personal", "label":"불이익이 걱정된다", "text":"불이익이 걱정되시는 거군요.", "innerVoice":"불이익이 걱정된다는 게 무슨 일인지."}
+    ],
+    "onset":     {"emotion":"neutral","text":"...그냥 처방만 해주세요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"sad","text":"사실은... 제가 뭔가를 봤어요. 3개월 전에. (잠시 침묵) 어떻게 해야 할지 모르겠어서.","rapport_change":1,"flag_trigger":"real_opened","requires":{"medical":1},"shallow":{"emotion":"conflicted","text":"(작게) 말하면 복잡해질 것 같아요. 처방만 해주세요.","rapport_change":0,"flag_trigger":"none"}},
+    "personal":  {"emotion":"sad","text":"(떨리는 목소리로) 회사에서... 뭔가 잘못된 걸 봤어요. 그걸 말해야 하는지...","rapport_change":1,"flag_trigger":"real_opened","requires":{"medical":1},"shallow":{"emotion":"conflicted","text":"(잠깐 고민하다) ...아직 말하기 어려워요. 처방만 받아갈게요.","rapport_change":0,"flag_trigger":"none"}},
     "direct":    {"emotion":"neutral","text":"(잠깐 고민하다) ...내부 문제를 목격했어요. 신고할지 말지.","rapport_change":0,"flag_trigger":"real_opened"},
     "unrelated": {"emotion":"neutral","text":"...(입을 열다 닫음)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"네. 약 받아갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"어떻게 해야 할지 모른다", "text":"어떻게 해야 할지 모르신다고, 3개월 동안 혼자 안고 계셨군요.", "innerVoice":"'어떻게 해야 할지 모르겠어서'라는 말이 걸린다. 얼마나 힘들었을까."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"잘못된 걸 봤다는 것", "text":"잘못된 것을 보셨다는 게 어떤 건지 여쭤봐도 될까요?", "innerVoice":"'잘못된 걸 봤어요'라고 했다. 무엇을 봤는지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"신고를 해야 할지",    "text":"신고를 해야 할지 고민하신다는 거죠.", "innerVoice":"신고 여부가 3개월 동안 그를 짓눌러온 것이다."},
+      "after_clinical":  {"family":"emotional", "intent":"empathy", "label":"혼자 안고 있었다",    "text":"혼자 안고 계셨군요, 3개월 동안.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"처방 안내",          "text":"처방에 대해 말씀드릴게요.", "innerVoice":"의료적 도움을 줘야 한다."},
+      {"family":"emotional", "intent":"empathy",  "label":"혼자 안고 있었다",   "text":"혼자 3개월을 안고 계셨군요.", "innerVoice":"그 무게가 얼마나 컸을지."},
+      {"family":"life",      "intent":"personal", "label":"신고 고민이라고",    "text":"신고를 해야 할지 말지 고민하신다는 거죠.", "innerVoice":"내부 고발의 두려움이 얼마나 큰지."}
+    ],
+    "onset":     {"emotion":"neutral","text":"네. 약 받아갈게요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"말했다고 달라지는 건 없겠죠. 근데... 말하고 싶었어요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"exhausted","text":"(조용히) 혼자 안고 있으니까 미칠 것 같았어요. 말해서 좀 나아요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"상담 연계요? ...생각해볼게요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...(고개를 숙임)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"감사합니다. 약 타러 갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"말해서 나아진다고",  "text":"말하고 나서 좀 나아지셨어요?", "innerVoice":"'말해서 좀 나아요'라는 말이 걸린다."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"말하고 싶었다고",    "text":"말하고 싶었다고 하셨는데, 잘 말씀해주셨어요.", "innerVoice":"3개월 동안 아무도 모르게 안고 있었다. 오늘 처음 말한 것이다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"혼자 안고 있어서 힘들다", "text":"혼자 안고 있으니까 힘드셨겠어요.", "innerVoice":"'혼자 안고 있으니까 미칠 것 같았어요'라는 말이 걸린다."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"상담 연계 제안",      "text":"상담도 같이 연계하는 게 도움이 될 것 같아요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"상담 연계 제안",   "text":"상담도 고려해보시겠어요?", "innerVoice":"혼자 안고 있기엔 너무 무거운 것이다. 상담이 필요하다."},
+      {"family":"emotional", "intent":"empathy",  "label":"말하고 나니 나아요?", "text":"말하고 나서 좀 나아지셨어요?", "innerVoice":""},
+      {"family":"life",      "intent":"personal", "label":"달라지는 게 있을 거다", "text":"달라지는 게 없을 것 같아도, 말하는 것 자체가 의미 있어요.", "innerVoice":"'달라지는 건 없겠죠'라고 했다. 그 말에 뭔가 답해줘야 한다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"감사합니다. 약 타러 갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"알겠어요. ...감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(작게) 선생님한테 말해서 다행이에요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 처방전 주세요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네. (나감)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"마무리 인사", "text":"잘 지내세요.", "innerVoice":"마무리."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"또 오세요", "text":"힘드시면 또 오세요.", "innerVoice":""},
+      "after_life":      {"family":"life",      "intent":"personal","label":"잘 되길 바란다", "text":"좋은 방향으로 결정하시길 바라요.", "innerVoice":"신고 여부에 대한 고민. 좋은 방향으로 가길 바란다."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"진료 마침", "text":"수고하셨어요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"수고하셨어요", "text":"수고하셨어요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy",  "label":"잘 지내세요", "text":"잘 지내세요.", "innerVoice":""},
+      {"family":"life",      "intent":"personal", "label":"또 오세요",   "text":"필요하면 또 오세요.", "innerVoice":""}
+    ],
+    "onset":     {"emotion":"neutral","text":"감사합니다. 약 타러 갈게요.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"알겠어요. ...감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(작게) 선생님한테 말해서 다행이에요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 처방전 주세요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"...네. (나감)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"마무리", "text":"잘 지내세요.", "innerVoice":""},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"마무리", "text":"또 오세요.", "innerVoice":""},
+      "after_life":      {"family":"life",      "intent":"personal","label":"마무리", "text":"좋은 일 있으시길 바라요.", "innerVoice":""},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"진료 마침", "text":"수고하셨어요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"onset",    "label":"수고하셨어요", "text":"수고하셨어요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy",  "label":"잘 지내세요", "text":"잘 지내세요.", "innerVoice":""},
+      {"family":"life",      "intent":"personal", "label":"또 오세요",   "text":"필요하면 또 오세요.", "innerVoice":""}
+    ],
+    "onset":     {"emotion":"neutral","text":"감사합니다. 약 타러 갈게요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"알겠어요. ...감사합니다.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"(작게) 선생님한테 말해서 다행이에요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"네. 처방전 주세요. 감사합니다.","rapport_change":0,"flag_trigger":"none"},

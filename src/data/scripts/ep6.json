@@ -1,5 +1,10 @@
 [
   {
+    "firstChoices": [
+      { "family":"medical",   "intent":"symptom", "label":"증상부터 확인",   "text":"지난번보다 어떠세요?",               "innerVoice":"COPD 말기 환자다. 지난번 기록이 있다. 변화 여부를 먼저 확인해야 한다." },
+      { "family":"emotional", "intent":"empathy", "label":"힘드셨겠다",      "text":"오시기 힘드셨을 것 같아요.",         "innerVoice":"숨이 차면 이동도 힘들다. 여기까지 오신 게 쉽지 않으셨을 것 같다." },
+      { "family":"life",      "intent":"personal","label":"요즘 어떻게",     "text":"요즘은 어떻게 지내고 계세요?",      "innerVoice":"혼자 사신다고 했다. 일상이 어떤지 물어보는 게 먼저일 수도 있다." }
+    ],
     "symptom":   {"emotion":"resigned","text":"뭐... 크게 달라진 건 없어요. 숨이 좀 더 차고.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"resigned","text":"(힘없이 웃으며) 신경 써줘서 고맙소. 뭐, 나이가 나이인데.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"resigned","text":"요즘이요? 그냥 그렇지 뭐. 하루하루 사는 거지.","rapport_change":0,"flag_trigger":"none"},
@@ -7,6 +12,17 @@
     "unrelated": {"emotion":"resigned","text":"...네? 아, 뭐 크게 달라진 건 없어요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"medical",   "intent":"symptom", "label":"악화 정도 파악",     "text":"숨이 더 차다고 하셨는데, 어느 정도로요?", "innerVoice":"'좀 더 차다'가 어느 정도인지 수치화해야 한다."},
+      "after_emotional": {"family":"medical",   "intent":"symptom", "label":"증상 확인으로",      "text":"오시느라 힘드셨겠어요. 요즘 숨 차는 게 어느 정도예요?", "innerVoice":"안부 먼저 받아주고 증상 확인으로 넘어가자."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"일상 이야기 듣는다",  "text":"하루하루 어떻게 보내세요?", "innerVoice":"'하루하루 사는 거지'라고 했다. 그 하루하루가 어떤지 물어봐야 한다."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"수치 설명",           "text":"수치 보여드릴게요. 폐 기능이 좀 더 떨어졌어요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"보행 거리 확인",  "text":"얼마나 걸을 수 있어요?", "innerVoice":"보행 가능 거리가 기능 지표다."},
+      {"family":"emotional", "intent":"empathy", "label":"나이 탓으로 돌린다", "text":"나이 탓이라고 하셨는데, 더 힘드신 건 아닌가요?", "innerVoice":"'나이가 나이인데'라는 말이 걸린다. 체념인가, 아니면 다른 뭔가인가."},
+      {"family":"life",      "intent":"personal","label":"산책은 하세요?",   "text":"요즘 바깥에 나가시기도 해요?", "innerVoice":"외출이 가능한 상태인지 궁금하다."}
+    ],
     "symptom":   {"emotion":"resigned","text":"(기침을 한 번 하고) 100m는 이제 좀 힘들어요. 쉬엄쉬엄 가면 되니까.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"resigned","text":"괜찮아요, 선생님. 늙으면 다 이래. (기침) 100m가 좀 힘들 뿐이지.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"resigned","text":"산책도 못 해요 이젠. 집에만 있으니까... 뭐.","rapport_change":0,"flag_trigger":"none"},
@@ -14,6 +30,17 @@
     "unrelated": {"emotion":"resigned","text":"...(기침) 네.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"집에만 계신다는 게", "text":"집에만 계신다고 하셨는데, 힘드시겠어요.", "innerVoice":"산책도 못 하고 집에만 있는 생활. 어떤 기분일까."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"혼자 지내신다고",    "text":"혼자 지내신다고 하셨는데, 챙겨주는 분이 있어요?", "innerVoice":"'늙으면 다 이래'라는 말 속에 뭔가 있다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"가족이 어떻게 되나", "text":"가족분은 어떻게 되세요?", "innerVoice":"집에만 있다고 했다. 혼자 계신 건지, 가족이 있는 건지."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"악화 확인",           "text":"100m에서 호흡곤란이면 악화된 거 맞아요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"가족이 있나요",     "text":"가족분이 같이 계세요?", "innerVoice":"보호자 여부 확인이 필요하다."},
+      {"family":"emotional", "intent":"empathy", "label":"혼자 있으면 힘들겠다", "text":"집에 혼자 계시면 많이 힘드시겠어요.", "innerVoice":"산책도 못 하고 집에만 있는 생활이 얼마나 고립감을 주는지."},
+      {"family":"life",      "intent":"personal","label":"챙겨주는 분",       "text":"챙겨주시는 분이 있어요?", "innerVoice":"혼자 지낸다면 누군가의 도움이 필요할 텐데."}
+    ],
     "symptom":   {"emotion":"neutral","text":"가족이요? 아들이 하나 있는데, 바빠요. 나름대로.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"(작게) 혼자 사니까 익숙해요. 아들은... 바쁘니까.","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"exhausted","text":"아들은... 바빠요. 나름대로. (짧게) 뭐, 그게 인생이죠.","rapport_change":1,"flag_trigger":"none"},
@@ -21,6 +48,17 @@
     "unrelated": {"emotion":"neutral","text":"...아들요? 네, 있긴 해요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"아들이 바쁘다는 말", "text":"아들이 바쁘다고 하셨는데, 자주 연락은 해요?", "innerVoice":"'바빠요, 나름대로'라는 말에 뭔가가 담겨 있다."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"혼자 익숙하다는 게", "text":"혼자 지내는 게 익숙하다고 하셨는데, 그래도 힘드시죠?", "innerVoice":"'익숙해요'라고 했지만 그게 정말 괜찮다는 뜻은 아닐 것이다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"아들은 멀리 있나",  "text":"아들이 멀리 살아요?", "innerVoice":"바쁘다고 했다. 거리가 있는 건지, 관계가 소원한 건지."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"다른 증상 확인",     "text":"다른 불편한 건 없으세요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"다른 증상 확인",    "text":"다른 불편한 건 없으세요?", "innerVoice":"COPD 외 다른 증상을 확인해야 한다."},
+      {"family":"emotional", "intent":"empathy", "label":"솔직한 말이 걸린다", "text":"뭔가 솔직하게 말씀해주시고 싶은 게 있으신 것 같아요.", "innerVoice":"'그게 인생이죠'라는 체념의 말이 계속 걸린다."},
+      {"family":"life",      "intent":"personal","label":"아들 연락은요",      "text":"아들이 자주 연락해요?", "innerVoice":"혼자 사는 노인 환자에게 가족 지지가 얼마나 중요한지."}
+    ],
     "symptom":   {"emotion":"neutral","text":"다른 증상은... 글쎄, 특별한 건 없어요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"conflicted","text":"(잠시 창밖을 보다가) 선생님, 솔직하게 말해줄 수 있어요?","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"conflicted","text":"(조용히) 선생님은 젊으니까 모르겠지만... 혼자라는 게 말이야. (멈춤) 솔직하게 말해줘요.","rapport_change":1,"flag_trigger":"none"},
@@ -28,6 +66,17 @@
     "unrelated": {"emotion":"neutral","text":"...네. (창밖을 봄)","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"솔직하게 말해달라고",  "text":"솔직하게 말해달라고 하셨는데, 어떤 걸 알고 싶으세요?", "innerVoice":"'솔직하게 말해줄 수 있어요?'라는 말이 무겁다. 무엇을 묻는 건지 먼저 확인해야 한다."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"혼자라는 게 힘들다",  "text":"혼자라는 게 힘드시죠.", "innerVoice":"'혼자라는 게 말이야'라는 말이 걸린다. 그게 얼마나 힘든 건지."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"혼자라는 게 뭔지",   "text":"혼자라는 게 어떤 건지 말씀해주셔도 돼요.", "innerVoice":"'혼자라는 게 말이야'라고 했다. 그 말이 뭔지 듣고 싶다."},
+      "after_clinical":  {"family":"medical",   "intent":"symptom", "label":"예후 설명 준비",      "text":"솔직하게 말씀드릴게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"예후 설명 준비",      "text":"솔직하게 말씀드릴게요.", "innerVoice":"솔직하게 말해달라고 했다. 피하는 것보다 정직하게 말하는 게 맞다."},
+      {"family":"emotional", "intent":"empathy", "label":"무엇을 알고 싶은지", "text":"어떤 걸 알고 싶으세요?", "innerVoice":"솔직하게 말해달라는 게 뭘 묻는 건지 먼저 확인해야 한다."},
+      {"family":"life",      "intent":"personal","label":"혼자라는 말이 걸린다", "text":"혼자라는 게 많이 힘드신 것 같아요.", "innerVoice":"예후보다 지금 이 감정이 더 중요할 수도 있다."}
+    ],
     "symptom":   {"emotion":"resigned","text":"상태가 더 나빠질 수 있다는 거죠. 알겠어요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"resigned","text":"...얼마나 살 수 있어요? 솔직하게. (눈을 마주침)","rapport_change":0,"flag_trigger":"asked_the_question"},
     "personal":  {"emotion":"resigned","text":"(조용히) 얼마나 남았어요? 알아야 정리를 하든 말든 하지.","rapport_change":0,"flag_trigger":"asked_the_question"},
@@ -35,13 +84,35 @@
     "unrelated": {"emotion":"resigned","text":"...그래요. (담담하게)","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"담담하게 받아들인다", "text":"담담하게 받아들이시는 것 같아요.", "innerVoice":"'알겠어요'라고 했지만 그게 어떤 감정인지는 모른다."},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"얼마나 살 수 있느냐",  "text":"(천천히) 정확히 예측하기는 어렵지만, 상태가 나빠지고 있어요.", "innerVoice":"직접적인 질문을 받았다. 솔직하게 말해야 한다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"정리가 필요한 게 있다", "text":"정리를 하고 싶으신 게 있어요?", "innerVoice":"'정리를 하든 말든'이라고 했다. 구체적으로 뭘 정리하고 싶은 건지."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"예후 설명",             "text":"몇 달이라고 단정 짓기는 어려워요. 다만 악화가 진행 중이에요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"예후 설명",            "text":"정확히 예측하긴 어렵지만, 상태가 나빠지고 있어요.", "innerVoice":"솔직하게 말해야 한다."},
+      {"family":"emotional", "intent":"empathy", "label":"아들 생각이 나셨나",   "text":"아들 생각이 많이 나시겠어요.", "innerVoice":"예후를 들은 후 아들 연락을 한 번 해봐야겠다고 했다."},
+      {"family":"life",      "intent":"personal","label":"정리하고 싶은 것들",   "text":"정리하고 싶으신 게 있으세요?", "innerVoice":"'정리를 하든 말든'이라는 말에 무언가 있다."}
+    ],
     "symptom":   {"emotion":"neutral","text":"알겠어요. 약은 계속 먹으면 되는 거죠.","rapport_change":0,"flag_trigger":"none"},
-    "empathy":   {"emotion":"sad","text":"(잠시 침묵 후) ...그렇군요. (시선을 내리며) 아들한테 연락 한 번 해야겠네요.","rapport_change":1,"flag_trigger":"gave_comfort"},
-    "personal":  {"emotion":"sad","text":"(조용히) 아들한테... 한번 전화해봐야겠어요. 목소리라도.","rapport_change":1,"flag_trigger":"gave_comfort"},
+    "empathy":   {"emotion":"sad","text":"(잠시 침묵 후) ...그렇군요. (시선을 내리며) 아들한테 연락 한 번 해야겠네요.","rapport_change":1,"flag_trigger":"gave_comfort","requires":{"medical":1},"shallow":{"emotion":"resigned","text":"...그렇군요. (짧게) 알겠어요.","rapport_change":0,"flag_trigger":"none"}},
+    "personal":  {"emotion":"sad","text":"(조용히) 아들한테... 한번 전화해봐야겠어요. 목소리라도.","rapport_change":1,"flag_trigger":"gave_comfort","requires":{"medical":1},"shallow":{"emotion":"resigned","text":"(조용히) ...알겠어요.","rapport_change":0,"flag_trigger":"none"}},
     "direct":    {"emotion":"resigned","text":"알겠어요. 남은 치료 계획 알려주세요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"resigned","text":"...(고개를 끄덕임)","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"아들한테 전화를 하겠다", "text":"아들한테 연락하시겠다는 거 잘 하시는 거예요.", "innerVoice":"오랜만에 연락을 하겠다는 게 얼마나 큰 결심인지."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"아들과 어떻게 됐는지", "text":"아들이 멀리 살아요?", "innerVoice":"아들 연락을 해야겠다고 했다. 관계가 어떤지 궁금하다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"아들과 요즘 연락을",   "text":"아들이랑 요즘 연락을 못 하셨어요?", "innerVoice":"'목소리라도'라는 말이 걸린다. 오랫동안 못 했다는 뜻인가."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"치료 계획 설명",        "text":"치료 계획 말씀드릴게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"처방 설명",           "text":"처방 말씀드릴게요.", "innerVoice":"의료적 안내가 필요하다."},
+      {"family":"emotional", "intent":"empathy", "label":"아들한테 연락하는 거", "text":"아들한테 연락하시겠다는 거 잘 하시는 거예요.", "innerVoice":"그 결심이 얼마나 큰 일인지."},
+      {"family":"life",      "intent":"personal","label":"목소리라도 듣고 싶다", "text":"아들 목소리 듣고 싶으시겠어요.", "innerVoice":"'목소리라도'라는 말에 담긴 그리움."}
+    ],
     "symptom":   {"emotion":"resigned","text":"약 처방 받아갈게요. 다음에 또 오죠.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"resigned","text":"(조용히) 뭐, 그게 다겠죠. 잘 쓰면 되는 거고.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"resigned","text":"(작게) 선생님한테 말하니까 좀 나아. 혼자 생각하면 답답하거든.","rapport_change":0,"flag_trigger":"none"},
@@ -49,6 +120,35 @@
     "unrelated": {"emotion":"resigned","text":"...네.","rapport_change":0,"flag_trigger":"none"}
   },
   {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"말하니까 나아진다고", "text":"말하니까 나아진다고 하셨는데, 저도 좋았어요.", "innerVoice":"'말하니까 좀 나아'라는 말이 이 진료의 의미를 말해준다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"마무리 인사",         "text":"잘 지내세요.", "innerVoice":"마무리."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"또 오세요",           "text":"다음에 또 오세요.", "innerVoice":""},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"오늘 진료 마침",      "text":"그럼 오늘 진료 마칠게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"수고하셨어요",     "text":"수고하셨어요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy", "label":"또 오세요",        "text":"다음에 또 오세요.", "innerVoice":""},
+      {"family":"life",      "intent":"personal","label":"건강 챙기세요",    "text":"건강 챙기세요.", "innerVoice":""}
+    ],
+    "symptom":   {"emotion":"neutral","text":"감사합니다. 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"},
+    "empathy":   {"emotion":"neutral","text":"고맙소. (천천히 일어나며) 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"},
+    "personal":  {"emotion":"neutral","text":"(문 앞에서 돌아보며) 선생님도 건강해요.","rapport_change":0,"flag_trigger":"none"},
+    "direct":    {"emotion":"neutral","text":"네. 수고하세요.","rapport_change":0,"flag_trigger":"none"},
+    "unrelated": {"emotion":"neutral","text":"(천천히 나감)","rapport_change":0,"flag_trigger":"none"}
+  },
+  {
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"마무리", "text":"잘 지내세요.", "innerVoice":""},
+      "after_emotional": {"family":"emotional", "intent":"empathy", "label":"또 보겠습니다", "text":"다음에 또 봐요.", "innerVoice":""},
+      "after_life":      {"family":"life",      "intent":"personal","label":"건강하세요", "text":"건강하게 지내세요.", "innerVoice":""},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"진료 마침", "text":"수고하셨어요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"symptom", "label":"수고하셨어요", "text":"수고하셨어요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy", "label":"잘 지내세요", "text":"잘 지내세요.", "innerVoice":""},
+      {"family":"life",      "intent":"personal","label":"또 오세요",   "text":"다음에 또 오세요.", "innerVoice":""}
+    ],
     "symptom":   {"emotion":"neutral","text":"감사합니다. 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"고맙소. (천천히 일어나며) 다음에 또 보죠.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"(문 앞에서 돌아보며) 선생님도 건강해요.","rapport_change":0,"flag_trigger":"none"},

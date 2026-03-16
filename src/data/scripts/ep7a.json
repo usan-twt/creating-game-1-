@@ -1,43 +1,108 @@
 [
   {
-    "symptom":   {"emotion":"anxious","text":"(손을 떨며) 어... 저 좀 이상한 것 같아요. 열이... 3일 전부터요.","rapport_change":0,"flag_trigger":"none"},
+    "firstChoices": [
+      { "family":"medical",   "intent":"onset",   "label":"증상부터 확인",   "text":"언제부터 열이 나셨어요?",             "innerVoice":"78세 고열 3일. 빠르게 증상 파악을 해야 한다." },
+      { "family":"emotional", "intent":"empathy", "label":"많이 무서우셨겠다", "text":"많이 무서우셨겠어요.",              "innerVoice":"떨리는 손, 불안한 눈빛. 겁이 많이 나신 것 같다." },
+      { "family":"life",      "intent":"personal","label":"혼자 오셨네요",    "text":"혼자 오셨어요? 어떻게 오셨어요?",   "innerVoice":"혼자 오셨다고 했다. 손녀를 기다렸다고 했고." }
+    ],
+    "onset":     {"emotion":"anxious","text":"(손을 떨며) 어... 저 좀 이상한 것 같아요. 열이... 3일 전부터요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"anxious","text":"(떨리는 목소리로) 무서워요... 열이 안 내려가요. 3일째예요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"anxious","text":"혼자 왔어요. 손녀가 올 줄 알았는데... 열이 3일째예요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"anxious","text":"열이 3일째요. 38도 넘어요. 소변도 좀 이상하고.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"anxious","text":"...네? (혼란스러운 표정) 아, 열이요. 3일 됐어요.","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"anxious","text":"소변이요? 좀 진한 것 같기도 하고... 허리가 좀 아파요.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"medical",   "intent":"associated","label":"소변 증상 확인",    "text":"소변이 어떻게 이상하세요?", "innerVoice":"고열 + 소변 이상이면 요로감염을 의심해야 한다."},
+      "after_emotional": {"family":"medical",   "intent":"onset",    "label":"증상 확인으로",     "text":"열이 3일째라고 하셨는데, 어떻게 무서우셨어요?", "innerVoice":"안심시켜주고 증상 확인으로 넘어가자."},
+      "after_life":      {"family":"life",      "intent":"personal", "label":"손녀 얘기가 걸린다", "text":"손녀가 올 줄 알았는데 혼자 오신 거예요?", "innerVoice":"손녀를 기다렸다는 게 걸린다. 오시기 힘드셨을 것 같다."},
+      "after_clinical":  {"family":"medical",   "intent":"associated","label":"소변 이상 확인",   "text":"소변이 어떻게 이상해요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"소변 이상이라고",  "text":"소변이 어떻게 이상하세요?", "innerVoice":"소변 이상 + 열 + 허리 통증은 전형적인 요로감염 증상이다."},
+      {"family":"emotional", "intent":"empathy",   "label":"무섭다고 하셨는데", "text":"많이 무서우셨죠. 제가 봐드릴게요.", "innerVoice":"안심을 시켜줘야 한다."},
+      {"family":"life",      "intent":"personal",  "label":"손녀를 기다렸다고", "text":"손녀가 올 줄 알았다고 하셨는데.", "innerVoice":"손녀가 중요한 존재인 것 같다."}
+    ],
+    "associated":{"emotion":"anxious","text":"소변이요? 좀 진한 것 같기도 하고... 허리가 좀 아파요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"anxious","text":"(안심하듯) 네, 선생님이 봐주시니까 좀... 소변이 이상해요.","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"anxious","text":"평소에는 건강했어요. 혼자 지내는데... 갑자기 이러니까.","rapport_change":0,"flag_trigger":"none"},
+    "onset":     {"emotion":"anxious","text":"소변이요? 좀 진한 것 같기도 하고... 허리가 좀 아파요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"anxious","text":"소변 진하고, 허리 통증. 빈뇨는 좀 있어요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"anxious","text":"...소변이요? 좀 그래요. (불안한 표정)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"confused","text":"오늘이 몇 일이에요? (잠깐 생각하다가) ...잘 모르겠어요. 미라야, 미라 어딨어.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"날짜가 혼란스러운 것 같다", "text":"오늘이 무슨 날인지 기억하세요?", "innerVoice":"날짜를 모를 수 있다. 고열로 인한 혼돈 여부를 확인해야 한다."},
+      "after_emotional": {"family":"medical",   "intent":"onset",  "label":"날짜 확인",              "text":"오늘 날짜가 기억나세요?", "innerVoice":"고령 환자 고열에서 인지 기능 저하를 확인해야 한다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"손녀는 어디 있을까",   "text":"손녀가 어디 있는지 혹시 아세요?", "innerVoice":"손녀가 걱정되시는 것 같다."},
+      "after_clinical":  {"family":"medical",   "intent":"associated","label":"날짜 확인",           "text":"오늘 날짜가 기억나세요?", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"날짜 기억하세요?", "text":"오늘이 며칠인지 기억나세요?", "innerVoice":"인지 기능 저하 여부를 확인해야 한다."},
+      {"family":"emotional", "intent":"empathy",   "label":"많이 힘드셨겠다",  "text":"혼자서 3일 동안 힘드셨겠어요.", "innerVoice":"혼자 3일을 버텼다는 게 쉬운 일이 아니다."},
+      {"family":"life",      "intent":"personal",  "label":"손녀는요?",        "text":"손녀 연락이 안 됐어요?", "innerVoice":"손녀가 걱정되시는 것 같다."}
+    ],
+    "associated":{"emotion":"confused","text":"오늘이 몇 일이에요? (잠깐 생각하다가) ...잘 모르겠어요. 미라야, 미라 어딨어.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"confused","text":"(안심하며) 고마워요... 근데 날짜가... 미라가 어디 있지?","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"confused","text":"미라야... 손녀예요. 어디 갔지. (혼란스러워하며)","rapport_change":0,"flag_trigger":"none"},
+    "onset":     {"emotion":"confused","text":"오늘이... (생각하다가) 모르겠어요. 머리가 잘 안 돌아가요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"confused","text":"오늘이... (생각하다가) 모르겠어요. 머리가 잘 안 돌아가요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"confused","text":"...네? 미라야... (주위를 둘러봄)","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"sad","text":"손녀가 어제 온다고 했는데... 열이 나니까 겁이 나서요.","rapport_change":1,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"손녀를 찾는다",       "text":"손녀분을 찾고 계신 거예요?", "innerVoice":"미라, 손녀. 갑자기 찾기 시작했다. 고열로 인한 혼돈 같다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"미라가 손녀라고",     "text":"미라가 손녀예요? 연락할 수 있어요?", "innerVoice":"손녀를 부르고 있다. 연락을 해줄 수 있을 것 같다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"손녀가 걱정된다",     "text":"손녀가 많이 걱정되세요?", "innerVoice":"고열로 인한 혼돈 상태에서도 손녀를 찾는다."},
+      "after_clinical":  {"family":"medical",   "intent":"associated","label":"상태 파악",          "text":"잠깐 여기 앉아 계세요. 제가 확인할게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"보호자 확인",    "text":"손녀 번호를 아세요?", "innerVoice":"보호자 연락이 필요하다."},
+      {"family":"emotional", "intent":"empathy",   "label":"무서웠겠다",     "text":"혼자서 많이 무서우셨죠.", "innerVoice":"고령에 혼자 아팠을 때 얼마나 무서웠을까."},
+      {"family":"life",      "intent":"personal",  "label":"혼자 사신다고",  "text":"평소에도 혼자 지내세요?", "innerVoice":"혼자 사는 노인 환자. 지지 체계가 어떻게 되는지."}
+    ],
+    "onset":     {"emotion":"sad","text":"손녀가 어제 온다고 했는데... 열이 나니까 겁이 나서요.","rapport_change":1,"flag_trigger":"none"},
     "empathy":   {"emotion":"sad","text":"(진정하며) 미라가... 손녀예요. 어제 온다 했는데. 무서워서요, 솔직히.","rapport_change":1,"flag_trigger":"none"},
     "personal":  {"emotion":"sad","text":"혼자 사니까... 아프면 무서워요. 손녀밖에 없거든요.","rapport_change":1,"flag_trigger":"none"},
+    "associated":{"emotion":"sad","text":"혼자 사니까... 아프면 무서워요. 손녀밖에 없거든요.","rapport_change":1,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"보호자요? 손녀가 있는데 연락이 안 돼요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"sad","text":"...(눈물이 글썽) 미라가 어디 있는지...","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"네, 검사요? 알겠어요. 좀 무서운데 해야죠.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"손녀밖에 없다는 말", "text":"손녀밖에 없다고 하셨는데, 제가 연락해드릴 수 있어요.", "innerVoice":"'손녀밖에 없거든요'라는 말이 많은 걸 담고 있다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"손녀 연락 도움",     "text":"손녀분 번호 알면 제가 연락해드릴게요.", "innerVoice":"보호자 연락이 필요하고, 환자도 원한다."},
+      "after_life":      {"family":"life",      "intent":"personal","label":"손녀 번호 확인",    "text":"손녀 전화번호 알아요?", "innerVoice":"손녀 연락이 시급하다."},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"검사 설명",          "text":"검사를 해야 할 것 같아요. 설명드릴게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"검사 설명",    "text":"검사를 좀 해야 할 것 같아요.", "innerVoice":"요로감염이 의심된다. 검사가 필요하다."},
+      {"family":"emotional", "intent":"empathy",   "label":"제가 도와드릴게요", "text":"걱정 마세요, 제가 도와드릴게요.", "innerVoice":"많이 불안하신 것 같다."},
+      {"family":"life",      "intent":"personal",  "label":"손녀 연락",   "text":"손녀분 번호 알면 연락해드릴게요.", "innerVoice":"보호자 연락이 필요하다."}
+    ],
+    "onset":     {"emotion":"neutral","text":"네, 검사요? 알겠어요. 좀 무서운데 해야죠.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"exhausted","text":"(작게) 감사해요, 선생님. 설명해 주니까 좀 안심이 돼요.","rapport_change":1,"flag_trigger":"infection_suspected"},
     "personal":  {"emotion":"exhausted","text":"(안심한 듯) 선생님이 잘해주시니까... 고마워요.","rapport_change":1,"flag_trigger":"infection_suspected"},
+    "associated":{"emotion":"neutral","text":"요로감염이요? 알겠어요. 치료하면 나아지나요?","rapport_change":0,"flag_trigger":"infection_suspected"},
     "direct":    {"emotion":"neutral","text":"요로감염이요? 알겠어요. 치료하면 나아지나요?","rapport_change":0,"flag_trigger":"infection_suspected"},
     "unrelated": {"emotion":"exhausted","text":"...(고개를 끄덕이며) 네...","rapport_change":0,"flag_trigger":"none"}
   },
   {
-    "symptom":   {"emotion":"neutral","text":"미라한테 연락해줄 수 있어요? 손녀 번호 알아요.","rapport_change":0,"flag_trigger":"none"},
+    "continue": {
+      "after_medical":   {"family":"emotional", "intent":"empathy", "label":"손녀 연락해드릴게요", "text":"손녀분 번호 알면 제가 연락해드릴게요.", "innerVoice":"마무리 단계에서 보호자 연락 지원을 해줄 수 있다."},
+      "after_emotional": {"family":"life",      "intent":"personal","label":"미라 연락 도움",     "text":"미라 번호 알아요? 연락해드릴게요.", "innerVoice":""},
+      "after_life":      {"family":"life",      "intent":"personal","label":"미라한테 연락",      "text":"미라한테 연락해드릴게요.", "innerVoice":""},
+      "after_clinical":  {"family":"medical",   "intent":"direct",  "label":"치료 계획",           "text":"치료 계획 말씀드릴게요.", "innerVoice":""}
+    },
+    "pivots": [
+      {"family":"medical",   "intent":"associated","label":"치료 계획",     "text":"치료 계획 말씀드릴게요.", "innerVoice":""},
+      {"family":"emotional", "intent":"empathy",   "label":"안심하셔도 돼요", "text":"걱정 마세요, 잘 나아지실 거예요.", "innerVoice":""},
+      {"family":"life",      "intent":"personal",  "label":"미라 연락",     "text":"손녀 번호 알려주시면 연락해드릴게요.", "innerVoice":""}
+    ],
+    "onset":     {"emotion":"neutral","text":"미라한테 연락해줄 수 있어요? 손녀 번호 알아요.","rapport_change":0,"flag_trigger":"none"},
     "empathy":   {"emotion":"neutral","text":"(작게 웃으며) 고마워요, 선생님. 미라한테 연락 좀 해줄 수 있어요?","rapport_change":0,"flag_trigger":"none"},
     "personal":  {"emotion":"neutral","text":"미라한테... 전화 좀 해주세요. 할머니가 괜찮다고.","rapport_change":0,"flag_trigger":"none"},
+    "associated":{"emotion":"neutral","text":"입원이요? 알겠어요. 손녀한테 연락해주세요.","rapport_change":0,"flag_trigger":"none"},
     "direct":    {"emotion":"neutral","text":"입원이요? 알겠어요. 손녀한테 연락해주세요.","rapport_change":0,"flag_trigger":"none"},
     "unrelated": {"emotion":"neutral","text":"...미라 번호요. (떨리는 손으로 번호를 찾음)","rapport_change":0,"flag_trigger":"none"}
   }
