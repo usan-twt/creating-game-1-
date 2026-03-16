@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { EMOTION_META } from "../data/emotions";
 import { EPISODE_LIST } from "../data/episodes";
-import useGameLogic from "../hooks/useGameLogic";
+import useScriptEngine from "../hooks/useScriptEngine";
 import RapportBar from "./RapportBar";
 import ClinicScene from "./ClinicScene";
 import NotebookPanel from "./NotebookPanel";
@@ -24,7 +24,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const systemPrompt   = ep.getSystemPrompt(storyFlags, residentState);
   const initialRapport = ep.getInitialRapport?.(storyFlags) ?? 0;
   const [scriptData, setScriptData] = useState(null);
-  const logic = useGameLogic(systemPrompt, scriptData, initialRapport);
+  const logic = useScriptEngine(systemPrompt, scriptData, initialRapport);
 
   useEffect(() => {
     let cancelled = false;
@@ -80,8 +80,14 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   },[loading, translatorDirect, breathingCalm, send]);
 
   // ── 선택지 계산 ──────────────────────────────────────────────────────────
-  const currentTurnData = scriptData?.[logic.turnIndex] ?? null;
+  const hasExchanged = history.some(m => m.role === "doctor");
   const choices = (() => {
+    if (!scriptData) return null;
+    if (logic._isBeat) {
+      if (!hasExchanged) return scriptData.firstChoices;
+      return logic.availableChoices; // null이면 beat 소진
+    }
+    const currentTurnData = scriptData[logic.turnIndex] ?? null;
     if (!currentTurnData) return null;
     if (currentTurnData.firstChoices) return currentTurnData.firstChoices;
     if (!currentTurnData.pivots) return null;
@@ -105,7 +111,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     let ctx = "";
     if (ep.mechanics?.translator) ctx += `\n[translator_mode: ${translatorDirect?"direct":"daughter"}]`;
     if (ep.mechanics?.breathing)  ctx += `\n[breathing_calm: ${breathingCalm}]`;
-    const parsed = await send(choice.text, ctx, choice.intent, choice.innerVoice || null);
+    const parsed = await send(choice.text, ctx, choice.intent, choice.innerVoice || null, choice._beatId || null);
     if (parsed?.phone_check !== undefined) setPhoneCheck(!!parsed.phone_check);
     if (parsed?.breathing_calm !== undefined) setBreathingCalm(!!parsed.breathing_calm);
     if (parsed?.flag_trigger === "reversal1") setTranslatorDirect(true);
@@ -120,7 +126,9 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
   const fatigueDelay = (residentState?.fatigue >= 3 && ep.day >= 4) ? 1 : 0;
   const canEnd      = exchangeCount >= ep.minTurns + fatigueDelay
                     && checkEndCondition(ep.endCondition, usedIntents);
-  const turnsLeft   = scriptData ? scriptData.length - logic.turnIndex : Infinity;
+  const turnsLeft   = logic._isBeat
+                    ? (logic.beatsRemaining ?? Infinity)
+                    : (scriptData ? scriptData.length - logic.turnIndex : Infinity);
   const preNotes    = typeof ep.getNotebookPre==="function" ? ep.getNotebookPre(storyFlags) : ep.notebookPre;
   const glossary    = EPISODE_LIST.filter(e=>e.completedFlag&&storyFlags[e.completedFlag]).flatMap(e=>e.glossaryEntries||[]);
   const isAbnormal  = (k,v) => (k==="BP"&&parseInt(v)>130)||(k==="HR"&&parseInt(v)>90)||(k==="SpO2"&&parseInt(v)<94);

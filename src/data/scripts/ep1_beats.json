@@ -1,0 +1,187 @@
+{
+  "firstChoices": [
+    { "family":"medical",   "intent":"onset",   "label":"증상부터 파악한다", "text":"언제부터 그러셨어요?",   "innerVoice":"흉통이면 시작 시점이 중요하다. 갑자기 시작됐으면 심장 쪽부터 봐야 할 수도." },
+    { "family":"emotional", "intent":"empathy", "label":"불안해 보인다",     "text":"많이 걱정되셨겠어요.",   "innerVoice":"불안한 표정이다. 핸드폰을 계속 확인하고 있고. 긴장이 풀려야 이야기가 나올 것 같다." },
+    { "family":"life",      "intent":"personal","label":"혼자 오셨네요",     "text":"혼자 오셨어요?",         "innerVoice":"54세 남성이 평일 오전에 혼자. 가족이 없는 건지, 못 온 건지." }
+  ],
+  "beats": [
+
+    {
+      "id": "pain_onset",
+      "family": "medical",
+      "intents": ["onset", "symptom"],
+      "prereqs": [],
+      "choice": { "label": "언제부터였는지", "text": "언제부터 그러셨어요?", "innerVoice": "흉통이면 시작 시점이 중요하다. 갑자기 시작됐으면 심장 쪽부터 봐야 할 수도." },
+      "response": { "emotion": "anxious", "text": "어제부터요. 가슴이 좀 눌리는 것 같아서요. 별거 아닌 것 같은데 그냥 왔어요.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "pain_character",
+      "family": "medical",
+      "intents": ["character", "onset"],
+      "prereqs": ["pain_onset"],
+      "choice": { "label": "방사통을 확인한다", "text": "팔이나 어깨 쪽으로 퍼지진 않나요?", "innerVoice": "누른다고 했다. 방사통이 있으면 심장 쪽이 더 의심된다." },
+      "response": { "emotion": "neutral", "text": "팔 쪽으로는 안 퍼져요. 그냥 가슴 가운데가 좀 눌리는 느낌이에요. 4점? 5점?", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "pain_timing",
+      "family": "medical",
+      "intents": ["onset", "associated"],
+      "prereqs": ["pain_onset"],
+      "choice": { "label": "언제 더 심해지는지", "text": "식사하고 나서 어떠세요?", "innerVoice": "서서히 시작됐다고 했다. 식사나 움직임과 관련이 있는지 확인해보자." },
+      "response": { "emotion": "neutral", "text": "밥 먹고 나면 좀 더 답답한 것 같기도 하고. 쉬면 좀 나아지고.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "risk_factors",
+      "family": "medical",
+      "intents": ["associated", "onset"],
+      "prereqs": ["pain_onset"],
+      "choice": { "label": "위험인자를 확인한다", "text": "담배 피우세요? 혈압 높다는 말 들으신 적 있으세요?", "innerVoice": "흉통에 흡연, 고혈압, 가족력은 반드시 확인해야 한다. 오늘 잰 BP가 138/88. 경계선이다." },
+      "response": { "emotion": "neutral", "text": "담배는... 반 갑 정도 피워요. 혈압은 높단 소리는 못 들었어요. 가족력도 없고.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "past_history",
+      "family": "medical",
+      "intents": ["associated", "character"],
+      "prereqs": ["risk_factors"],
+      "choice": { "label": "과거력을 확인한다", "text": "이런 증상으로 전에 병원 가신 적 있으세요?", "innerVoice": "과거력 확인. 병원을 거의 안 다니는 타입 같다." },
+      "response": { "emotion": "neutral", "text": "이런 거로 병원은 처음이에요. 2주 전부터 간헐적으로 있었는데 어제 좀 심했어요. 진통제도 먹어봤는데 별로 효과가 없었고요.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "other_symptoms",
+      "family": "medical",
+      "intents": ["associated", "onset"],
+      "prereqs": ["pain_character"],
+      "choice": { "label": "다른 증상을 확인한다", "text": "다른 데도 불편하신 데 있으세요?", "innerVoice": "기본 review는 해두자." },
+      "response": { "emotion": "neutral", "text": "다른 데는 없어요. (짧게) 가슴만요.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "worried_surface",
+      "family": "emotional",
+      "intents": ["empathy", "comfort"],
+      "prereqs": [],
+      "choice": { "label": "불안해 보인다", "text": "많이 걱정되셨겠어요.", "innerVoice": "불안한 표정이다. 긴장이 풀려야 이야기가 나올 것 같다." },
+      "response": { "emotion": "anxious", "text": "(살짝 놀란 듯) ...괜찮아요. 그냥 좀 답답한 거예요.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "wants_quick_result",
+      "family": "emotional",
+      "intents": ["empathy", "comfort"],
+      "prereqs": ["worried_surface"],
+      "choice": { "label": "'별거 아닌 것 같다'는 말", "text": "별거 아닌 것 같다고 하셨는데, 그래도 여기 오셨잖아요.", "innerVoice": "'별거 아닌 것 같다'면서 병원에 왔다. 그 말이 걸린다." },
+      "response": { "emotion": "conflicted", "text": "(잠깐 눈을 마주쳤다가 시선을 돌리며) ...그냥 빨리 알고 싶어서요.", "rapport_change": 1, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "son_mention",
+      "family": "emotional",
+      "intents": ["empathy", "personal"],
+      "prereqs": ["worried_surface"],
+      "minRapport": 1,
+      "choice": { "label": "아들 얘기가 신경 쓰인다", "text": "아들 분이 연락을 자주 하세요?", "innerVoice": "아들한테 연락이 온다고 했다. 조심스럽게 물어보자." },
+      "response": { "emotion": "conflicted", "text": "(핸드폰을 보다가 내려놓으며) 아들한테 연락이 올 것 같아서요. (바로 닫음) ...그냥 검사나 해주세요.", "rapport_change": 1, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "son_abroad",
+      "family": "emotional",
+      "intents": ["empathy", "personal"],
+      "prereqs": ["son_mention"],
+      "choice": { "label": "아들이 멀리 있나요?", "text": "아들 분이 멀리 계세요?", "innerVoice": "퇴직, 혼자, 아들 연락 기다리기. 이 그림이 그려진다." },
+      "response": { "emotion": "conflicted", "text": "(시선을 낮추며) 미국 유학 갔어요. (잠깐) ...자주는 못 연락해요.", "rapport_change": 1, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "no_direction",
+      "family": "emotional",
+      "intents": ["empathy", "comfort"],
+      "prereqs": ["son_abroad"],
+      "choice": { "label": "혼자 지내시면 심심하겠다", "text": "혼자 지내시면 좀 심심하시겠어요.", "innerVoice": "아들은 미국에 있고, 퇴직하고 혼자. 이 사람이 하루를 어떻게 보내는지 궁금하다." },
+      "response": { "emotion": "conflicted", "text": "(잠깐 침묵) ...뭐가 심심한지도 모르겠어요. 그냥 갈 데가 없는 거죠.", "rapport_change": 1, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "jinsu_deep",
+      "family": "emotional",
+      "intents": ["empathy", "personal"],
+      "prereqs": ["no_direction"],
+      "minRapport": 3,
+      "requires": { "medical": 2 },
+      "choice": { "label": "기다려본다", "text": "(잠시 침묵) ...더 하고 싶은 말씀 있으세요?", "innerVoice": "갈 데가 없다고 했다. 기다려보자." },
+      "response": { "emotion": "sad", "text": "(긴 침묵. 핸드폰 안 봄) ...집에 가기 싫어서요. 솔직히. 아침에 일어나면 갈 데가 없어서요. (작게) 그냥 왔어요.", "rapport_change": 2, "flag_trigger": "jinsu_opened", "phone_check": false },
+      "shallow": { "emotion": "conflicted", "text": "(잠깐 침묵) ...뭐, 그냥요. (짧게 시선을 낮춤)", "rapport_change": 1, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "after_reveal",
+      "family": "emotional",
+      "intents": ["empathy", "comfort"],
+      "prereqs": ["jinsu_deep"],
+      "choice": { "label": "오길 잘 하셨다", "text": "오늘 와주셔서 다행이에요.", "innerVoice": "검사 외에도 필요한 게 있었던 것 같다." },
+      "response": { "emotion": "conflicted", "text": "(말하고 나서 어색해하며) ...뭐, 그냥 한 말이에요. (짧게) 결과나 주세요.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "come_again",
+      "family": "emotional",
+      "intents": ["empathy", "comfort"],
+      "prereqs": ["after_reveal"],
+      "choice": { "label": "문을 열어둔다", "text": "언제든 다시 오셔도 됩니다.", "innerVoice": "이 한마디가 이 사람에게 무슨 의미일지." },
+      "response": { "emotion": "conflicted", "text": "(문 앞에서 잠깐 서서) ...또 와도 되나요? (작게, 처음으로 직접적으로)", "rapport_change": 1, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "lives_alone",
+      "family": "life",
+      "intents": ["personal"],
+      "prereqs": [],
+      "choice": { "label": "혼자 오셨네요", "text": "혼자 오셨어요?", "innerVoice": "54세 남성이 평일 오전에 혼자. 가족이 없는 건지, 못 온 건지." },
+      "response": { "emotion": "neutral", "text": "(약간 경계하며) ...혼자 살아요. (짧게)", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "diet_alone",
+      "family": "life",
+      "intents": ["personal"],
+      "prereqs": ["lives_alone"],
+      "choice": { "label": "밥은 잘 챙기세요?", "text": "밥은 잘 챙겨드세요?", "innerVoice": "혼자 사는 중년 남성. 식사 관리가 어떤지 궁금하다." },
+      "response": { "emotion": "neutral", "text": "밥은... 뭐, 편의점이나 시켜먹고요. 혼자니까. (무심하게)", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "retirement",
+      "family": "life",
+      "intents": ["personal"],
+      "prereqs": ["lives_alone"],
+      "choice": { "label": "요즘 어떻게 지내세요?", "text": "요즘 어떻게 지내세요?", "innerVoice": "편의점 음식, 혼자. 퇴직 이후를 물어봐야 할 것 같다." },
+      "response": { "emotion": "conflicted", "text": "(잠깐 생각하다가) 작년에 퇴직했어요. 그 이후로 좀... 뭐, 별거 없어요.", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "no_morning_plans",
+      "family": "life",
+      "intents": ["personal"],
+      "prereqs": ["retirement"],
+      "choice": { "label": "요즘 하루가 어떻게 되세요?", "text": "요즘 하루가 어떻게 되세요?", "innerVoice": "퇴직 이후 일상이 없어진 거다. 집에 있기 싫다는 게 그 뜻일 수도." },
+      "response": { "emotion": "conflicted", "text": "아침에 일어나면... 계획이 없어요. 그냥. (시선이 아래로)", "rapport_change": 1, "flag_trigger": "none", "phone_check": false }
+    },
+
+    {
+      "id": "home_reluctance",
+      "family": "life",
+      "intents": ["personal"],
+      "prereqs": ["no_morning_plans"],
+      "requires": { "medical": 2 },
+      "choice": { "label": "집에 있기 싫으신 거예요?", "text": "집에 있기 싫으신 거예요?", "innerVoice": "아침에 계획이 없다고 했다. 집이라는 공간이 이 사람에게 어떤 곳인지." },
+      "response": { "emotion": "sad", "text": "(오래 침묵) ...퇴직하고 나서는 집에 있으면 답답해요. (잠깐) 갈 데가 없으니까. (작게) 그냥 왔어요.", "rapport_change": 2, "flag_trigger": "jinsu_opened", "phone_check": false },
+      "shallow": { "emotion": "conflicted", "text": "(잠깐) ...별거 없어요. (무심하게)", "rapport_change": 0, "flag_trigger": "none", "phone_check": false }
+    }
+
+  ]
+}
