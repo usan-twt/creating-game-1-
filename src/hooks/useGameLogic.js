@@ -46,7 +46,6 @@ const HINT_FAMILY = {
 };
 
 // coverage 체크: requires = { medical: N, emotional: N, ... }
-// usedIntents의 힌트 카테고리(symptom/empathy/personal/direct)를 family로 집계
 function checkCoverage(usedIntents, requires) {
   if (!requires) return true;
   const family = {
@@ -93,18 +92,104 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
   const [turnIndex,        setTurnIndex]        = useState(0);
   const [usedIntents,      setUsedIntents]      = useState({});
   const [lastIntentFamily, setLastIntentFamily] = useState(null);
+  const [observedSet,      setObservedSet]      = useState(new Set());
   const rapportRef             = useRef(initialRapport);
   const turnIndexRef           = useRef(0);
-  const lastFamilyRef          = useRef(null);   // 직전 intent 계열
-  const scriptUsedRef          = useRef(false);  // 마지막 항목이 이미 사용된 경우
-  const usedIntentsRef         = useRef({});     // setUsedIntents의 동기 버전 (send 클로저용)
-  const turnExchangeCountRef   = useRef(0);      // 현재 턴에서의 교환 횟수 (진행 완화용)
+  const lastFamilyRef          = useRef(null);
+  const scriptUsedRef          = useRef(false);
+  const usedIntentsRef         = useRef({});
+  const observedSetRef         = useRef(new Set());
+  const turnExchangeCountRef   = useRef(0);
   const talkTimer              = useRef(null);
 
-  const send = useCallback(async (text, extraCtx = "", overrideIntent = null, thinking = null) => {
-    if (!text.trim() || loading) return null;
+  // ── directChoice 공통 처리 (interpret/observe/custom 턴) ──────────────
+  const applyDirectChoice = useCallback((idx, script, intent, directChoice, nextUsedIntents) => {
+    const currentFamily = INTENT_FAMILY[intent] || intent;
+    setLastIntentFamily(currentFamily);
+    lastFamilyRef.current = currentFamily;
+
+    // observe 타입: unlocks → observedSet 갱신
+    if (directChoice.unlocks) {
+      const newObserved = new Set([...observedSetRef.current, directChoice.unlocks]);
+      observedSetRef.current = newObserved;
+      setObservedSet(newObserved);
+    }
+
+    // 응답 선택 (requires/shallow 체크)
+    let resp = directChoice.response || {};
+    if (resp.requires && !checkCoverage(nextUsedIntents, resp.requires)) {
+      resp = applyShallow(resp);
+    }
+
+    // 턴 진행 (exchangeCount 리셋)
+    turnExchangeCountRef.current = 0;
+    if (idx < script.length - 1) {
+      turnIndexRef.current = idx + 1;
+      setTurnIndex(idx + 1);
+    } else {
+      scriptUsedRef.current = true;
+    }
+
+    // 라포/감정/플래그
+    const nr = Math.max(0, Math.min(5, rapportRef.current + (resp.rapport_change || 0)));
+    rapportRef.current = nr;
+    setRapportLevel(nr);
+    if (resp.emotion) setEmotion(resp.emotion);
+    const flag = resp.flag_trigger;
+    if (flag && flag !== "none") setSessionFlags(p => ({ ...p, [flag]: true }));
+
+    return resp;
+  }, []);
+
+  // ── auto 턴 자동 발화 ──────────────────────────────────────────────────
+  const fireAuto = useCallback(async () => {
+    if (loading) return;
+    const script = scriptData || [];
+    const idx = turnIndexRef.current;
+    const turnData = script[idx];
+    if (!turnData || turnData.type !== "auto") return;
+
     setLoading(true);
-    setHistory(p => [...p, { role: "doctor", text, ...(thinking ? { thinking } : {}) }]);
+    clearTimeout(talkTimer.current);
+    await new Promise(r => setTimeout(r, 400));
+
+    if (turnData.narration) {
+      setHistory(p => [...p, { role: "auto", text: turnData.narration }]);
+    }
+
+    if (turnData.patientLine?.text) {
+      const pLine = turnData.patientLine;
+      await new Promise(r => setTimeout(r, 300));
+      setTalking(true);
+      setEmotion(pLine.emotion || "neutral");
+      setHistory(p => [...p, { role: "patient", text: pLine.text, emotion: pLine.emotion }]);
+      talkTimer.current = setTimeout(() => setTalking(false), 2200);
+      const nr = Math.max(0, Math.min(5, rapportRef.current + (pLine.rapport_change || 0)));
+      rapportRef.current = nr;
+      setRapportLevel(nr);
+      const flag = pLine.flag_trigger;
+      if (flag && flag !== "none") setSessionFlags(p => ({ ...p, [flag]: true }));
+    }
+
+    // 턴 진행 (exchangeCount 증가 없음)
+    if (idx < script.length - 1) {
+      turnIndexRef.current = idx + 1;
+      setTurnIndex(idx + 1);
+    } else {
+      scriptUsedRef.current = true;
+    }
+
+    setLoading(false);
+  }, [loading, scriptData]);
+
+  const send = useCallback(async (text, _extraCtx = "", overrideIntent = null, thinking = null, directChoice = null) => {
+    if (loading) return null;
+    if (!directChoice && !text.trim()) return null;
+
+    setLoading(true);
+    if (text.trim()) {
+      setHistory(p => [...p, { role: "doctor", text, ...(thinking ? { thinking } : {}) }]);
+    }
     clearTimeout(talkTimer.current);
 
     await new Promise(r => setTimeout(r, 500));
@@ -113,7 +198,7 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
     const idx = turnIndexRef.current;
     const turnData = script[idx];
 
-    // ── 대본 소진: 마지막 항목까지 이미 사용됨 ──────────────────────────
+    // ── 대본 소진 ────────────────────────────────────────────────────────
     if (scriptUsedRef.current) {
       const exhaustedLines = [
         "선생님, 진료 시간이 초과되었습니다.",
@@ -131,11 +216,21 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
     // ── Intent 분류 ──────────────────────────────────────────────────────
     const intent = overrideIntent || classifyIntent(text);
     const hintKey = HINT_FAMILY[intent] || intent;
-
-    // usedIntents 동기 ref 갱신 (setUsedIntents는 비동기이므로 ref로 coverage 체크)
     const nextUsedIntents = { ...usedIntentsRef.current, [hintKey]: (usedIntentsRef.current[hintKey] || 0) + 1 };
     usedIntentsRef.current = nextUsedIntents;
     setUsedIntents(nextUsedIntents);
+
+    // ── directChoice 경로 (interpret/observe/custom 턴) ─────────────────
+    if (directChoice) {
+      const resp = applyDirectChoice(idx, script, intent, directChoice, nextUsedIntents);
+      if (resp.text) {
+        setTalking(true);
+        setHistory(p => [...p, { role: "patient", text: resp.text, emotion: resp.emotion, speaker: resp.speaker }]);
+        talkTimer.current = setTimeout(() => setTalking(false), 2200);
+      }
+      setLoading(false);
+      return resp;
+    }
 
     // ── unrelated → 간호사 개입 ──────────────────────────────────────────
     if (intent === "unrelated") {
@@ -148,16 +243,12 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
     }
 
     // ── 계열 기반 대본 진행 결정 ─────────────────────────────────────────
-    // 레거시 순차 포맷(키 없는 단순 텍스트 객체)이면 항상 진행
     const isBranching = turnData && (
       turnData.onset || turnData.character || turnData.associated ||
       turnData.empathy || turnData.personal || turnData.direct || turnData.symptom
     );
     const currentFamily = INTENT_FAMILY[intent] || intent;
     const familyChanged = lastFamilyRef.current !== currentFamily;
-
-    // 분기 스크립트: family가 바뀌고 현재 턴에서 이미 1회 이상 교환한 경우에만 진행
-    // (레거시 순차 포맷은 기존대로 항상 진행)
     const shouldAdvance = !isBranching || (familyChanged && turnExchangeCountRef.current >= 1);
 
     // ── 응답 선택 ────────────────────────────────────────────────────────
@@ -165,7 +256,6 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
     if (isBranching) {
       parsed = resolveResponse(turnData, intent, usedIntentsRef.current);
       if (!parsed) {
-        // 모든 체인 실패 시 첫 번째 사용 가능한 키로 폴백 (coverage 체크 포함)
         const fallbackKey = ["onset","symptom","empathy","personal","direct"].find(k => turnData[k]);
         if (fallbackKey && turnData[fallbackKey]) {
           const fb = turnData[fallbackKey];
@@ -177,11 +267,9 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
         }
       }
     } else {
-      // 레거시 순차 포맷
       parsed = turnData || { emotion: "neutral", text: "...", rapport_change: 0, flag_trigger: "none" };
     }
 
-    // ── lastIntentFamily 항상 업데이트 (선택지 UI가 다음 continue를 계산하기 위해 필요)
     setLastIntentFamily(currentFamily);
     lastFamilyRef.current = currentFamily;
 
@@ -195,7 +283,6 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
         scriptUsedRef.current = true;
       }
     } else {
-      // 분기 스크립트에서 진행하지 않을 때만 카운트 증가
       if (isBranching) turnExchangeCountRef.current += 1;
     }
 
@@ -215,7 +302,12 @@ export default function useGameLogic(systemPrompt, scriptData = null, initialRap
 
     setLoading(false);
     return parsed;
-  }, [loading, scriptData]); // overrideIntent은 호출 시마다 달라지므로 deps에 불필요
+  }, [loading, scriptData, applyDirectChoice]);
 
-  return { emotion, setEmotion, talking, setTalking, history, setHistory, loading, rapportLevel, setRapportLevel, sessionFlags, setSessionFlags, send, rapportRef, talkTimer, turnIndex, usedIntents, lastIntentFamily };
+  return {
+    emotion, setEmotion, talking, setTalking, history, setHistory, loading,
+    rapportLevel, setRapportLevel, sessionFlags, setSessionFlags,
+    send, rapportRef, talkTimer, turnIndex, usedIntents, lastIntentFamily,
+    observedSet, fireAuto,
+  };
 }

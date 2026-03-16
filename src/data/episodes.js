@@ -24,7 +24,7 @@ export const EPISODE_LIST = [
     initialEmotion:"anxious", initialPhoneCheck:true, minTurns:5,
     notebookPre:`박진수 / 54세 남성 / 첫 외래\n──────────────────\n주소: 흉통 (어제부터)\n\n→  언제부터, 어떤 느낌인지\n→  팔·어깨로 퍼지진 않는지\n→  이전에도 있었는지?\n\n혼자 내원 (보호자 없음)`,
     getSystemPrompt:()=>EP1_PROMPT,
-    getScriptData:()=>loadScript("ep1_beats.json"),
+    getScriptData:()=>loadScript("ep1.json"),
     getResultLines:(_,lf)=>lf.jinsu_opened
       ?{lines:["오늘","박진수 씨는 병원에 왔다."," ","흉통 때문이라고 했다.","그건 사실이었다."," ","하지만 당신이 잠깐 기다렸을 때,","그가 말했다."," ","\u201c집에 가기 싫어서요.\u201d"," ","당신은 그 말을 들었다."],footer:"그는 다음 달에 다시 올 수 있습니다."}
       :{lines:["오늘","박진수 씨는 병원에 왔다."," ","흉통이 주소였다.","진료가 끝났다."," ","그가 왜 혼자 왔는지는","묻지 않았다."],footer:"그는 다음 달에 다시 올 수 있습니다."},

@@ -31,7 +31,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     ep.getScriptData?.(storyFlags)?.then(data => { if (!cancelled) setScriptData(data); });
     return () => { cancelled = true; };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send, usedIntents, lastIntentFamily } = logic;
+  const { emotion, talking, history, loading, rapportLevel, sessionFlags, setSessionFlags, send, usedIntents, lastIntentFamily, observedSet, fireAuto } = logic;
 
   const [phoneCheck,       setPhoneCheck]       = useState(ep.initialPhoneCheck||false);
   const [translatorDirect, setTranslatorDirect] = useState(false);
@@ -61,6 +61,13 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
 
   useEffect(()=>{if(showLog&&logRef.current)logRef.current.scrollTop=logRef.current.scrollHeight;},[history,showLog,loading]);
 
+  // auto 턴 자동 발화
+  useEffect(() => {
+    if (!scriptData || logic._isBeat || loading) return;
+    const t = scriptData[logic.turnIndex];
+    if (t?.type === "auto") fireAuto?.();
+  }, [logic.turnIndex, loading]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSend = useCallback(async(text)=>{
     if(!text.trim()||loading) return;
     setInput(""); setExchangeCount(p=>p+1); setShowLog(false);
@@ -89,13 +96,50 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     }
     const currentTurnData = scriptData[logic.turnIndex] ?? null;
     if (!currentTurnData) return null;
+    const turnType = currentTurnData.type || "standard";
+
+    if (turnType === "auto") return null; // fireAuto가 처리
+
+    if (turnType === "interpret") {
+      return currentTurnData.readings?.map(r => ({
+        family: r.intent, intent: r.intent,
+        label: r.label, text: r.text, innerVoice: r.innerVoice || "",
+        _directChoice: r,
+      }));
+    }
+
+    if (turnType === "observe") {
+      return currentTurnData.targets?.map(t => ({
+        label: t.label, text: "", innerVoice: t.innerVoice || "",
+        intent: t.intent || "empathy",
+        _directChoice: t, _isObserve: true,
+      }));
+    }
+
+    if (turnType === "custom") {
+      return currentTurnData.choices?.map(c => ({
+        family: c.intent, intent: c.intent,
+        label: c.label, text: c.text, innerVoice: c.innerVoice || "",
+        _directChoice: c,
+      }));
+    }
+
+    // standard 타입
     if (currentTurnData.firstChoices) return currentTurnData.firstChoices;
     if (!currentTurnData.pivots) return null;
+    const obs = observedSet || new Set();
     const cont = lastIntentFamily && currentTurnData.continue?.[`after_${lastIntentFamily}`];
-    const filteredPivots = currentTurnData.pivots.filter(p => p.family !== lastIntentFamily);
+    const filteredPivots = currentTurnData.pivots
+      .filter(p => p.family !== lastIntentFamily)
+      .filter(p => !p.requires_observed || obs.has(p.requires_observed));
     if (cont) return [cont, ...filteredPivots.slice(0, 2)];
-    return currentTurnData.pivots.slice(0, 3);
+    return filteredPivots.slice(0, 3);
   })();
+
+  // 현재 턴의 setup 텍스트 (interpret/observe/custom)
+  const currentTurnSetup = !logic._isBeat && scriptData
+    ? scriptData[logic.turnIndex]?.setup ?? null
+    : null;
 
   // ── 선택지 클릭 핸들러 ────────────────────────────────────────────────
   const handleChoice = useCallback(async (choice) => {
@@ -111,7 +155,8 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     let ctx = "";
     if (ep.mechanics?.translator) ctx += `\n[translator_mode: ${translatorDirect?"direct":"daughter"}]`;
     if (ep.mechanics?.breathing)  ctx += `\n[breathing_calm: ${breathingCalm}]`;
-    const parsed = await send(choice.text, ctx, choice.intent, choice.innerVoice || null, choice._beatId || null);
+    const extra5 = choice._directChoice ?? choice._beatId ?? null;
+    const parsed = await send(choice.text, ctx, choice.intent, choice.innerVoice || null, extra5);
     if (parsed?.phone_check !== undefined) setPhoneCheck(!!parsed.phone_check);
     if (parsed?.breathing_calm !== undefined) setBreathingCalm(!!parsed.breathing_calm);
     if (parsed?.flag_trigger === "reversal1") setTranslatorDirect(true);
@@ -137,12 +182,14 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
     const msgs=history.filter(m=>m.role!=="system");
     if(!msgs.length) return [];
     const last=msgs[msgs.length-1];
+    if(last.role==="auto") return [last];
     if(last.role==="patient"&&msgs.length>=2&&msgs[msgs.length-2].role==="doctor") return [msgs[msgs.length-2],last];
     return [last];
   })();
 
   const getBubble = (msg) => {
     if(msg.role==="doctor") return {bg:"rgba(52,72,44,0.92)",color:"#ccdac4"};
+    if(msg.role==="auto")   return {bg:"rgba(40,38,32,0.6)",color:"rgba(200,190,160,0.55)"};
     if(msg.speaker==="nurse") return {bg:"rgba(30,42,58,0.94)",color:"rgba(160,190,220,0.9)"};
     if(msg.speaker==="mother") return {bg:"rgba(60,48,75,0.92)",color:"rgba(220,210,240,0.9)"};
     return {bg:"rgba(245,238,218,0.95)",color:"#1a1008"};
@@ -199,6 +246,7 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
         <div ref={logRef} style={{position:"absolute",bottom:"196px",left:"50%",transform:"translateX(-50%)",width:"min(560px,88vw)",maxHeight:"42vh",overflowY:"auto",zIndex:25,background:"rgba(6,5,4,0.94)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:10,padding:"16px 20px",display:"flex",flexDirection:"column",gap:10}}>
           {history.map((msg,i)=>{
             if(msg.role==="system") return <div key={i} style={{textAlign:"center",fontSize:10,color:"rgba(255,255,255,0.2)"}}>{msg.text}</div>;
+            if(msg.role==="auto") return <div key={i} style={{textAlign:"center",padding:"4px 0"}}><span style={{fontFamily:"Georgia,serif",fontSize:10,color:"rgba(190,182,160,0.35)",fontStyle:"italic"}}>{msg.text}</span></div>;
             const isDoc=msg.role==="doctor"; const bc=getBubble(msg);
             const thinkingOpen = expandedThinking === i;
             return (
@@ -248,7 +296,12 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
         {!showLog&&(
           <div style={{padding:"0 clamp(16px,6vw,100px) 10px",display:"flex",flexDirection:"column",gap:10,minHeight:90,justifyContent:"flex-end"}}>
             {visibleMsgs.map((msg,i)=>{
-              const isDoc=msg.role==="doctor"; const bc=getBubble(msg);
+              const isDoc=msg.role==="doctor"; const isAuto=msg.role==="auto"; const bc=getBubble(msg);
+              if(isAuto) return (
+                <div key={i} style={{textAlign:"center",padding:"4px 0"}}>
+                  <span style={{fontFamily:"Georgia,serif",fontSize:11,color:"rgba(190,182,160,0.45)",fontStyle:"italic"}}>{msg.text}</span>
+                </div>
+              );
               return (
                 <div key={i} style={{display:"flex",flexDirection:"column",alignItems:isDoc?"flex-end":"flex-start"}}>
                   {!isDoc&&msg.speaker&&<div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginLeft:38,marginBottom:2}}>{msg.speaker==="nurse"?"간호사":msg.speaker==="mother"?"어머니 (직접)":"이수진 (통역)"}</div>}
@@ -267,6 +320,12 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
         )}
 
         <div style={{padding:"10px 20px 18px",background:"rgba(10,8,6,0.97)",borderTop:"1px solid rgba(255,255,255,0.05)"}}>
+          {/* 장면 설명 (interpret/observe/custom) */}
+          {currentTurnSetup&&!innerVoice&&(
+            <div style={{padding:"9px 14px",marginBottom:6,borderRadius:8,background:"rgba(30,28,24,0.7)",border:"1px solid rgba(255,255,255,0.07)",fontFamily:"Georgia,serif",fontSize:11,lineHeight:1.8,color:"rgba(190,182,160,0.55)",fontStyle:"italic"}}>
+              {currentTurnSetup}
+            </div>
+          )}
           {/* 내면 독백 */}
           {innerVoice&&(
             <div style={{padding:"11px 16px",marginBottom:10,borderRadius:10,background:"rgba(55,50,35,0.6)",border:"1px solid rgba(180,160,90,0.18)",fontFamily:"Georgia,serif",fontSize:12,lineHeight:1.9,color:"rgba(205,188,140,0.78)",fontStyle:"italic",animation:"fadeIn 0.3s ease"}}>
@@ -292,8 +351,8 @@ export default function GameScreen({ ep, storyFlags, residentState, onEnd }) {
                     style={{textAlign:"left",padding:"9px 14px",borderRadius:10,background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.08)",cursor:loading?"not-allowed":"pointer",transition:"background 0.15s,border-color 0.15s",opacity:loading?0.5:1}}
                     onMouseEnter={e=>{if(!loading){e.currentTarget.style.background="rgba(255,255,255,0.09)";e.currentTarget.style.borderColor="rgba(255,255,255,0.18)";}}}
                     onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.borderColor="rgba(255,255,255,0.08)";}}>
-                    <div style={{fontSize:10,fontWeight:700,color:"rgba(255,255,255,0.38)",marginBottom:2,letterSpacing:"0.03em"}}>{c.label}</div>
-                    <div style={{fontSize:13,color:"rgba(255,255,255,0.82)",lineHeight:1.6,fontFamily:"system-ui,sans-serif"}}>"{c.text}"</div>
+                    <div style={{fontSize:10,fontWeight:700,color:"rgba(255,255,255,0.38)",marginBottom:c._isObserve||!c.text?0:2,letterSpacing:"0.03em"}}>{c.label}</div>
+                    {!c._isObserve&&c.text&&<div style={{fontSize:13,color:"rgba(255,255,255,0.82)",lineHeight:1.6,fontFamily:"system-ui,sans-serif"}}>"{c.text}"</div>}
                   </button>
                 ))}
                 <button onClick={()=>setFreeInput(true)} style={{alignSelf:"center",background:"none",border:"none",color:"rgba(255,255,255,0.18)",fontSize:10,cursor:"pointer",padding:"3px 8px",fontFamily:"inherit",letterSpacing:"0.02em"}}>직접 입력</button>
